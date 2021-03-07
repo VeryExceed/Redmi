@@ -1,8 +1,8 @@
 <template>
 	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
+		<image v-if="show" class="logo animated bounceIn fast" src="/static/logo.png"></image>
 		<view class="text-area">
-			<text class="title">{{title}}</text>
+			<text class="title" @tap="show = !show">{{title}}</text>
 		</view>
 	</view>
 </template>
@@ -11,14 +11,14 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello'
+				title: 'Hello',
+				show:false
 			}
 		},
 		onLoad() {
 
 		},
 		methods: {
-
 		}
 	}
 </script>
