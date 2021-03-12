@@ -1,24 +1,36 @@
 <template>
 	<view>
 		<!-- 轮播图组件 -->
-		<swiperImage :resdata="swiper"></swiperImage>
+		<swiperImage :resdata="swiper" />
 		<!-- 首页分类 -->
-		<view class="row j-center m-2">
-			<block v-for="(item, index) in indexnavs" :key="index">
-				<view class="span-4 d-flex flex-column j-center a-center py-1" @tap="event(item)">
-					<image :src="item.src" style="width: 60upx; height: 60upx;" mode="widthFix"></image>
-					<text class="font-sm">{{ item.text }}</text>
-				</view>
-			</block>
+		<indexNav :resdata="indexnavs" />
+		<!-- 分割线 -->
+		<divider />
+		<!-- 三图广告 -->
+		<threeAdv :resdata="threeAdv"/>
+		<!-- 基础卡片组件 -->
+		<view class="card">
+			<!-- 标题 -->
+			<view class="font-md font-weight p-2 border-bottom main-border-color">
+				每日精选
+			</view>
+			<!-- body -->
+			<view>
+				<image src="/static/demo/demo4.jpg" mode="widthFix"></image>
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
 import swiperImage from '@/components/index/swiper-image.vue';
+import indexNav from '@/components/index/index-nav.vue';
+import threeAdv from '@/components/index/three-adv.vue';
 export default {
 	components: {
-		swiperImage
+		swiperImage,
+		indexNav,
+		threeAdv
 	},
 	data() {
 		return {
@@ -34,14 +46,21 @@ export default {
 				{ src: '/static/images/indexnav/8.gif', text: '电视热卖' },
 				{ src: '/static/images/indexnav/9.gif', text: '家电热卖' },
 				{ src: '/static/images/indexnav/10.gif', text: '米粉卡' }
-			]
+			],
+			threeAdv: {
+				big: {
+					src: '/static/demo/demo1.jpg'
+				},
+				smalltop: {
+					src: '/static/demo/demo2.jpg'
+				},
+				smallbottom: {
+					src: '/static/demo/demo2.jpg'
+				}
+			}
 		};
 	},
-	methods: {
-		event(item) {
-			console.log('点击了图标');
-		}
-	}
+	methods: {}
 };
 </script>
 
