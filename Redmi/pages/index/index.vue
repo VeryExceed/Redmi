@@ -8,6 +8,8 @@
 		<divider />
 		<!-- 三图广告 -->
 		<threeAdv :resdata="threeAdv"/>
+		<!-- 大图广告位 -->
+		<card headTitle="每日精选" bodyCover="/static/demo/demo4.jpg" />
 		<!-- 基础卡片组件 -->
 		<view class="card">
 			<!-- 标题 -->
@@ -26,11 +28,13 @@
 import swiperImage from '@/components/index/swiper-image.vue';
 import indexNav from '@/components/index/index-nav.vue';
 import threeAdv from '@/components/index/three-adv.vue';
+import card from '@/components/common/card.vue';
 export default {
 	components: {
 		swiperImage,
 		indexNav,
-		threeAdv
+		threeAdv,
+		card
 	},
 	data() {
 		return {
