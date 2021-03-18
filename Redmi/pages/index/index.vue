@@ -7,19 +7,12 @@
 		<!-- 分割线 -->
 		<divider />
 		<!-- 三图广告 -->
-		<threeAdv :resdata="threeAdv"/>
+		<threeAdv :resdata="threeAdv" />
 		<!-- 大图广告位 -->
 		<card headTitle="每日精选" bodyCover="/static/demo/demo4.jpg" />
-		<!-- 基础卡片组件 -->
-		<view class="card">
-			<!-- 标题 -->
-			<view class="font-md font-weight p-2 border-bottom main-border-color">
-				每日精选
-			</view>
-			<!-- body -->
-			<view>
-				<image src="/static/demo/demo4.jpg" mode="widthFix"></image>
-			</view>
+		<!-- 公共列表组件 -->
+		<view class="row j-sb">
+			<block v-for="(item, index) in commonList" :key="index"><common-list :item="item" :index="index" /></block>
 		</view>
 	</view>
 </template>
@@ -29,12 +22,14 @@ import swiperImage from '@/components/index/swiper-image.vue';
 import indexNav from '@/components/index/index-nav.vue';
 import threeAdv from '@/components/index/three-adv.vue';
 import card from '@/components/common/card.vue';
+import commonList from '@/components/common/common-list.vue'
 export default {
 	components: {
 		swiperImage,
 		indexNav,
 		threeAdv,
-		card
+		card,
+		commonList
 	},
 	data() {
 		return {
@@ -61,7 +56,51 @@ export default {
 				smallbottom: {
 					src: '/static/demo/demo2.jpg'
 				}
-			}
+			},
+			commonList: [
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '小米手机',
+					desc: '小米8',
+					oprice: '2699',
+					pprice: '1399'
+				},
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '小米手机',
+					desc: '小米8',
+					oprice: '2699',
+					pprice: '1399'
+				},
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '小米手机',
+					desc: '小米8',
+					oprice: '2699',
+					pprice: '1399'
+				},
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '小米手机',
+					desc: '小米8',
+					oprice: '2699',
+					pprice: '1399'
+				},
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '小米手机',
+					desc: '小米8',
+					oprice: '2699',
+					pprice: '1399'
+				},
+				{
+					cover: '/static/images/demo/list/1.jpg',
+					title: '小米手机',
+					desc: '小米8',
+					oprice: '2699',
+					pprice: '1399'
+				}
+			]
 		};
 	},
 	methods: {}
