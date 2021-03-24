@@ -1,5 +1,11 @@
 <template>
 	<view>
+		<!-- 顶部选项卡 -->
+		<scroll-view scroll-x class="border-bottom scroll-row" style="height: 80rpx;">
+			<view class="scroll-row-item px-3" style="height: 80rpx; line-height: 80rpx;" v-for="i in 30" :key="i">
+				<text class="font-md">{{ i }}</text>
+			</view>
+		</scroll-view>
 		<!-- 轮播图组件 -->
 		<swiperImage :resdata="swiper" />
 		<!-- 首页分类 -->
@@ -22,7 +28,7 @@ import swiperImage from '@/components/index/swiper-image.vue';
 import indexNav from '@/components/index/index-nav.vue';
 import threeAdv from '@/components/index/three-adv.vue';
 import card from '@/components/common/card.vue';
-import commonList from '@/components/common/common-list.vue'
+import commonList from '@/components/common/common-list.vue';
 export default {
 	components: {
 		swiperImage,
@@ -58,20 +64,6 @@ export default {
 				}
 			},
 			commonList: [
-				{
-					cover: '/static/images/demo/list/1.jpg',
-					title: '小米手机',
-					desc: '小米8',
-					oprice: '2699',
-					pprice: '1399'
-				},
-				{
-					cover: '/static/images/demo/list/1.jpg',
-					title: '小米手机',
-					desc: '小米8',
-					oprice: '2699',
-					pprice: '1399'
-				},
 				{
 					cover: '/static/images/demo/list/1.jpg',
 					title: '小米手机',
