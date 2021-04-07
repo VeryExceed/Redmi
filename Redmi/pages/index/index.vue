@@ -1,42 +1,53 @@
 <template>
 	<view>
 		<!-- 顶部选项卡 -->
-		<scroll-view scroll-x class="border-bottom scroll-row" 
-		style="height: 80rpx;"
-		:scroll-into-view="scrollinto"
-		:scroll-with-animation="true">
-			<view class="scroll-row-item px-3"
-			@click="changeTab(index)"
-			style="height: 80rpx; line-height: 80rpx;" 
-			v-for="(item,index) in tabBars" :key="index"
-			:class="tabIndex === index ? 'main-text-color':''"
-			:id="'tab'+ index">
-				<text class="font-md">{{item.name}}</text>
+		<scroll-view scroll-x class="border-bottom scroll-row" style="height: 80rpx;" :scroll-into-view="scrollinto" :scroll-with-animation="true">
+			<view
+				class="scroll-row-item px-3"
+				@click="changeTab(index)"
+				style="height: 80rpx; line-height: 80rpx;"
+				v-for="(item, index) in tabBars"
+				:key="index"
+				:class="tabIndex === index ? 'main-text-color' : ''"
+				:id="'tab' + index"
+			>
+				<text class="font-md">{{ item.name }}</text>
 			</view>
 		</scroll-view>
-		
-		<swiper :current="tabIndex" :duration="150" :style="'height:'+scrollH+'px;'" @change="onChangeTab">
-			<swiper-item v-for="(item,index) in tabBars" :key="index">
-				<scroll-view scroll-y="true" :style="'height:'+scrollH+'px;'">
-					<!-- 轮播图组件 -->
-					<swiperImage :resdata="swiper" />
-					<!-- 首页分类 -->
-					<indexNav :resdata="indexnavs" />
-					<!-- 分割线 -->
-					<divider />
-					<!-- 三图广告 -->
-					<threeAdv :resdata="threeAdv" />
-					<!-- 大图广告位 -->
-					<card headTitle="每日精选" bodyCover="/static/demo/demo4.jpg" />
-					<!-- 公共列表组件 -->
-					<view class="row j-sb">
-						<block v-for="(item, index) in commonList" :key="index"><common-list :item="item" :index="index" /></block>
-					</view>
+
+		<swiper :current="tabIndex" :duration="150" :style="'height:' + scrollH + 'px;'" @change="onChangeTab">
+			<swiper-item v-for="(item, index) in newsitems" :key="index">
+				<scroll-view scroll-y="true" :style="'height:' + scrollH + 'px;'">
+					<block v-for="(list,listIndex) in item.list" :key="listIndex">
+						<!-- 轮播图组件 -->
+						<swiperImage v-if="list.type === 'swiper'" 
+						:resdata="list.data" />
+						<template v-else-if="list.type === 'indexnavs'">
+							<!-- 首页分类 -->
+							<indexNav :resdata="list.data" />
+							<!-- 分割线 -->
+							<divider />
+						</template>
+						<template v-else-if="list.type === 'threeAdv'">
+							<!-- 三图广告 -->
+							<threeAdv :resdata="list.data" />
+							<divider />
+						</template>
+						
+						<!-- 大图广告位 -->
+							<!-- <card headTitle="每日精选" bodyCover="/static/demo/demo4.jpg" /> -->
+						
+						
+						<!-- 公共列表组件 -->
+						<view class="row j-sb" v-else-if="list.type === 'list'">
+							<block v-for="(item2, index2) in list.data" :key="index2">
+								<common-list :item="item2" :index="index2" />
+							</block>
+						</view>
+					</block>
 				</scroll-view>
 			</swiper-item>
 		</swiper>
-	
-		
 	</view>
 </template>
 
@@ -56,7 +67,7 @@ export default {
 	},
 	data() {
 		return {
-			scrollinto:"",
+			scrollinto: '',
 			scrollH: 500,
 			tabIndex: 0,
 			tabBars: [
@@ -106,82 +117,137 @@ export default {
 					template: 'special'
 				}
 			],
-			swiper: [{ src: '../../static/images/demo/demo4.jpg' }, { src: '../../static/images/demo/demo4.jpg' }, { src: '../../static/images/demo/demo4.jpg' }],
-			indexnavs: [
-				{ src: '/static/images/indexnav/1.png', text: '新品发布' },
-				{ src: '/static/images/indexnav/2.gif', text: '小米众筹' },
-				{ src: '/static/images/indexnav/3.gif', text: '以旧换新' },
-				{ src: '/static/images/indexnav/4.gif', text: '一分换团' },
-				{ src: '/static/images/indexnav/5.gif', text: '超值特卖' },
-				{ src: '/static/images/indexnav/6.gif', text: '小米秒杀' },
-				{ src: '/static/images/indexnav/7.gif', text: '真心想要' },
-				{ src: '/static/images/indexnav/8.gif', text: '电视热卖' },
-				{ src: '/static/images/indexnav/9.gif', text: '家电热卖' },
-				{ src: '/static/images/indexnav/10.gif', text: '米粉卡' }
+			newsitems: [
+				{
+					name: '关注',
+					list: [
+						{
+							type: 'swiper',
+							data: [{ src: '../../static/images/demo/demo4.jpg' }, { src: '../../static/images/demo/demo4.jpg' }, { src: '../../static/images/demo/demo4.jpg' }]
+						},
+						{
+							type: 'indexnavs',
+							data: [
+								{ src: '/static/images/indexnav/1.png', text: '新品发布' },
+								{ src: '/static/images/indexnav/2.gif', text: '小米众筹' },
+								{ src: '/static/images/indexnav/3.gif', text: '以旧换新' },
+								{ src: '/static/images/indexnav/4.gif', text: '一分换团' },
+								{ src: '/static/images/indexnav/5.gif', text: '超值特卖' },
+								{ src: '/static/images/indexnav/6.gif', text: '小米秒杀' },
+								{ src: '/static/images/indexnav/7.gif', text: '真心想要' },
+								{ src: '/static/images/indexnav/8.gif', text: '电视热卖' },
+								{ src: '/static/images/indexnav/9.gif', text: '家电热卖' },
+								{ src: '/static/images/indexnav/10.gif', text: '米粉卡' }
+							]
+						},
+						{
+							type: 'threeAdv',
+							data: {
+								big: {
+									src: '/static/demo/demo1.jpg'
+								},
+								smalltop: {
+									src: '/static/demo/demo2.jpg'
+								},
+								smallbottom: {
+									src: '/static/demo/demo2.jpg'
+								}
+							}
+						},
+						{
+							type:'card'
+						},
+						{
+							type: 'list',
+							data: [
+								{
+									cover: '/static/images/demo/list/1.jpg',
+									title: '小米手机',
+									desc: '小米8',
+									oprice: '2699',
+									pprice: '1399'
+								},
+								{
+									cover: '/static/images/demo/list/1.jpg',
+									title: '小米手机',
+									desc: '小米8',
+									oprice: '2699',
+									pprice: '1399'
+								},
+								{
+									cover: '/static/images/demo/list/1.jpg',
+									title: '小米手机',
+									desc: '小米8',
+									oprice: '2699',
+									pprice: '1399'
+								},
+								{
+									cover: '/static/images/demo/list/1.jpg',
+									title: '小米手机',
+									desc: '小米8',
+									oprice: '2699',
+									pprice: '1399'
+								}
+							]
+						}
+					]
+				},
+				{
+					name: '推荐',
+					list: []
+				},
+				{
+					name: '体育',
+					list: []
+				},
+				{
+					name: '热点',
+					list: []
+				},
+				{
+					name: '财经',
+					list: []
+				},
+				{
+					name: '娱乐',
+					list: []
+				},
+				{
+					name: '军事',
+					list: []
+				},
+				{
+					name: '历史',
+					list: []
+				},
+				{
+					name: '本地',
+					list: []
+				}
 			],
-			threeAdv: {
-				big: {
-					src: '/static/demo/demo1.jpg'
-				},
-				smalltop: {
-					src: '/static/demo/demo2.jpg'
-				},
-				smallbottom: {
-					src: '/static/demo/demo2.jpg'
-				}
-			},
-			commonList: [
-				{
-					cover: '/static/images/demo/list/1.jpg',
-					title: '小米手机',
-					desc: '小米8',
-					oprice: '2699',
-					pprice: '1399'
-				},
-				{
-					cover: '/static/images/demo/list/1.jpg',
-					title: '小米手机',
-					desc: '小米8',
-					oprice: '2699',
-					pprice: '1399'
-				},
-				{
-					cover: '/static/images/demo/list/1.jpg',
-					title: '小米手机',
-					desc: '小米8',
-					oprice: '2699',
-					pprice: '1399'
-				},
-				{
-					cover: '/static/images/demo/list/1.jpg',
-					title: '小米手机',
-					desc: '小米8',
-					oprice: '2699',
-					pprice: '1399'
-				}
-			]
+			
 		};
 	},
 	onLoad() {
 		// 获取可视区域高度
 		uni.getSystemInfo({
-			success: (res) => {
-				this.scrollH = res.windowHeight - uni.upx2px(82) //upx 换算为 px 
+			success: res => {
+				this.scrollH = res.windowHeight - uni.upx2px(82); //upx 换算为 px
 			}
-		})
+		});
 	},
 	methods: {
 		// 切换选项卡
-		changeTab(index){
+		changeTab(index) {
 			if (this.tabIndex === index) {
 				return;
 			}
-			this.tabIndex = index
-			this.scrollinto = 'tab' + index
+			this.tabIndex = index;
+			this.scrollinto = 'tab' + index;
 		},
 		// 监听滑动列表
 		onChangeTab(e) {
-			this.changeTab(e.detail.current)
+			this.changeTab(e.detail.current);
 		}
 	}
 };

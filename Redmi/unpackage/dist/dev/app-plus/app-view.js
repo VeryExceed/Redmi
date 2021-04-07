@@ -291,36 +291,69 @@ var render = function() {
                   attrs: { "scroll-y": "true", _i: "6-" + $31 }
                 },
                 [
-                  _c("swiperImage", { attrs: { _i: "7-" + $31 } }),
-                  _c("indexNav", { attrs: { _i: "8-" + $31 } }),
-                  _c("divider", { attrs: { _i: "9-" + $31 } }),
-                  _c("threeAdv", { attrs: { _i: "10-" + $31 } }),
-                  _c("card", { attrs: { _i: "11-" + $31 } }),
-                  _c(
-                    "v-uni-view",
-                    {
-                      staticClass: _vm._$g("12-" + $31, "sc"),
-                      attrs: { _i: "12-" + $31 }
-                    },
-                    [
-                      _vm._l(_vm._$g(13 + "-" + $31, "f"), function(
-                        item,
-                        index,
-                        $22,
-                        $32
-                      ) {
-                        return [
-                          _c("common-list", {
-                            key: item["k0"],
-                            attrs: { _i: "14-" + $31 + "-" + $32 }
+                  _vm._l(_vm._$g(7 + "-" + $31, "f"), function(
+                    list,
+                    listIndex,
+                    $22,
+                    $32
+                  ) {
+                    return [
+                      _vm._$g("8-" + $31 + "-" + $32, "i")
+                        ? _c("swiperImage", {
+                            key: list["k0"],
+                            attrs: { _i: "8-" + $31 + "-" + $32 }
                           })
-                        ]
-                      })
-                    ],
-                    2
-                  )
+                        : _vm._$g("9-" + $31 + "-" + $32, "e")
+                        ? [
+                            _c("indexNav", {
+                              attrs: { _i: "10-" + $31 + "-" + $32 }
+                            }),
+                            _c("divider", {
+                              attrs: { _i: "11-" + $31 + "-" + $32 }
+                            })
+                          ]
+                        : _vm._$g("12-" + $31 + "-" + $32, "e")
+                        ? [
+                            _c("threeAdv", {
+                              attrs: { _i: "13-" + $31 + "-" + $32 }
+                            }),
+                            _c("divider", {
+                              attrs: { _i: "14-" + $31 + "-" + $32 }
+                            })
+                          ]
+                        : _vm._$g("15-" + $31 + "-" + $32, "e")
+                        ? _c(
+                            "v-uni-view",
+                            {
+                              key: list["k-1"],
+                              staticClass: _vm._$g(
+                                "15-" + $31 + "-" + $32,
+                                "sc"
+                              ),
+                              attrs: { _i: "15-" + $31 + "-" + $32 }
+                            },
+                            [
+                              _vm._l(
+                                _vm._$g(16 + "-" + $31 + "-" + $32, "f"),
+                                function(item2, index2, $23, $33) {
+                                  return [
+                                    _c("common-list", {
+                                      key: item2["k0"],
+                                      attrs: {
+                                        _i: "17-" + $31 + "-" + $32 + "-" + $33
+                                      }
+                                    })
+                                  ]
+                                }
+                              )
+                            ],
+                            2
+                          )
+                        : _vm._e()
+                    ]
+                  })
                 ],
-                1
+                2
               )
             ],
             1
