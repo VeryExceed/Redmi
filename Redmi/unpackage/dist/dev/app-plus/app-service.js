@@ -89,75 +89,141 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "view",
-    [
-      _c(
-        "scroll-view",
-        {
-          staticClass: _vm._$s(1, "sc", "border-bottom scroll-row"),
-          attrs: { _i: 1 }
-        },
-        _vm._l(30, function(i, $10, $20, $30) {
-          return _c(
-            "view",
-            {
-              key: i,
-              staticClass: _vm._$s("2-" + $30, "sc", "scroll-row-item px-3"),
-              attrs: { _i: "2-" + $30 }
-            },
-            [
-              _c(
-                "text",
-                {
-                  staticClass: _vm._$s("3-" + $30, "sc", "font-md"),
-                  attrs: { _i: "3-" + $30 }
-                },
-                [_vm._v(_vm._$s("3-" + $30, "t0-0", _vm._s(i)))]
-              )
-            ]
-          )
-        }),
-        0
-      ),
-      _c("swiperImage", { attrs: { resdata: _vm.swiper, _i: 4 } }),
-      _c("indexNav", { attrs: { resdata: _vm.indexnavs, _i: 5 } }),
-      _c("divider", { attrs: { _i: 6 } }),
-      _c("threeAdv", { attrs: { resdata: _vm.threeAdv, _i: 7 } }),
-      _c("card", {
+  return _c("view", [
+    _c(
+      "scroll-view",
+      {
+        staticClass: _vm._$s(1, "sc", "border-bottom scroll-row"),
         attrs: {
-          headTitle: "每日精选",
-          bodyCover: "/static/demo/demo4.jpg",
-          _i: 8
+          "scroll-into-view": _vm._$s(1, "a-scroll-into-view", _vm.scrollinto),
+          _i: 1
         }
+      },
+      _vm._l(_vm._$s(2, "f", { forItems: _vm.tabBars }), function(
+        item,
+        index,
+        $20,
+        $30
+      ) {
+        return _c(
+          "view",
+          {
+            key: _vm._$s(2, "f", { forIndex: $20, key: index }),
+            staticClass: _vm._$s("2-" + $30, "sc", "scroll-row-item px-3"),
+            class: _vm._$s(
+              "2-" + $30,
+              "c",
+              _vm.tabIndex === index ? "main-text-color" : ""
+            ),
+            attrs: {
+              id: _vm._$s("2-" + $30, "a-id", "tab" + index),
+              _i: "2-" + $30
+            },
+            on: {
+              click: function($event) {
+                return _vm.changeTab(index)
+              }
+            }
+          },
+          [
+            _c(
+              "text",
+              {
+                staticClass: _vm._$s("3-" + $30, "sc", "font-md"),
+                attrs: { _i: "3-" + $30 }
+              },
+              [_vm._v(_vm._$s("3-" + $30, "t0-0", _vm._s(item.name)))]
+            )
+          ]
+        )
       }),
-      _c(
-        "view",
-        { staticClass: _vm._$s(9, "sc", "row j-sb"), attrs: { _i: 9 } },
-        [
-          _vm._l(_vm._$s(10, "f", { forItems: _vm.commonList }), function(
-            item,
-            index,
-            $21,
-            $31
-          ) {
-            return [
-              _c("common-list", {
-                key: _vm._$s(10, "f", {
-                  forIndex: $21,
-                  keyIndex: 0,
-                  key: index + "_0"
+      0
+    ),
+    _c(
+      "swiper",
+      {
+        style: _vm._$s(4, "s", "height:" + _vm.scrollH + "px;"),
+        attrs: { current: _vm._$s(4, "a-current", _vm.tabIndex), _i: 4 },
+        on: { change: _vm.onChangeTab }
+      },
+      _vm._l(_vm._$s(5, "f", { forItems: _vm.tabBars }), function(
+        item,
+        index,
+        $21,
+        $31
+      ) {
+        return _c(
+          "swiper-item",
+          { key: _vm._$s(5, "f", { forIndex: $21, key: index }) },
+          [
+            _c(
+              "scroll-view",
+              {
+                style: _vm._$s(
+                  "6-" + $31,
+                  "s",
+                  "height:" + _vm.scrollH + "px;"
+                ),
+                attrs: { _i: "6-" + $31 }
+              },
+              [
+                _c("swiperImage", {
+                  attrs: { resdata: _vm.swiper, _i: "7-" + $31 }
                 }),
-                attrs: { item: item, index: index, _i: "11-" + $31 }
-              })
-            ]
-          })
-        ],
-        2
-      )
-    ],
-    1
-  )
+                _c("indexNav", {
+                  attrs: { resdata: _vm.indexnavs, _i: "8-" + $31 }
+                }),
+                _c("divider", { attrs: { _i: "9-" + $31 } }),
+                _c("threeAdv", {
+                  attrs: { resdata: _vm.threeAdv, _i: "10-" + $31 }
+                }),
+                _c("card", {
+                  attrs: {
+                    headTitle: "每日精选",
+                    bodyCover: "/static/demo/demo4.jpg",
+                    _i: "11-" + $31
+                  }
+                }),
+                _c(
+                  "view",
+                  {
+                    staticClass: _vm._$s("12-" + $31, "sc", "row j-sb"),
+                    attrs: { _i: "12-" + $31 }
+                  },
+                  [
+                    _vm._l(
+                      _vm._$s(13 + "-" + $31, "f", {
+                        forItems: _vm.commonList
+                      }),
+                      function(item, index, $22, $32) {
+                        return [
+                          _c("common-list", {
+                            key: _vm._$s(13 + "-" + $31, "f", {
+                              forIndex: $22,
+                              keyIndex: 0,
+                              key: index + "_0"
+                            }),
+                            attrs: {
+                              item: item,
+                              index: index,
+                              _i: "14-" + $31 + "-" + $32
+                            }
+                          })
+                        ]
+                      }
+                    )
+                  ],
+                  2
+                )
+              ],
+              1
+            )
+          ]
+        )
+      }),
+      0
+    )
+  ])
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -185,7 +251,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _HBu
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("Object.defineProperty(exports, \"__esModule\", { value: true });exports.default = void 0;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nvar _swiperImage = _interopRequireDefault(__webpack_require__(/*! @/components/index/swiper-image.vue */ 7));\nvar _indexNav = _interopRequireDefault(__webpack_require__(/*! @/components/index/index-nav.vue */ 14));\nvar _threeAdv = _interopRequireDefault(__webpack_require__(/*! @/components/index/three-adv.vue */ 19));\nvar _card = _interopRequireDefault(__webpack_require__(/*! @/components/common/card.vue */ 24));\nvar _commonList = _interopRequireDefault(__webpack_require__(/*! @/components/common/common-list.vue */ 29));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\nvar _default = { components: { swiperImage: _swiperImage.default, indexNav: _indexNav.default, threeAdv: _threeAdv.default, card: _card.default, commonList: _commonList.default }, data: function data() {return { swiper: [{ src: '../../static/images/demo/demo4.jpg' }, { src: '../../static/images/demo/demo4.jpg' }, { src: '../../static/images/demo/demo4.jpg' }], indexnavs: [{ src: '/static/images/indexnav/1.png', text: '新品发布' }, { src: '/static/images/indexnav/2.gif', text: '小米众筹' }, { src: '/static/images/indexnav/3.gif', text: '以旧换新' }, { src: '/static/images/indexnav/4.gif', text: '一分换团' }, { src: '/static/images/indexnav/5.gif', text: '超值特卖' }, { src: '/static/images/indexnav/6.gif', text: '小米秒杀' }, { src: '/static/images/indexnav/7.gif', text: '真心想要' }, { src: '/static/images/indexnav/8.gif', text: '电视热卖' }, { src: '/static/images/indexnav/9.gif', text: '家电热卖' }, { src: '/static/images/indexnav/10.gif', text: '米粉卡' }], threeAdv: { big: {\n          src: '/static/demo/demo1.jpg' },\n\n        smalltop: {\n          src: '/static/demo/demo2.jpg' },\n\n        smallbottom: {\n          src: '/static/demo/demo2.jpg' } },\n\n\n      commonList: [\n      {\n        cover: '/static/images/demo/list/1.jpg',\n        title: '小米手机',\n        desc: '小米8',\n        oprice: '2699',\n        pprice: '1399' },\n\n      {\n        cover: '/static/images/demo/list/1.jpg',\n        title: '小米手机',\n        desc: '小米8',\n        oprice: '2699',\n        pprice: '1399' },\n\n      {\n        cover: '/static/images/demo/list/1.jpg',\n        title: '小米手机',\n        desc: '小米8',\n        oprice: '2699',\n        pprice: '1399' },\n\n      {\n        cover: '/static/images/demo/list/1.jpg',\n        title: '小米手机',\n        desc: '小米8',\n        oprice: '2699',\n        pprice: '1399' }] };\n\n\n\n  },\n  methods: {} };exports.default = _default;//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInVuaS1hcHA6Ly8vcGFnZXMvaW5kZXgvaW5kZXgudnVlIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBMEJBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsNkc7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7ZUFDQSxFQUNBLGNBQ0EsaUNBREEsRUFFQSwyQkFGQSxFQUdBLDJCQUhBLEVBSUEsbUJBSkEsRUFLQSwrQkFMQSxFQURBLEVBUUEsSUFSQSxrQkFRQSxDQUNBLFNBQ0EscUpBREEsRUFFQSxZQUNBLHNEQURBLEVBRUEsc0RBRkEsRUFHQSxzREFIQSxFQUlBLHNEQUpBLEVBS0Esc0RBTEEsRUFNQSxzREFOQSxFQU9BLHNEQVBBLEVBUUEsc0RBUkEsRUFTQSxzREFUQSxFQVVBLHNEQVZBLENBRkEsRUFjQSxZQUNBO0FBQ0EsdUNBREEsRUFEQTs7QUFJQTtBQUNBLHVDQURBLEVBSkE7O0FBT0E7QUFDQSx1Q0FEQSxFQVBBLEVBZEE7OztBQXlCQTtBQUNBO0FBQ0EsK0NBREE7QUFFQSxxQkFGQTtBQUdBLG1CQUhBO0FBSUEsc0JBSkE7QUFLQSxzQkFMQSxFQURBOztBQVFBO0FBQ0EsK0NBREE7QUFFQSxxQkFGQTtBQUdBLG1CQUhBO0FBSUEsc0JBSkE7QUFLQSxzQkFMQSxFQVJBOztBQWVBO0FBQ0EsK0NBREE7QUFFQSxxQkFGQTtBQUdBLG1CQUhBO0FBSUEsc0JBSkE7QUFLQSxzQkFMQSxFQWZBOztBQXNCQTtBQUNBLCtDQURBO0FBRUEscUJBRkE7QUFHQSxtQkFIQTtBQUlBLHNCQUpBO0FBS0Esc0JBTEEsRUF0QkEsQ0F6QkE7Ozs7QUF3REEsR0FqRUE7QUFrRUEsYUFsRUEsRSIsImZpbGUiOiI2LmpzIiwic291cmNlc0NvbnRlbnQiOlsiPHRlbXBsYXRlPlxyXG5cdDx2aWV3PlxyXG5cdFx0PCEtLSDpobbpg6jpgInpobnljaEgLS0+XHJcblx0XHQ8c2Nyb2xsLXZpZXcgc2Nyb2xsLXggY2xhc3M9XCJib3JkZXItYm90dG9tIHNjcm9sbC1yb3dcIiBzdHlsZT1cImhlaWdodDogODBycHg7XCI+XHJcblx0XHRcdDx2aWV3IGNsYXNzPVwic2Nyb2xsLXJvdy1pdGVtIHB4LTNcIiBzdHlsZT1cImhlaWdodDogODBycHg7IGxpbmUtaGVpZ2h0OiA4MHJweDtcIiB2LWZvcj1cImkgaW4gMzBcIiA6a2V5PVwiaVwiPlxyXG5cdFx0XHRcdDx0ZXh0IGNsYXNzPVwiZm9udC1tZFwiPnt7IGkgfX08L3RleHQ+XHJcblx0XHRcdDwvdmlldz5cclxuXHRcdDwvc2Nyb2xsLXZpZXc+XHJcblx0XHQ8IS0tIOi9ruaSreWbvue7hOS7tiAtLT5cclxuXHRcdDxzd2lwZXJJbWFnZSA6cmVzZGF0YT1cInN3aXBlclwiIC8+XHJcblx0XHQ8IS0tIOmmlumhteWIhuexuyAtLT5cclxuXHRcdDxpbmRleE5hdiA6cmVzZGF0YT1cImluZGV4bmF2c1wiIC8+XHJcblx0XHQ8IS0tIOWIhuWJsue6vyAtLT5cclxuXHRcdDxkaXZpZGVyIC8+XHJcblx0XHQ8IS0tIOS4ieWbvuW5v+WRiiAtLT5cclxuXHRcdDx0aHJlZUFkdiA6cmVzZGF0YT1cInRocmVlQWR2XCIgLz5cclxuXHRcdDwhLS0g5aSn5Zu+5bm/5ZGK5L2NIC0tPlxyXG5cdFx0PGNhcmQgaGVhZFRpdGxlPVwi5q+P5pel57K+6YCJXCIgYm9keUNvdmVyPVwiL3N0YXRpYy9kZW1vL2RlbW80LmpwZ1wiIC8+XHJcblx0XHQ8IS0tIOWFrOWFseWIl+ihqOe7hOS7tiAtLT5cclxuXHRcdDx2aWV3IGNsYXNzPVwicm93IGotc2JcIj5cclxuXHRcdFx0PGJsb2NrIHYtZm9yPVwiKGl0ZW0sIGluZGV4KSBpbiBjb21tb25MaXN0XCIgOmtleT1cImluZGV4XCI+PGNvbW1vbi1saXN0IDppdGVtPVwiaXRlbVwiIDppbmRleD1cImluZGV4XCIgLz48L2Jsb2NrPlxyXG5cdFx0PC92aWV3PlxyXG5cdDwvdmlldz5cclxuPC90ZW1wbGF0ZT5cclxuXHJcbjxzY3JpcHQ+XHJcbmltcG9ydCBzd2lwZXJJbWFnZSBmcm9tICdAL2NvbXBvbmVudHMvaW5kZXgvc3dpcGVyLWltYWdlLnZ1ZSc7XHJcbmltcG9ydCBpbmRleE5hdiBmcm9tICdAL2NvbXBvbmVudHMvaW5kZXgvaW5kZXgtbmF2LnZ1ZSc7XHJcbmltcG9ydCB0aHJlZUFkdiBmcm9tICdAL2NvbXBvbmVudHMvaW5kZXgvdGhyZWUtYWR2LnZ1ZSc7XHJcbmltcG9ydCBjYXJkIGZyb20gJ0AvY29tcG9uZW50cy9jb21tb24vY2FyZC52dWUnO1xyXG5pbXBvcnQgY29tbW9uTGlzdCBmcm9tICdAL2NvbXBvbmVudHMvY29tbW9uL2NvbW1vbi1saXN0LnZ1ZSc7XHJcbmV4cG9ydCBkZWZhdWx0IHtcclxuXHRjb21wb25lbnRzOiB7XHJcblx0XHRzd2lwZXJJbWFnZSxcclxuXHRcdGluZGV4TmF2LFxyXG5cdFx0dGhyZWVBZHYsXHJcblx0XHRjYXJkLFxyXG5cdFx0Y29tbW9uTGlzdFxyXG5cdH0sXHJcblx0ZGF0YSgpIHtcclxuXHRcdHJldHVybiB7XHJcblx0XHRcdHN3aXBlcjogW3sgc3JjOiAnLi4vLi4vc3RhdGljL2ltYWdlcy9kZW1vL2RlbW80LmpwZycgfSwgeyBzcmM6ICcuLi8uLi9zdGF0aWMvaW1hZ2VzL2RlbW8vZGVtbzQuanBnJyB9LCB7IHNyYzogJy4uLy4uL3N0YXRpYy9pbWFnZXMvZGVtby9kZW1vNC5qcGcnIH1dLFxyXG5cdFx0XHRpbmRleG5hdnM6IFtcclxuXHRcdFx0XHR7IHNyYzogJy9zdGF0aWMvaW1hZ2VzL2luZGV4bmF2LzEucG5nJywgdGV4dDogJ+aWsOWTgeWPkeW4gycgfSxcclxuXHRcdFx0XHR7IHNyYzogJy9zdGF0aWMvaW1hZ2VzL2luZGV4bmF2LzIuZ2lmJywgdGV4dDogJ+Wwj+exs+S8l+etuScgfSxcclxuXHRcdFx0XHR7IHNyYzogJy9zdGF0aWMvaW1hZ2VzL2luZGV4bmF2LzMuZ2lmJywgdGV4dDogJ+S7peaXp+aNouaWsCcgfSxcclxuXHRcdFx0XHR7IHNyYzogJy9zdGF0aWMvaW1hZ2VzL2luZGV4bmF2LzQuZ2lmJywgdGV4dDogJ+S4gOWIhuaNouWboicgfSxcclxuXHRcdFx0XHR7IHNyYzogJy9zdGF0aWMvaW1hZ2VzL2luZGV4bmF2LzUuZ2lmJywgdGV4dDogJ+i2heWAvOeJueWNlicgfSxcclxuXHRcdFx0XHR7IHNyYzogJy9zdGF0aWMvaW1hZ2VzL2luZGV4bmF2LzYuZ2lmJywgdGV4dDogJ+Wwj+exs+enkuadgCcgfSxcclxuXHRcdFx0XHR7IHNyYzogJy9zdGF0aWMvaW1hZ2VzL2luZGV4bmF2LzcuZ2lmJywgdGV4dDogJ+ecn+W/g+aDs+imgScgfSxcclxuXHRcdFx0XHR7IHNyYzogJy9zdGF0aWMvaW1hZ2VzL2luZGV4bmF2LzguZ2lmJywgdGV4dDogJ+eUteinhueDreWNlicgfSxcclxuXHRcdFx0XHR7IHNyYzogJy9zdGF0aWMvaW1hZ2VzL2luZGV4bmF2LzkuZ2lmJywgdGV4dDogJ+WutueUteeDreWNlicgfSxcclxuXHRcdFx0XHR7IHNyYzogJy9zdGF0aWMvaW1hZ2VzL2luZGV4bmF2LzEwLmdpZicsIHRleHQ6ICfnsbPnsonljaEnIH1cclxuXHRcdFx0XSxcclxuXHRcdFx0dGhyZWVBZHY6IHtcclxuXHRcdFx0XHRiaWc6IHtcclxuXHRcdFx0XHRcdHNyYzogJy9zdGF0aWMvZGVtby9kZW1vMS5qcGcnXHJcblx0XHRcdFx0fSxcclxuXHRcdFx0XHRzbWFsbHRvcDoge1xyXG5cdFx0XHRcdFx0c3JjOiAnL3N0YXRpYy9kZW1vL2RlbW8yLmpwZydcclxuXHRcdFx0XHR9LFxyXG5cdFx0XHRcdHNtYWxsYm90dG9tOiB7XHJcblx0XHRcdFx0XHRzcmM6ICcvc3RhdGljL2RlbW8vZGVtbzIuanBnJ1xyXG5cdFx0XHRcdH1cclxuXHRcdFx0fSxcclxuXHRcdFx0Y29tbW9uTGlzdDogW1xyXG5cdFx0XHRcdHtcclxuXHRcdFx0XHRcdGNvdmVyOiAnL3N0YXRpYy9pbWFnZXMvZGVtby9saXN0LzEuanBnJyxcclxuXHRcdFx0XHRcdHRpdGxlOiAn5bCP57Gz5omL5py6JyxcclxuXHRcdFx0XHRcdGRlc2M6ICflsI/nsbM4JyxcclxuXHRcdFx0XHRcdG9wcmljZTogJzI2OTknLFxyXG5cdFx0XHRcdFx0cHByaWNlOiAnMTM5OSdcclxuXHRcdFx0XHR9LFxyXG5cdFx0XHRcdHtcclxuXHRcdFx0XHRcdGNvdmVyOiAnL3N0YXRpYy9pbWFnZXMvZGVtby9saXN0LzEuanBnJyxcclxuXHRcdFx0XHRcdHRpdGxlOiAn5bCP57Gz5omL5py6JyxcclxuXHRcdFx0XHRcdGRlc2M6ICflsI/nsbM4JyxcclxuXHRcdFx0XHRcdG9wcmljZTogJzI2OTknLFxyXG5cdFx0XHRcdFx0cHByaWNlOiAnMTM5OSdcclxuXHRcdFx0XHR9LFxyXG5cdFx0XHRcdHtcclxuXHRcdFx0XHRcdGNvdmVyOiAnL3N0YXRpYy9pbWFnZXMvZGVtby9saXN0LzEuanBnJyxcclxuXHRcdFx0XHRcdHRpdGxlOiAn5bCP57Gz5omL5py6JyxcclxuXHRcdFx0XHRcdGRlc2M6ICflsI/nsbM4JyxcclxuXHRcdFx0XHRcdG9wcmljZTogJzI2OTknLFxyXG5cdFx0XHRcdFx0cHByaWNlOiAnMTM5OSdcclxuXHRcdFx0XHR9LFxyXG5cdFx0XHRcdHtcclxuXHRcdFx0XHRcdGNvdmVyOiAnL3N0YXRpYy9pbWFnZXMvZGVtby9saXN0LzEuanBnJyxcclxuXHRcdFx0XHRcdHRpdGxlOiAn5bCP57Gz5omL5py6JyxcclxuXHRcdFx0XHRcdGRlc2M6ICflsI/nsbM4JyxcclxuXHRcdFx0XHRcdG9wcmljZTogJzI2OTknLFxyXG5cdFx0XHRcdFx0cHByaWNlOiAnMTM5OSdcclxuXHRcdFx0XHR9XHJcblx0XHRcdF1cclxuXHRcdH07XHJcblx0fSxcclxuXHRtZXRob2RzOiB7fVxyXG59O1xyXG48L3NjcmlwdD5cclxuXHJcbjxzdHlsZT5cclxuLmNvbnRlbnQge1xyXG5cdGRpc3BsYXk6IGZsZXg7XHJcblx0ZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuXHRhbGlnbi1pdGVtczogY2VudGVyO1xyXG5cdGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG59XHJcblxyXG4ubG9nbyB7XHJcblx0aGVpZ2h0OiAyMDBycHg7XHJcblx0d2lkdGg6IDIwMHJweDtcclxuXHRtYXJnaW4tdG9wOiAyMDBycHg7XHJcblx0bWFyZ2luLWxlZnQ6IGF1dG87XHJcblx0bWFyZ2luLXJpZ2h0OiBhdXRvO1xyXG5cdG1hcmdpbi1ib3R0b206IDUwcnB4O1xyXG59XHJcblxyXG4udGV4dC1hcmVhIHtcclxuXHRkaXNwbGF5OiBmbGV4O1xyXG5cdGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG59XHJcblxyXG4udGl0bGUge1xyXG5cdGZvbnQtc2l6ZTogMzZycHg7XHJcblx0Y29sb3I6ICM4ZjhmOTQ7XHJcbn1cclxuPC9zdHlsZT5cbiJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///6\n");
+eval("Object.defineProperty(exports, \"__esModule\", { value: true });exports.default = void 0;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nvar _swiperImage = _interopRequireDefault(__webpack_require__(/*! @/components/index/swiper-image.vue */ 7));\nvar _indexNav = _interopRequireDefault(__webpack_require__(/*! @/components/index/index-nav.vue */ 14));\nvar _threeAdv = _interopRequireDefault(__webpack_require__(/*! @/components/index/three-adv.vue */ 19));\nvar _card = _interopRequireDefault(__webpack_require__(/*! @/components/common/card.vue */ 24));\nvar _commonList = _interopRequireDefault(__webpack_require__(/*! @/components/common/common-list.vue */ 29));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\nvar _default = { components: { swiperImage: _swiperImage.default, indexNav: _indexNav.default, threeAdv: _threeAdv.default, card: _card.default, commonList: _commonList.default }, data: function data() {return { scrollinto: \"\", scrollH: 500, tabIndex: 0, tabBars: [{ name: '关注', id: 'guanzhu', template: 'index' }, { name: '推荐', id: 'tuijian', template: 'special' }, { name: '体育', id: 'tiyu', template: 'special' }, { name: '热点', id: 'redian', template: 'special' }, { name: '财经', id: 'caijing', template: 'special' }, { name: '娱乐', id: 'yule',\n        template: 'special' },\n\n      {\n        name: '军事',\n        id: 'junshi',\n        template: 'special' },\n\n      {\n        name: '历史',\n        id: 'lishi',\n        template: 'special' },\n\n      {\n        name: '本地',\n        id: 'bendi',\n        template: 'special' }],\n\n\n      swiper: [{ src: '../../static/images/demo/demo4.jpg' }, { src: '../../static/images/demo/demo4.jpg' }, { src: '../../static/images/demo/demo4.jpg' }],\n      indexnavs: [\n      { src: '/static/images/indexnav/1.png', text: '新品发布' },\n      { src: '/static/images/indexnav/2.gif', text: '小米众筹' },\n      { src: '/static/images/indexnav/3.gif', text: '以旧换新' },\n      { src: '/static/images/indexnav/4.gif', text: '一分换团' },\n      { src: '/static/images/indexnav/5.gif', text: '超值特卖' },\n      { src: '/static/images/indexnav/6.gif', text: '小米秒杀' },\n      { src: '/static/images/indexnav/7.gif', text: '真心想要' },\n      { src: '/static/images/indexnav/8.gif', text: '电视热卖' },\n      { src: '/static/images/indexnav/9.gif', text: '家电热卖' },\n      { src: '/static/images/indexnav/10.gif', text: '米粉卡' }],\n\n      threeAdv: {\n        big: {\n          src: '/static/demo/demo1.jpg' },\n\n        smalltop: {\n          src: '/static/demo/demo2.jpg' },\n\n        smallbottom: {\n          src: '/static/demo/demo2.jpg' } },\n\n\n      commonList: [\n      {\n        cover: '/static/images/demo/list/1.jpg',\n        title: '小米手机',\n        desc: '小米8',\n        oprice: '2699',\n        pprice: '1399' },\n\n      {\n        cover: '/static/images/demo/list/1.jpg',\n        title: '小米手机',\n        desc: '小米8',\n        oprice: '2699',\n        pprice: '1399' },\n\n      {\n        cover: '/static/images/demo/list/1.jpg',\n        title: '小米手机',\n        desc: '小米8',\n        oprice: '2699',\n        pprice: '1399' },\n\n      {\n        cover: '/static/images/demo/list/1.jpg',\n        title: '小米手机',\n        desc: '小米8',\n        oprice: '2699',\n        pprice: '1399' }] };\n\n\n\n  },\n  onLoad: function onLoad() {var _this = this;\n    // 获取可视区域高度\n    uni.getSystemInfo({\n      success: function success(res) {\n        _this.scrollH = res.windowHeight - uni.upx2px(82); //upx 换算为 px \n      } });\n\n  },\n  methods: {\n    // 切换选项卡\n    changeTab: function changeTab(index) {\n      if (this.tabIndex === index) {\n        return;\n      }\n      this.tabIndex = index;\n      this.scrollinto = 'tab' + index;\n    },\n    // 监听滑动列表\n    onChangeTab: function onChangeTab(e) {\n      this.changeTab(e.detail.current);\n    } } };exports.default = _default;//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInVuaS1hcHA6Ly8vcGFnZXMvaW5kZXgvaW5kZXgudnVlIl0sIm5hbWVzIjpbImNvbXBvbmVudHMiLCJzd2lwZXJJbWFnZSIsImluZGV4TmF2IiwidGhyZWVBZHYiLCJjYXJkIiwiY29tbW9uTGlzdCIsImRhdGEiLCJzY3JvbGxpbnRvIiwic2Nyb2xsSCIsInRhYkluZGV4IiwidGFiQmFycyIsIm5hbWUiLCJpZCIsInRlbXBsYXRlIiwic3dpcGVyIiwic3JjIiwiaW5kZXhuYXZzIiwidGV4dCIsImJpZyIsInNtYWxsdG9wIiwic21hbGxib3R0b20iLCJjb3ZlciIsInRpdGxlIiwiZGVzYyIsIm9wcmljZSIsInBwcmljZSIsIm9uTG9hZCIsInVuaSIsImdldFN5c3RlbUluZm8iLCJzdWNjZXNzIiwicmVzIiwid2luZG93SGVpZ2h0IiwidXB4MnB4IiwibWV0aG9kcyIsImNoYW5nZVRhYiIsImluZGV4Iiwib25DaGFuZ2VUYWIiLCJlIiwiZGV0YWlsIiwiY3VycmVudCJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQTJDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLDZHLDhGQS9DQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7ZUFPZSxFQUNkQSxVQUFVLEVBQUUsRUFDWEMsV0FBVyxFQUFYQSxvQkFEVyxFQUVYQyxRQUFRLEVBQVJBLGlCQUZXLEVBR1hDLFFBQVEsRUFBUkEsaUJBSFcsRUFJWEMsSUFBSSxFQUFKQSxhQUpXLEVBS1hDLFVBQVUsRUFBVkEsbUJBTFcsRUFERSxFQVFkQyxJ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XHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcbi8vXHJcblxyXG5pbXBvcnQgc3dpcGVySW1hZ2UgZnJvbSAnQC9jb21wb25lbnRzL2luZGV4L3N3aXBlci1pbWFnZS52dWUnO1xyXG5pbXBvcnQgaW5kZXhOYXYgZnJvbSAnQC9jb21wb25lbnRzL2luZGV4L2luZGV4LW5hdi52dWUnO1xyXG5pbXBvcnQgdGhyZWVBZHYgZnJvbSAnQC9jb21wb25lbnRzL2luZGV4L3RocmVlLWFkdi52dWUnO1xyXG5pbXBvcnQgY2FyZCBmcm9tICdAL2NvbXBvbmVudHMvY29tbW9uL2NhcmQudnVlJztcclxuaW1wb3J0IGNvbW1vbkxpc3QgZnJvbSAnQC9jb21wb25lbnRzL2NvbW1vbi9jb21tb24tbGlzdC52dWUnO1xyXG5leHBvcnQgZGVmYXVsdCB7XHJcblx0Y29tcG9uZW50czoge1xyXG5cdFx0c3dpcGVySW1hZ2UsXHJcblx0XHRpbmRleE5hdixcclxuXHRcdHRocmVlQWR2LFxyXG5cdFx0Y2FyZCxcclxuXHRcdGNvbW1vbkxpc3RcclxuXHR9LFxyXG5cdGRhdGEoKSB7XHJcblx0XHRyZXR1cm4ge1xyXG5cdFx0XHRzY3JvbGxpbnRvOlwiXCIsXHJcblx0XHRcdHNjcm9sbEg6IDUwMCxcclxuXHRcdFx0dGFiSW5kZXg6IDAsXHJcblx0XHRcdHRhYkJhcnM6IFtcclxuXHRcdFx0XHR7XHJcblx0XHRcdFx0XHRuYW1lOiAn5YWz5rOoJyxcclxuXHRcdFx0XHRcdGlkOiAnZ3VhbnpodScsXHJcblx0XHRcdFx0XHR0ZW1wbGF0ZTogJ2luZGV4J1xyXG5cdFx0XHRcdH0sXHJcblx0XHRcdFx0e1xyXG5cdFx0XHRcdFx0bmFtZTogJ+aOqOiNkCcsXHJcblx0XHRcdFx0XHRpZDogJ3R1aWppYW4nLFxyXG5cdFx0XHRcdFx0dGVtcGxhdGU6ICdzcGVjaWFsJ1xyXG5cdFx0XHRcdH0sXHJcblx0XHRcdFx0e1xyXG5cdFx0XHRcdFx0bmFtZTogJ+S9k+iCsicsXHJcblx0XHRcdFx0XHRpZDogJ3RpeXUnLFxyXG5cdFx0XHRcdFx0dGVtcGxhdGU6ICdzcGVjaWFsJ1xyXG5cdFx0XHRcdH0sXHJcblx0XHRcdFx0e1xyXG5cdFx0XHRcdFx0bmFtZTogJ+eDreeCuScsXHJcblx0XHRcdFx0XHRpZDogJ3JlZGlhbicsXHJcblx0XHRcdFx0XHR0ZW1wbGF0ZTogJ3NwZWNpYWwnXHJcblx0XHRcdFx0fSxcclxuXHRcdFx0XHR7XHJcblx0XHRcdFx0XHRuYW1lOiAn6LSi57uPJyxcclxuXHRcdFx0XHRcdGlkOiAnY2FpamluZycsXHJcblx0XHRcdFx0XHR0ZW1wbGF0ZTogJ3NwZWNpYWwnXHJcblx0XHRcdFx0fSxcclxuXHRcdFx0XHR7XHJcblx0XHRcdFx0XHRuYW1lOiAn5aix5LmQJyxcclxuXHRcdFx0XHRcdGlkOiAneXVsZScsXHJcblx0XHRcdFx0XHR0ZW1wbGF0ZTogJ3NwZWNpYWwnXHJcblx0XHRcdFx0fSxcclxuXHRcdFx0XHR7XHJcblx0XHRcdFx0XHRuYW1lOiAn5Yab5LqLJyxcclxuXHRcdFx0XHRcdGlkOiAnanVuc2hpJyxcclxuXHRcdFx0XHRcdHRlbXBsYXRlOiAnc3BlY2lhbCdcclxuXHRcdFx0XHR9LFxyXG5cdFx0XHRcdHtcclxuXHRcdFx0XHRcdG5hbWU6ICfljoblj7InLFxyXG5cdFx0XHRcdFx0aWQ6ICdsaXNoaScsXHJcblx0XHRcdFx0XHR0ZW1wbGF0ZTogJ3NwZWNpYWwnXHJcblx0XHRcdFx0fSxcclxuXHRcdFx0XHR7XHJcblx0XHRcdFx0XHRuYW1lOiAn5pys5ZywJyxcclxuXHRcdFx0XHRcdGlkOiAnYmVuZGknLFxyXG5cdFx0XHRcdFx0dGVtcGxhdGU6ICdzcGVjaWFsJ1xyXG5cdFx0XHRcdH1cclxuXHRcdFx0XSxcclxuXHRcdFx0c3dpcGVyOiBbeyBzcmM6ICcuLi8uLi9zdGF0aWMvaW1hZ2VzL2RlbW8vZGVtbzQuanBnJyB9LCB7IHNyYzogJy4uLy4uL3N0YXRpYy9pbWFnZXMvZGVtby9kZW1vNC5qcGcnIH0sIHsgc3JjOiAnLi4vLi4vc3RhdGljL2ltYWdlcy9kZW1vL2RlbW80LmpwZycgfV0sXHJcblx0XHRcdGluZGV4bmF2czogW1xyXG5cdFx0XHRcdHsgc3JjOiAnL3N0YXRpYy9pbWFnZXMvaW5kZXhuYXYvMS5wbmcnLCB0ZXh0OiAn5paw5ZOB5Y+R5biDJyB9LFxyXG5cdFx0XHRcdHsgc3JjOiAnL3N0YXRpYy9pbWFnZXMvaW5kZXhuYXYvMi5naWYnLCB0ZXh0OiAn5bCP57Gz5LyX5625JyB9LFxyXG5cdFx0XHRcdHsgc3JjOiAnL3N0YXRpYy9pbWFnZXMvaW5kZXhuYXYvMy5naWYnLCB0ZXh0OiAn5Lul5pen5o2i5pawJyB9LFxyXG5cdFx0XHRcdHsgc3JjOiAnL3N0YXRpYy9pbWFnZXMvaW5kZXhuYXYvNC5naWYnLCB0ZXh0OiAn5LiA5YiG5o2i5ZuiJyB9LFxyXG5cdFx0XHRcdHsgc3JjOiAnL3N0YXRpYy9pbWFnZXMvaW5kZXhuYXYvNS5naWYnLCB0ZXh0OiAn6LaF5YC854m55Y2WJyB9LFxyXG5cdFx0XHRcdHsgc3JjOiAnL3N0YXRpYy9pbWFnZXMvaW5kZXhuYXYvNi5naWYnLCB0ZXh0OiAn5bCP57Gz56eS5p2AJyB9LFxyXG5cdFx0XHRcdHsgc3JjOiAnL3N0YXRpYy9pbWFnZXMvaW5kZXhuYXYvNy5naWYnLCB0ZXh0OiAn55yf5b+D5oOz6KaBJyB9LFxyXG5cdFx0XHRcdHsgc3JjOiAnL3N0YXRpYy9pbWFnZXMvaW5kZXhuYXYvOC5naWYnLCB0ZXh0OiAn55S16KeG54Ot5Y2WJyB9LFxyXG5cdFx0XHRcdHsgc3JjOiAnL3N0YXRpYy9pbWFnZXMvaW5kZXhuYXYvOS5naWYnLCB0ZXh0OiAn5a6255S154Ot5Y2WJyB9LFxyXG5cdFx0XHRcdHsgc3JjOiAnL3N0YXRpYy9pbWFnZXMvaW5kZXhuYXYvMTAuZ2lmJywgdGV4dDogJ+exs+eyieWNoScgfVxyXG5cdFx0XHRdLFxyXG5cdFx0XHR0aHJlZUFkdjoge1xyXG5cdFx0XHRcdGJpZzoge1xyXG5cdFx0XHRcdFx0c3JjOiAnL3N0YXRpYy9kZW1vL2RlbW8xLmpwZydcclxuXHRcdFx0XHR9LFxyXG5cdFx0XHRcdHNtYWxsdG9wOiB7XHJcblx0XHRcdFx0XHRzcmM6ICcvc3RhdGljL2RlbW8vZGVtbzIuanBnJ1xyXG5cdFx0XHRcdH0sXHJcblx0XHRcdFx0c21hbGxib3R0b206IHtcclxuXHRcdFx0XHRcdHNyYzogJy9zdGF0aWMvZGVtby9kZW1vMi5qcGcnXHJcblx0XHRcdFx0fVxyXG5cdFx0XHR9LFxyXG5cdFx0XHRjb21tb25MaXN0OiBbXHJcblx0XHRcdFx0e1xyXG5cdFx0XHRcdFx0Y292ZXI6ICcvc3RhdGljL2ltYWdlcy9kZW1vL2xpc3QvMS5qcGcnLFxyXG5cdFx0XHRcdFx0dGl0bGU6ICflsI/nsbPmiYvmnLonLFxyXG5cdFx0XHRcdFx0ZGVzYzogJ+Wwj+exszgnLFxyXG5cdFx0XHRcdFx0b3ByaWNlOiAnMjY5OScsXHJcblx0XHRcdFx0XHRwcHJpY2U6ICcxMzk5J1xyXG5cdFx0XHRcdH0sXHJcblx0XHRcdFx0e1xyXG5cdFx0XHRcdFx0Y292ZXI6ICcvc3RhdGljL2ltYWdlcy9kZW1vL2xpc3QvMS5qcGcnLFxyXG5cdFx0XHRcdFx0dGl0bGU6ICflsI/nsbPmiYvmnLonLFxyXG5cdFx0XHRcdFx0ZGVzYzogJ+Wwj+exszgnLFxyXG5cdFx0XHRcdFx0b3ByaWNlOiAnMjY5OScsXHJcblx0XHRcdFx0XHRwcHJpY2U6ICcxMzk5J1xyXG5cdFx0XHRcdH0sXHJcblx0XHRcdFx0e1xyXG5cdFx0XHRcdFx0Y292ZXI6ICcvc3RhdGljL2ltYWdlcy9kZW1vL2xpc3QvMS5qcGcnLFxyXG5cdFx0XHRcdFx0dGl0bGU6ICflsI/nsbPmiYvmnLonLFxyXG5cdFx0XHRcdFx0ZGVzYzogJ+Wwj+exszgnLFxyXG5cdFx0XHRcdFx0b3ByaWNlOiAnMjY5OScsXHJcblx0XHRcdFx0XHRwcHJpY2U6ICcxMzk5J1xyXG5cdFx0XHRcdH0sXHJcblx0XHRcdFx0e1xyXG5cdFx0XHRcdFx0Y292ZXI6ICcvc3RhdGljL2ltYWdlcy9kZW1vL2xpc3QvMS5qcGcnLFxyXG5cdFx0XHRcdFx0dGl0bGU6ICflsI/nsbPmiYvmnLonLFxyXG5cdFx0XHRcdFx0ZGVzYzogJ+Wwj+exszgnLFxyXG5cdFx0XHRcdFx0b3ByaWNlOiAnMjY5OScsXHJcblx0XHRcdFx0XHRwcHJpY2U6ICcxMzk5J1xyXG5cdFx0XHRcdH1cclxuXHRcdFx0XVxyXG5cdFx0fTtcclxuXHR9LFxyXG5cdG9uTG9hZCgpIHtcclxuXHRcdC8vIOiOt+WPluWPr+inhuWMuuWfn+mrmOW6plxyXG5cdFx0dW5pLmdldFN5c3RlbUluZm8oe1xyXG5cdFx0XHRzdWNjZXNzOiAocmVzKSA9PiB7XHJcblx0XHRcdFx0dGhpcy5zY3JvbGxIID0gcmVzLndpbmRvd0hlaWdodCAtIHVuaS51cHgycHgoODIpIC8vdXB4IOaNoueul+S4uiBweCBcclxuXHRcdFx0fVxyXG5cdFx0fSlcclxuXHR9LFxyXG5cdG1ldGhvZHM6IHtcclxuXHRcdC8vIOWIh+aNoumAiemhueWNoVxyXG5cdFx0Y2hhbmdlVGFiKGluZGV4KXtcclxuXHRcdFx0aWYgKHRoaXMudGFiSW5kZXggPT09IGluZGV4KSB7XHJcblx0XHRcdFx0cmV0dXJuO1xyXG5cdFx0XHR9XHJcblx0XHRcdHRoaXMudGFiSW5kZXggPSBpbmRleFxyXG5cdFx0XHR0aGlzLnNjcm9sbGludG8gPSAndGFiJyArIGluZGV4XHJcblx0XHR9LFxyXG5cdFx0Ly8g55uR5ZCs5ruR5Yqo5YiX6KGoXHJcblx0XHRvbkNoYW5nZVRhYihlKSB7XHJcblx0XHRcdHRoaXMuY2hhbmdlVGFiKGUuZGV0YWlsLmN1cnJlbnQpXHJcblx0XHR9XHJcblx0fVxyXG59O1xyXG4iXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///6\n");
 
 /***/ }),
 /* 7 */
@@ -1443,7 +1509,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _HBu
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("Object.defineProperty(exports, \"__esModule\", { value: true });exports.default = void 0; //\n//\n//\n//\n//\n//\nvar _default =\n{\n  data: function data() {\n    return {};\n\n\n  },\n  methods: {} };exports.default = _default;//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInVuaS1hcHA6Ly8vcGFnZXMvbXkvbXkudnVlIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFPQTtBQUNBLE1BREEsa0JBQ0E7QUFDQTs7O0FBR0EsR0FMQTtBQU1BLGFBTkEsRSIsImZpbGUiOiI1My5qcyIsInNvdXJjZXNDb250ZW50IjpbIjx0ZW1wbGF0ZT5cblx0PHZpZXc+XG5cdFx0XG5cdDwvdmlldz5cbjwvdGVtcGxhdGU+XG5cbjxzY3JpcHQ+XG5cdGV4cG9ydCBkZWZhdWx0IHtcblx0XHRkYXRhKCkge1xuXHRcdFx0cmV0dXJuIHtcblx0XHRcdFx0XG5cdFx0XHR9XG5cdFx0fSxcblx0XHRtZXRob2RzOiB7XG5cdFx0XHRcblx0XHR9XG5cdH1cbjwvc2NyaXB0PlxuXG48c3R5bGU+XG5cbjwvc3R5bGU+XG4iXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///53\n");
+eval("Object.defineProperty(exports, \"__esModule\", { value: true });exports.default = void 0; //\n//\n//\n//\n//\n//\nvar _default =\n{\n  data: function data() {\n    return {};\n\n\n  },\n  methods: {} };exports.default = _default;//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInVuaS1hcHA6Ly8vcGFnZXMvbXkvbXkudnVlIl0sIm5hbWVzIjpbImRhdGEiLCJtZXRob2RzIl0sIm1hcHBpbmdzIjoid0ZBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBOztBQUVlO0FBQ2RBLE1BRGMsa0JBQ1A7QUFDTixXQUFPLEVBQVA7OztBQUdBLEdBTGE7QUFNZEMsU0FBTyxFQUFFLEVBTkssRSIsImZpbGUiOiI1My5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8vXG4vL1xuLy9cbi8vXG4vL1xuLy9cblxuZXhwb3J0IGRlZmF1bHQge1xuXHRkYXRhKCkge1xuXHRcdHJldHVybiB7XG5cdFx0XHRcblx0XHR9XG5cdH0sXG5cdG1ldGhvZHM6IHtcblx0XHRcblx0fVxufVxuIl0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///53\n");
 
 /***/ }),
 /* 54 */

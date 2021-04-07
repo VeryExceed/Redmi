@@ -1,25 +1,42 @@
 <template>
 	<view>
 		<!-- 顶部选项卡 -->
-		<scroll-view scroll-x class="border-bottom scroll-row" style="height: 80rpx;">
-			<view class="scroll-row-item px-3" style="height: 80rpx; line-height: 80rpx;" v-for="i in 30" :key="i">
-				<text class="font-md">{{ i }}</text>
+		<scroll-view scroll-x class="border-bottom scroll-row" 
+		style="height: 80rpx;"
+		:scroll-into-view="scrollinto"
+		:scroll-with-animation="true">
+			<view class="scroll-row-item px-3"
+			@click="changeTab(index)"
+			style="height: 80rpx; line-height: 80rpx;" 
+			v-for="(item,index) in tabBars" :key="index"
+			:class="tabIndex === index ? 'main-text-color':''"
+			:id="'tab'+ index">
+				<text class="font-md">{{item.name}}</text>
 			</view>
 		</scroll-view>
-		<!-- 轮播图组件 -->
-		<swiperImage :resdata="swiper" />
-		<!-- 首页分类 -->
-		<indexNav :resdata="indexnavs" />
-		<!-- 分割线 -->
-		<divider />
-		<!-- 三图广告 -->
-		<threeAdv :resdata="threeAdv" />
-		<!-- 大图广告位 -->
-		<card headTitle="每日精选" bodyCover="/static/demo/demo4.jpg" />
-		<!-- 公共列表组件 -->
-		<view class="row j-sb">
-			<block v-for="(item, index) in commonList" :key="index"><common-list :item="item" :index="index" /></block>
-		</view>
+		
+		<swiper :current="tabIndex" :duration="150" :style="'height:'+scrollH+'px;'" @change="onChangeTab">
+			<swiper-item v-for="(item,index) in tabBars" :key="index">
+				<scroll-view scroll-y="true" :style="'height:'+scrollH+'px;'">
+					<!-- 轮播图组件 -->
+					<swiperImage :resdata="swiper" />
+					<!-- 首页分类 -->
+					<indexNav :resdata="indexnavs" />
+					<!-- 分割线 -->
+					<divider />
+					<!-- 三图广告 -->
+					<threeAdv :resdata="threeAdv" />
+					<!-- 大图广告位 -->
+					<card headTitle="每日精选" bodyCover="/static/demo/demo4.jpg" />
+					<!-- 公共列表组件 -->
+					<view class="row j-sb">
+						<block v-for="(item, index) in commonList" :key="index"><common-list :item="item" :index="index" /></block>
+					</view>
+				</scroll-view>
+			</swiper-item>
+		</swiper>
+	
+		
 	</view>
 </template>
 
@@ -39,6 +56,56 @@ export default {
 	},
 	data() {
 		return {
+			scrollinto:"",
+			scrollH: 500,
+			tabIndex: 0,
+			tabBars: [
+				{
+					name: '关注',
+					id: 'guanzhu',
+					template: 'index'
+				},
+				{
+					name: '推荐',
+					id: 'tuijian',
+					template: 'special'
+				},
+				{
+					name: '体育',
+					id: 'tiyu',
+					template: 'special'
+				},
+				{
+					name: '热点',
+					id: 'redian',
+					template: 'special'
+				},
+				{
+					name: '财经',
+					id: 'caijing',
+					template: 'special'
+				},
+				{
+					name: '娱乐',
+					id: 'yule',
+					template: 'special'
+				},
+				{
+					name: '军事',
+					id: 'junshi',
+					template: 'special'
+				},
+				{
+					name: '历史',
+					id: 'lishi',
+					template: 'special'
+				},
+				{
+					name: '本地',
+					id: 'bendi',
+					template: 'special'
+				}
+			],
 			swiper: [{ src: '../../static/images/demo/demo4.jpg' }, { src: '../../static/images/demo/demo4.jpg' }, { src: '../../static/images/demo/demo4.jpg' }],
 			indexnavs: [
 				{ src: '/static/images/indexnav/1.png', text: '新品发布' },
@@ -95,7 +162,28 @@ export default {
 			]
 		};
 	},
-	methods: {}
+	onLoad() {
+		// 获取可视区域高度
+		uni.getSystemInfo({
+			success: (res) => {
+				this.scrollH = res.windowHeight - uni.upx2px(82) //upx 换算为 px 
+			}
+		})
+	},
+	methods: {
+		// 切换选项卡
+		changeTab(index){
+			if (this.tabIndex === index) {
+				return;
+			}
+			this.tabIndex = index
+			this.scrollinto = 'tab' + index
+		},
+		// 监听滑动列表
+		onChangeTab(e) {
+			this.changeTab(e.detail.current)
+		}
+	}
 };
 </script>
 
