@@ -288,7 +288,12 @@ var render = function() {
                 "v-uni-scroll-view",
                 {
                   style: _vm._$g("6-" + $31, "s"),
-                  attrs: { "scroll-y": "true", _i: "6-" + $31 }
+                  attrs: { "scroll-y": "true", _i: "6-" + $31 },
+                  on: {
+                    scrolltolower: function($event) {
+                      return _vm.$handleViewEvent($event)
+                    }
+                  }
                 },
                 [
                   _vm._l(_vm._$g(7 + "-" + $31, "f"), function(
@@ -299,7 +304,7 @@ var render = function() {
                   ) {
                     return [
                       _vm._$g("8-" + $31 + "-" + $32, "i")
-                        ? _c("swiperImage", {
+                        ? _c("swiper-image", {
                             key: list["k0"],
                             attrs: { _i: "8-" + $31 + "-" + $32 }
                           })
@@ -351,7 +356,16 @@ var render = function() {
                           )
                         : _vm._e()
                     ]
-                  })
+                  }),
+                  _c("divider", { attrs: { _i: "18-" + $31 } }),
+                  _c(
+                    "v-uni-view",
+                    {
+                      staticClass: _vm._$g("19-" + $31, "sc"),
+                      attrs: { _i: "19-" + $31 }
+                    },
+                    [_vm._v(_vm._$g("19-" + $31, "t0-0"))]
+                  )
                 ],
                 2
               )
