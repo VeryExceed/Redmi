@@ -9,7 +9,19 @@
 				<!-- 封装全局分割线组件 -->
 				<divider />
 				<!-- 三图广告位 -->
-				<sum-three-adv />
+				<sum-three-adv :item="threeAdv" />
+				<divider />
+				<!-- 大图广告 -->
+				<sum-one-adv :item="oneAdv" />
+				<!-- 公共列表组件
+				间隙：5px
+				每列: 375px
+				 -->
+				 <div class="row w-100">
+					<block v-for="(item,index) in list" :key="index">
+						<common-list :item="item" :index="index"></common-list>
+					</block>
+				 </div>
 			</cell>
 		</list>
 		
@@ -22,6 +34,9 @@
 	import sumIndexNavs from "@/components/index/nvue/sum-index-navs.nvue"
 	import divider from "@/components/common/divider.nvue"
 	import sumThreeAdv from "@/components/index/nvue/sum-three-adv.nvue"
+	import sumOneAdv from "@/components/index/nvue/sum-one-adv.nvue"
+	import commonList from "@/components/common/common-list.nvue"
+	
 	// 获取当前窗口对象
 	const currentWebview = plus.webview.currentWebview();
 	export default {
@@ -29,7 +44,9 @@
 			sumSlider,
 			sumIndexNavs,
 			divider,
-			sumThreeAdv
+			sumThreeAdv,
+			sumOneAdv,
+			commonList
 		},
 		data() {
 			return {
@@ -82,6 +99,45 @@
 					{
 						src: '/static/images/indexnav/10.gif',
 						text: '米粉卡'
+					}
+				],
+				threeAdv:[
+					{src:"/static/demo/demo1.jpg"},
+					{src:"/static/demo/demo2.jpg"},
+					{src:"/static/demo/demo3.jpg"},
+				],
+				oneAdv:{
+					cover:"/static/demo/demo4.jpg",
+					title:"每日精选"
+				},
+				list:[
+					{
+						cover:"/static/images/demo/list/1.jpg",
+						title:"米家空调",
+						desc:"1.5匹变频",
+						oprice:2699,
+						pprice:1399
+					},
+					{
+						cover:"/static/images/demo/list/1.jpg",
+						title:"米家空调",
+						desc:"1.5匹变频",
+						oprice:2699,
+						pprice:1399
+					},
+					{
+						cover:"/static/images/demo/list/1.jpg",
+						title:"米家空调",
+						desc:"1.5匹变频",
+						oprice:2699,
+						pprice:1399
+					},
+					{
+						cover:"/static/images/demo/list/1.jpg",
+						title:"米家空调",
+						desc:"1.5匹变频",
+						oprice:2699,
+						pprice:1399
 					}
 				]
 			}

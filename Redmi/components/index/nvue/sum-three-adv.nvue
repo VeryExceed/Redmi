@@ -9,11 +9,13 @@
 		-->
 		<div class="w-100 row">
 			<div class="col-6">
-				<image src="/static/demo/demo1.jpg" style="width: 373px; height: 530px;"></image>
+				<image :src="item[0].src" 
+				style="width: 373px; height: 530px;">
+				</image>
 			</div>
 			<div class="col-6 j-sb">
-				<image src="/static/demo/demo2.jpg" style="width: 375px; height: 263.5px;"></image>
-				<image src="/static/demo/demo3.jpg" style="width: 375px; height: 263.5px;"></image>
+				<image :src="item[1].src"  style="width: 375px; height: 263.5px;"></image>
+				<image :src="item[2].src" style="width: 375px; height: 263.5px;"></image>
 			</div>
 		</div>
 	</div>
@@ -21,7 +23,9 @@
 
 <script>
 	export default {
-		
+		props:{
+			item:Array
+		}
 	}
 </script>
 <style src="@/common/zcm-main-nvue.css"></style>
