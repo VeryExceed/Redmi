@@ -4,8 +4,7 @@
 		<sum-tabbar :tabIndex="tabIndex" :tabBars="tabBars" @tabchange="tabChange"></sum-tabbar>
 		<!-- 横向滚动列表 -->
 		<slider class="flex-1" :index="tabIndex" :infinite="false" @change="sliderChange">
-			<list :show-scrollbar="false" :key="listIndex"
-			v-for="(list,listIndex) in newsitems">
+			<list :show-scrollbar="false" :key="listIndex" v-for="(list,listIndex) in newsitems">
 				<!-- 下拉刷新 -->
 				<refresh class="w-100 flex-row j-center a-center" style="height: 80px;" @refresh="refresh"
 					@pullingdown="pullingdown" :display="list.refreshShow">
@@ -13,11 +12,9 @@
 				</refresh>
 				<!-- 首页模板 -->
 				<template v-if="tabBars[listIndex].template === 'index'">
-					<cell v-for="(listItem,ItemIndex) in list.data" 
-					:key="ItemIndex">
+					<cell v-for="(listItem,ItemIndex) in list.data" :key="ItemIndex">
 						<!-- 轮播图组件 -->
-						<sum-slider v-if="listItem.type === 'swiper'" 
-						:swipers="listItem.data" />
+						<sum-slider v-if="listItem.type === 'swiper'" :swipers="listItem.data" />
 						<!-- 图标分类组件 -->
 						<template v-if="listItem.type === 'indexnavs'">
 							<sum-index-navs :resdata="listItem.data" />
@@ -28,10 +25,9 @@
 							<sum-three-adv :item="listItem.data" />
 							<divider />
 						</template>
-					
+
 						<!-- 大图广告 -->
-						<sum-one-adv v-if="listItem.type === 'oneAdv'" 
-						:item="listItem.data" />
+						<sum-one-adv v-if="listItem.type === 'oneAdv'" :item="listItem.data" />
 						<!-- 公共列表组件 -->
 						<div class="row w-100" v-if="listItem.type === 'list'">
 							<block v-for="(item,index) in listItem.data" :key="index">
@@ -42,11 +38,9 @@
 				</template>
 				<!-- 专题页 -->
 				<template v-else-if="tabBars[listIndex].template === 'special'">
-					<cell v-for="(listItem,ItemIndex) in list.data" 
-					:key="ItemIndex">
+					<cell v-for="(listItem,ItemIndex) in list.data" :key="ItemIndex">
 						<!-- 轮播图组件 -->
-						<sum-slider v-if="listItem.type ==='swiper'" 
-						:swipers="listItem.data" />
+						<sum-slider v-if="listItem.type ==='swiper'" :swipers="listItem.data" />
 						<!-- 图标分类组件 -->
 						<template v-if="listItem.type ==='indexnavs'">
 							<sum-index-navs :resdata="listItem.data" />
@@ -57,17 +51,15 @@
 								<text class="text-dark font-md font-weight">热卖爆品</text>
 							</div>
 							<div class="row w-100">
-								<block v-for="(item,index) in listItem.data" 
-								:key="index">
-									<common-list :item="item" 
-									:index="index"></common-list>
+								<block v-for="(item,index) in listItem.data" :key="index">
+									<common-list :item="item" :index="index"></common-list>
 								</block>
 							</div>
 						</div>
-				
+
 					</cell>
 				</template>
-				
+
 				<!-- 上拉加载 -->
 				<loading class="w-100 j-center a-center" style="height: 70px;" @loading="onLoading"
 					:display="list.loadingShow">
@@ -99,8 +91,14 @@
 			sumOneAdv,
 			commonList
 		},
+		onNavigationBarSearchInputClicked() {
+			uni.navigateTo({
+				url: "../search/search"
+			})
+		},
 		data() {
 			return {
+
 				tabIndex: 0,
 				tabBars: [{
 					name: '关注',
@@ -392,7 +390,7 @@
 			// 上拉加载事件
 			onLoading() {
 				// 存储当前索引
-				var index =this.tabIndex
+				var index = this.tabIndex
 				this.newsitems[index].loadingShow = 'show';
 				setTimeout(() => {
 					// 加载数据
@@ -416,14 +414,20 @@
 			pullingdown(e) {
 				this.refreshText = e.pullingDistance > e.viewHeight ? '释放就能刷新' : '下拉可以刷新';
 			}
+
 		},
 		created() {
+			// 生成随机数据
+			this.newsitems = this.randomfn()
+
 			// 监听当前窗口显示
 			currentWebview.addEventListener('show', e => {
 				console.log("indexShow")
 			})
-			// 生成随机数据
-			this.newsitems = this.randomfn()
+			// 监听点击搜索框
+
+
+
 		},
 		beforeDestroy() {
 			// 移除监听事件

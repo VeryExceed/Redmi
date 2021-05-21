@@ -58,6 +58,62 @@
             }
             
         }
+        ,{
+            "path" : "pages/search/search",
+            "style": {
+            	"app-plus":{
+            		"scrollIndicator":"none",
+            		"titleNView":{
+            			"searchInput":{
+            				"align":"left",
+            				"backgroundColor":"#F7F7F7",
+            				"borderRadius":"4px",
+            				"disabled":false,
+            				"placeholder":"仿小米商城",
+            				"placeholderColor":"#CCCCCC"
+            			},
+            			"buttons":[
+            				{
+            					"color":"#989898",
+            					"colorPressed":"#FD6801",
+            					"float":"right",
+            					"fontSize":"16px",
+            					"text":"搜索"
+            				}
+            			]
+            		}
+            	}
+            }
+            
+        }
+        ,{
+            "path" : "pages/search-list/search-list",
+            "style": {
+            	"app-plus":{
+            		"scrollIndicator":"none",
+            		"titleNView":{
+            			"searchInput":{
+            				"align":"left",
+            				"backgroundColor":"#F7F7F7",
+            				"borderRadius":"4px",
+            				"disabled":false,
+            				"placeholder":"仿小米商城",
+            				"placeholderColor":"#CCCCCC"
+            			},
+            			"buttons":[
+            				{
+            					"color":"#989898",
+            					"colorPressed":"#FD6801",
+            					"float":"right",
+            					"fontSize":"16px",
+            					"text":"搜索"
+            				}
+            			]
+            		}
+            	}
+            }
+            
+        }
     ],
 	// 全局配置
 	"globalStyle": {
