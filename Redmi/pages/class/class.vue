@@ -1,5 +1,6 @@
 <template>
 	<view class="d-flex border-top border-light-secondary" style="height: 100%;box-sizing: border-box;">
+		<loading :show="showLoading"></loading>
 		<scroll-view id="leftScroll" scroll-y style="flex: 1;height: 100%;" 
 		class="border-right border-light-secondary" :scroll-top="leftScrollTop" :scroll-with-animation="true">
 			<view class="border-bottom border-light-secondary py-1 left-scroll-item"
@@ -31,6 +32,7 @@
 	export default {
 		data() {
 			return {
+				showLoading:true,
 				// 当前选中的分类
 				activeIndex:0,
 				cate:[],
@@ -116,6 +118,9 @@
 						})
 					}
 				}
+				this.$nextTick(()=>{
+					this.showLoading = false
+				})
 			},
 			// 点击左边分类
 			changeCate(index){

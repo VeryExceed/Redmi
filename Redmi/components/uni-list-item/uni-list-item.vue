@@ -31,7 +31,7 @@
 					</view>
 				</slot>
 			</view>
-			<uni-icons v-if="showArrow || link" :size="16" class="uni-icon-wrapper" color="#bbb" type="arrowright" />
+			<uni-icons v-if="showArrow || link" :size="16" class="uni-icon-wrapper" color="#58bc58" type="arrowright" />
 		</view>
 		<!-- #ifdef APP-NVUE -->
 	</cell>
@@ -101,7 +101,7 @@ export default {
 		},
 		showArrow: {
 			type: [Boolean, String],
-			default: false
+			default: true
 		},
 		link: {
 			type: [Boolean, String],
@@ -113,7 +113,7 @@ export default {
 		},
 		showBadge: {
 			type: [Boolean, String],
-			default: false
+			default: true
 		},
 		showSwitch: {
 			type: [Boolean, String],

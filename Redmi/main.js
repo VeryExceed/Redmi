@@ -7,6 +7,10 @@ Vue.config.productionTip = false
 import divider from "@/components/common/divider.vue"
 
 Vue.component('divider',divider)
+// 引入全局加载动画
+import loading from "@/components/common/loading.vue"
+
+Vue.component('loading',loading)
 
 App.mpType = 'app'
 

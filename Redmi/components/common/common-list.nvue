@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="col-6 common-list mb-1">
+		<div class="col-6 common-list mb-1" @click="openDetail">
 			<image :src="item.cover" class="common-list-cover" >
 			</image>
 			<text class="font-md text-dark px-2 py-1 common-list-lines" >{{item.title}}</text>
@@ -22,6 +22,13 @@
 		props:{
 			item:Object,
 			index:Number
+		},
+		methods:{
+			openDetail(){
+				uni.navigateTo({
+					url:'/pages/detail/detail'
+				})
+			}
 		}
 	}
 </script>

@@ -13,21 +13,25 @@
 		<divider />
 		<!-- 搜索记录 -->
 		<card headTitle="搜索记录">
-			<uni-list-item title="小米手环" clickable></uni-list-item>
-			<uni-list-item title="小米11" clickable></uni-list-item>
+			<!-- <uni-list> -->
+				<uni-list-item title="小米手环" clickable :showArrow="false"></uni-list-item>
+				<uni-list-item title="小米11" clickable></uni-list-item>
+			<!-- </uni-list> -->
 		</card>
+		
+		
 	</view>
 </template>
 
 <script>
 	import card from "@/components/common/card.vue"
 	import colorTag from "@/components/search/color-tag.vue"
-	import uniListItem from "@/components/uni-ui/uni-list-item/uni-list-item.vue"
+	// import uniListItem from "@/components/uni-ui/uni-list/components/uni-list-item/uni-list-item.vue"
 	export default {
 		components: {
 			card,
 			colorTag,
-			uniListItem
+			// uniListItem
 		},
 		data() {
 			return {

@@ -42,13 +42,13 @@
 </template>
 
 <script>
-	import uniDrawer from "@/components/uni-ui/uni-drawer/uni-drawer.vue"
+	// import uniDrawer from "@/components/uni-ui/uni-drawer/uni-drawer.vue"
 	import card from "@/components/common/card.vue"
 	import zcmRadioGroup from "@/components/common/radio-group.vue"
 	import searchList from "@/components/search-list/search-list.vue"
 	export default {
 		components: {
-			uniDrawer,
+			// uniDrawer,
 			card,
 			zcmRadioGroup,
 			searchList
