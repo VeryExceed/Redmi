@@ -91,7 +91,8 @@
 			sumOneAdv,
 			commonList
 		},
-		onNavigationBarSearchInputClicked() {
+		onNavigationBarSearchInputClicked(e) {
+			console.log("点击搜索框")
 			uni.navigateTo({
 				url: "../search/search"
 			})
@@ -141,6 +142,8 @@
 			}
 		},
 		methods: {
+			// 点击跳转search页面
+			
 			// 加载更多模拟数据
 			addData() { //拿到当前索引
 				let e = this.tabIndex

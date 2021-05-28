@@ -68,5 +68,13 @@
     },
     "uniStatistics" : {
         "enable" : false
+    },
+    "h5" : {
+        "devServer" : {
+            "https" : false
+        },
+        "router" : {
+            "mode" : "history"
+        }
     }
 }
