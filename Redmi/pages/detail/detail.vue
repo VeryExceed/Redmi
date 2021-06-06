@@ -9,8 +9,8 @@
 		<!-- 属性选择 -->
 		<view class="p-2">
 			<view class="rounded border bg-light-secondary">
-				<uni-list-item style="background-color: #EEEEEE">
-					<view slot="body" class="d-flex">
+				<uni-list-item clickable @click="show" style="background-color: #EEEEEE">
+					<view slot="body"  class="d-flex">
 						<text class="mr-2 text-muted">已选</text>
 						<text>火焰红 64G 标配</text>
 					</view>
@@ -64,6 +64,32 @@
 		</card>
 		<!-- 底部操作条 -->
 		<bottom-btn></bottom-btn>
+		<!-- 属性筛选框 -->
+		<common-popup :popupClass="popupClass" @hide="hide">
+			<!--
+			商品信息(275rpx)
+			图片 180*180
+			-->
+			<view class="d-flex a-center" style="height: 275rpx;">
+				<image src="../../static/images/demo/cate_01.png" mode="widthFix"
+				style="height: 180rpx; width: 180rpx;" class="border rounded"></image>
+				<view class="pl-2">
+					<price priceSize="font-lg" unitSize="font">2365</price>
+					<text class="d-block">
+						火焰红 64GB 标配
+					</text>
+				</view>
+			</view>
+			<!--
+			表单部分(660rpx)
+			-->
+			<scroll-view scroll-y class="w-100" style="height: 660rpx;">
+				<card headTitle="颜色" :headTitleWeight="false" :headBorderBottom="false">
+					<zcm-radio-group :label="label"
+					:selected.sync='label.selected'></zcm-radio-group>
+				</card>
+			</scroll-view>
+		</common-popup>
 	</view>
 </template>
 
@@ -76,6 +102,9 @@
 	import card from "@/components/common/card.vue"
 	import commonList from "@/components/common/common-list.vue"
 	import bottomBtn from "@/components/detail/bottom-btn.vue"
+	import commonPopup from "@/components/common/common-popup.vue"
+	import price from "@/components/common/price.vue"
+	import zcmRadioGroup from "@/components/common/radio-group.vue"
 	var htmlString = `
 	<p>
 		<img src="https://i8.mifile.cn/v1/a1/9c3e29dc-151f-75cb-b0a5-c423a5d13926.webp">
@@ -96,10 +125,23 @@
 			uParse,
 			card,
 			commonList,
-			bottomBtn
+			bottomBtn,
+			commonPopup,
+			price,
+			zcmRadioGroup
 		},
 		data() {
 			return {
+				label:{
+					title:"颜色",
+					selected:0,
+					list:[
+						{name:"黄色"},
+						{name:"黑色"},
+						{name:"红色"},
+					]
+				},
+				popupClass:"none",
 				context:htmlString,
 				hotList:[
 					{
@@ -233,6 +275,15 @@
 			}
 		},
 		methods: {
+			hide(){
+				this.popupClass = 'hide'
+				setTimeout(()=>{
+					this.popupClass = "none"
+				},200);
+			},
+			show(){ // 打开弹出框
+				this.popupClass = 'show'
+			},
 			preview(src, e) {
 				// do something
 				console.log("src: " + src);
@@ -248,4 +299,6 @@
 <style>
 .uparse .p{ padding: 0!important; }
 .uparse view,.uparse uni-view{ line-height: 0!important; }
+
+
 </style>

@@ -74,7 +74,7 @@
             "https" : false
         },
         "router" : {
-            "mode" : "history"
+            "mode" : "hash"
         }
     }
 }

@@ -6,8 +6,9 @@
 			<text class="px-2 font text-light-muted common-list-lines">{{item.desc}}</text>
 			<div class="px-2 pt-1 row a-end">
 				<price>{{item.pprice}}</price>
-				<text class="line-through text-light-muted ml-1">￥{{item.oprice}}</text>
+				<text class="font line-through text-light-muted ml-1 ">￥{{item.oprice}}</text>
 			</div>
+			
 		</div>
 	</div>
 </template>
