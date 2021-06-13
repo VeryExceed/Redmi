@@ -36,10 +36,10 @@
 	}
 	._popup ._body{
 		position: fixed;
-		bottom: -900rpx;
+		bottom: -950rpx;
 		width: 92%;
 		padding: 0 4%;
-		height: 900rpx;
+		height: 950rpx;
 		z-index: 2003;
 		border-radius: 20rpx 20rpx 0 0;
 		background: #FFFFFF;

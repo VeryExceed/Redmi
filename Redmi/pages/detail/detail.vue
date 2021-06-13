@@ -9,13 +9,13 @@
 		<!-- 属性选择 -->
 		<view class="p-2">
 			<view class="rounded border bg-light-secondary">
-				<uni-list-item clickable @click="show" style="background-color: #EEEEEE">
+				<uni-list-item clickable @click="show('attr')" style="background-color: #EEEEEE">
 					<view slot="body"  class="d-flex">
 						<text class="mr-2 text-muted">已选</text>
 						<text>火焰红 64G 标配</text>
 					</view>
 				</uni-list-item>
-				<uni-list-item style="background-color: #EEEEEE">
+				<uni-list-item clickable @click="show('express')" style="background-color: #EEEEEE">
 					<view slot="body" class="d-flex">
 						<text class="mr-2 text-muted">配送</text>
 						<text class="mr-2">北京 东城区</text>
@@ -65,7 +65,7 @@
 		<!-- 底部操作条 -->
 		<bottom-btn></bottom-btn>
 		<!-- 属性筛选框 -->
-		<common-popup :popupClass="popupClass" @hide="hide">
+		<common-popup :popupClass="popup.attr" @hide="hide('attr')">
 			<!--
 			商品信息(275rpx)
 			图片 180*180
@@ -84,11 +84,45 @@
 			表单部分(660rpx)
 			-->
 			<scroll-view scroll-y class="w-100" style="height: 660rpx;">
-				<card headTitle="颜色" :headTitleWeight="false" :headBorderBottom="false">
-					<zcm-radio-group :label="label"
-					:selected.sync='label.selected'></zcm-radio-group>
+				<card headTitle="颜色" :headTitleWeight="false" :headBorderBottom="false"
+				v-for="(item,index) in selects">
+					<zcm-radio-group :label="item"
+					:selected.sync='item.selected'></zcm-radio-group>
 				</card>
+				<view class="d-flex j-sb a-center p-2 border-top border-light-secondary">
+					<text>购买数量</text>
+					 <uni-number-box :min="1" :value="detail.num" @change="detail.num = $event"></uni-number-box>
+				</view>
 			</scroll-view>
+			<!-- 按钮(100rpx) -->
+			<view class="main-bg-color text-white font-md d-flex a-center j-center"
+			hover-class="main-bf-hover-color"
+			style="height: 100rpx;margin-left: -30rpx; margin-right: -30rpx;"
+			@tap.stop="hide">
+				加入购物车
+			</view>
+		</common-popup>
+		<!-- 收货地址 -->
+		<common-popup :popupClass="popup.express" @hide="hide('express')">
+			<view class="d-flex a-center j-center font-md border-bottom border-light-secondary" style="height: 100rpx;">
+				收货地址
+			</view>
+			<scroll-view scroll-y class="w-100" style="height: 835rpx;">
+				<uni-list-item v-for="i in 10" :key="i">
+					<view slot="body">
+						<view class="iconfont icon-dingwei font-weight font-md">罗喵</view>
+						<view class="font text-light-muted">
+							广东省广州市天河区
+						</view>
+					</view>
+				</uni-list-item>
+			</scroll-view>
+			<!--
+			 按钮(100rpx)
+			 -->
+			 <view class="main-bg-color text-white font-md d-flex a-center j-center" hover-class="main-bg-hover-color" style="height: 100rpx;margin-left: -30rpx;margin-right: -30rpx;" @tap.stop="hide('express')">
+			 	选择新的地址
+			 </view>
 		</common-popup>
 	</view>
 </template>
@@ -132,16 +166,38 @@
 		},
 		data() {
 			return {
-				label:{
-					title:"颜色",
-					selected:0,
-					list:[
-						{name:"黄色"},
-						{name:"黑色"},
-						{name:"红色"},
-					]
+				selects:[
+					{
+						title:"颜色",
+						selected:0,
+						list:[
+							{name:"黄色"},
+							{name:"黑色"},
+							{name:"红色"},
+						]
+					},
+					{
+						title:"容量",
+						selected:0,
+						list:[
+							{name:"64GB"},
+							{name:"128GB"},
+						]
+					},
+					{
+						title:"套餐",
+						selected:0,
+						list:[
+							{name:"标配"},
+							{name:"套餐一"},
+							{name:"套餐二"},
+						]
+					}
+				],
+				popup:{
+					attr:"none",
+					express:"none"
 				},
-				popupClass:"none",
 				context:htmlString,
 				hotList:[
 					{
@@ -234,7 +290,9 @@
 				detail: {
 					title: "小米MIX3 6GB+128GB",
 					desc: "磁动力滑盖全面屏 / 前后旗舰AI双摄 / 四曲面彩色陶瓷机身 / 高效10W无线充电",
-					pprice: 3299
+					pprice: 3299,
+					num:1,
+					max:100
 				},
 				baseAttrs: [{
 						icon: "icon-cpu",
@@ -275,14 +333,14 @@
 			}
 		},
 		methods: {
-			hide(){
-				this.popupClass = 'hide'
+			hide(key){
+				this.popup[key] = 'hide'
 				setTimeout(()=>{
-					this.popupClass = "none"
+					this.popup[key] = "none"
 				},200);
 			},
-			show(){ // 打开弹出框
-				this.popupClass = 'show'
+			show(key){ // 打开弹出框
+				this.popup[key] = 'show'
 			},
 			preview(src, e) {
 				// do something
