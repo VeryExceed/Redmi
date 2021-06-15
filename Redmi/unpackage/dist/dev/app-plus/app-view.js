@@ -3733,7 +3733,12 @@ var render = function() {
                 "uni-list-item",
                 {
                   staticStyle: { "background-color": "#EEEEEE" },
-                  attrs: { _i: 15 }
+                  attrs: { _i: 15 },
+                  on: {
+                    click: function($event) {
+                      return _vm.$handleViewEvent($event)
+                    }
+                  }
                 },
                 [
                   _c(
@@ -4013,6 +4018,102 @@ var render = function() {
               }
             },
             [_vm._v("选择新的地址")]
+          )
+        ],
+        1
+      ),
+      _c(
+        "common-popup",
+        {
+          attrs: { _i: 51 },
+          on: {
+            hide: function($event) {
+              return _vm.$handleViewEvent($event)
+            }
+          }
+        },
+        [
+          _c(
+            "v-uni-view",
+            {
+              staticClass: _vm._$g(52, "sc"),
+              staticStyle: { height: "100rpx" },
+              attrs: { _i: 52 }
+            },
+            [_vm._v("服务说明")]
+          ),
+          _c(
+            "v-uni-scroll-view",
+            {
+              staticClass: _vm._$g(53, "sc"),
+              staticStyle: { height: "835rpx" },
+              attrs: { "scroll-y": true, _i: 53 }
+            },
+            _vm._l(_vm._$g(54, "f"), function(item, index, $23, $33) {
+              return _c(
+                "v-uni-view",
+                {
+                  key: item,
+                  staticClass: _vm._$g("54-" + $33, "sc"),
+                  attrs: { _i: "54-" + $33 }
+                },
+                [
+                  _c(
+                    "v-uni-view",
+                    {
+                      staticClass: _vm._$g("55-" + $33, "sc"),
+                      attrs: { _i: "55-" + $33 }
+                    },
+                    [
+                      _c("v-uni-view", {
+                        staticClass: _vm._$g("56-" + $33, "sc"),
+                        attrs: { _i: "56-" + $33 }
+                      }),
+                      _vm._v(_vm._$g("55-" + $33, "t1-0"))
+                    ],
+                    1
+                  ),
+                  _vm._$g("57-" + $33, "i")
+                    ? _vm._l(_vm._$g(58 + "-" + $33, "f"), function(
+                        item2,
+                        index2,
+                        $24,
+                        $34
+                      ) {
+                        return _c(
+                          "v-uni-text",
+                          {
+                            key: item2,
+                            staticClass: _vm._$g("58-" + $33 + "-" + $34, "sc"),
+                            attrs: { _i: "58-" + $33 + "-" + $34 }
+                          },
+                          [_vm._v(_vm._$g("58-" + $33 + "-" + $34, "t0-0"))]
+                        )
+                      })
+                    : _vm._e()
+                ],
+                2
+              )
+            }),
+            1
+          ),
+          _c(
+            "v-uni-view",
+            {
+              staticClass: _vm._$g(59, "sc"),
+              staticStyle: {
+                height: "100rpx",
+                "margin-left": "-30rpx",
+                "margin-right": "-30rpx"
+              },
+              attrs: { "hover-class": "main-bg-hover-color", _i: 59 },
+              on: {
+                click: function($event) {
+                  return _vm.$handleViewEvent($event, { stop: true })
+                }
+              }
+            },
+            [_vm._v("确定")]
           )
         ],
         1
@@ -8972,7 +9073,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../HBuilderX/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 10);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n._popup[data-v-5850f3fa],._mask[data-v-5850f3fa]{\n\tposition: fixed;\n\ttop: 0;\n\twidth: 100%;\n\theight: 100%;\n}\n._popup[data-v-5850f3fa] {\n\tz-index: 2000;\n\tdisplay: none;\n}\n._mask[data-v-5850f3fa]{\n\tz-index: 2002;\n\tbackground: rgba(0,0,0,0.5);\n}\n._popup ._body[data-v-5850f3fa]{\n\tposition: fixed;\n\tbottom: -950rpx;\n\twidth: 92%;\n\tpadding: 0 4%;\n\theight: 950rpx;\n\tz-index: 2003;\n\tborder-radius: 20rpx 20rpx 0 0;\n\tbackground: #FFFFFF;\n\tdisplay: -webkit-box;\n\tdisplay: -webkit-flex;\n\tdisplay: flex;\n\t-webkit-box-orient: vertical;\n\t-webkit-box-direction: normal;\n\t-webkit-flex-direction: column;\n\t        flex-direction: column;\n}\n._popup.show[data-v-5850f3fa]{\n\tdisplay: block;\n}\n._popup.hide[data-v-5850f3fa]{\n\tdisplay: block;\n}\n._popup.none[data-v-5850f3fa]{\n\tdisplay: none;\n}\n.show ._mask[data-v-5850f3fa]{\n\t-webkit-animation: showPopupMask-data-v-5850f3fa 0.2s linear both;\n\t        animation: showPopupMask-data-v-5850f3fa 0.2s linear both;\n}\n.show ._body[data-v-5850f3fa]{\n\t-webkit-animation: showPopupBody-data-v-5850f3fa 0.2s linear both;\n\t        animation: showPopupBody-data-v-5850f3fa 0.2s linear both;\n}\n.hide ._mask[data-v-5850f3fa]{\n\t-webkit-animation: hidePopupMask-data-v-5850f3fa 0.2s linear both;\n\t        animation: hidePopupMask-data-v-5850f3fa 0.2s linear both;\n}\n.hide ._body[data-v-5850f3fa]{\n\t-webkit-animation: hidePopupBody-data-v-5850f3fa 0.2s linear both;\n\t        animation: hidePopupBody-data-v-5850f3fa 0.2s linear both;\n}\n@-webkit-keyframes showPopupBody-data-v-5850f3fa{\n0%{-webkit-transform: translateY(0);transform: translateY(0);}\n100%{-webkit-transform: translateY(-100%);transform: translateY(-100%);}\n}\n@keyframes showPopupBody-data-v-5850f3fa{\n0%{-webkit-transform: translateY(0);transform: translateY(0);}\n100%{-webkit-transform: translateY(-100%);transform: translateY(-100%);}\n}\n@-webkit-keyframes hidePopupBody-data-v-5850f3fa{\n0%{-webkit-transform: translateY(-100%);transform: translateY(-100%);}\n100%{-webkit-transform: translateY(0);transform: translateY(0);}\n}\n@keyframes hidePopupBody-data-v-5850f3fa{\n0%{-webkit-transform: translateY(-100%);transform: translateY(-100%);}\n100%{-webkit-transform: translateY(0);transform: translateY(0);}\n}\n@-webkit-keyframes showPopupMask-data-v-5850f3fa{\n0%{ opacity: 0;}\n100%{opacity: 1;}\n}\n@keyframes showPopupMask-data-v-5850f3fa{\n0%{ opacity: 0;}\n100%{opacity: 1;}\n}\n@-webkit-keyframes hidePopupMask-data-v-5850f3fa{\n0%{ opacity: 1;}\n100%{opacity: 0;}\n}\n@keyframes hidePopupMask-data-v-5850f3fa{\n0%{ opacity: 1;}\n100%{opacity: 0;}\n}\n", ""]);
+exports.push([module.i, "\n._popup[data-v-5850f3fa],._mask[data-v-5850f3fa]{\n\tposition: fixed;\n\ttop: 0;\n\twidth: 100%;\n\theight: 100%;\n}\n._popup[data-v-5850f3fa] {\n\tz-index: 2000;\n\tdisplay: none;\n}\n._mask[data-v-5850f3fa]{\n\tz-index: 2002;\n\tbackground: rgba(0,0,0,0.5);\n}\n._popup ._body[data-v-5850f3fa]{\n\tposition: fixed;\n\tbottom: -1000rpx;\n\twidth: 92%;\n\tpadding: 0 4%;\n\theight: 1000rpx;\n\tz-index: 2003;\n\tborder-radius: 20rpx 20rpx 0 0;\n\tbackground: #FFFFFF;\n\tdisplay: -webkit-box;\n\tdisplay: -webkit-flex;\n\tdisplay: flex;\n\t-webkit-box-orient: vertical;\n\t-webkit-box-direction: normal;\n\t-webkit-flex-direction: column;\n\t        flex-direction: column;\n}\n._popup.show[data-v-5850f3fa]{\n\tdisplay: block;\n}\n._popup.hide[data-v-5850f3fa]{\n\tdisplay: block;\n}\n._popup.none[data-v-5850f3fa]{\n\tdisplay: none;\n}\n.show ._mask[data-v-5850f3fa]{\n\t-webkit-animation: showPopupMask-data-v-5850f3fa 0.2s linear both;\n\t        animation: showPopupMask-data-v-5850f3fa 0.2s linear both;\n}\n.show ._body[data-v-5850f3fa]{\n\t-webkit-animation: showPopupBody-data-v-5850f3fa 0.2s linear both;\n\t        animation: showPopupBody-data-v-5850f3fa 0.2s linear both;\n}\n.hide ._mask[data-v-5850f3fa]{\n\t-webkit-animation: hidePopupMask-data-v-5850f3fa 0.2s linear both;\n\t        animation: hidePopupMask-data-v-5850f3fa 0.2s linear both;\n}\n.hide ._body[data-v-5850f3fa]{\n\t-webkit-animation: hidePopupBody-data-v-5850f3fa 0.2s linear both;\n\t        animation: hidePopupBody-data-v-5850f3fa 0.2s linear both;\n}\n@-webkit-keyframes showPopupBody-data-v-5850f3fa{\n0%{-webkit-transform: translateY(0);transform: translateY(0);}\n100%{-webkit-transform: translateY(-100%);transform: translateY(-100%);}\n}\n@keyframes showPopupBody-data-v-5850f3fa{\n0%{-webkit-transform: translateY(0);transform: translateY(0);}\n100%{-webkit-transform: translateY(-100%);transform: translateY(-100%);}\n}\n@-webkit-keyframes hidePopupBody-data-v-5850f3fa{\n0%{-webkit-transform: translateY(-100%);transform: translateY(-100%);}\n100%{-webkit-transform: translateY(0);transform: translateY(0);}\n}\n@keyframes hidePopupBody-data-v-5850f3fa{\n0%{-webkit-transform: translateY(-100%);transform: translateY(-100%);}\n100%{-webkit-transform: translateY(0);transform: translateY(0);}\n}\n@-webkit-keyframes showPopupMask-data-v-5850f3fa{\n0%{ opacity: 0;}\n100%{opacity: 1;}\n}\n@keyframes showPopupMask-data-v-5850f3fa{\n0%{ opacity: 0;}\n100%{opacity: 1;}\n}\n@-webkit-keyframes hidePopupMask-data-v-5850f3fa{\n0%{ opacity: 1;}\n100%{opacity: 0;}\n}\n@keyframes hidePopupMask-data-v-5850f3fa{\n0%{ opacity: 1;}\n100%{opacity: 0;}\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -9024,7 +9125,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../HBuilderX/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 10);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.uparse .p{ padding: 0!important;\n}\n.uparse uni-view,.uparse uni-view{ line-height: 0!important;\n}\r\n\r\n\r\n", ""]);
+exports.push([module.i, "\n.uparse .p {\n\tpadding: 0 !important;\n}\n.uparse uni-view,\n.uparse uni-view {\n\tline-height: 0 !important;\n}\n", ""]);
 // Exports
 module.exports = exports;
 

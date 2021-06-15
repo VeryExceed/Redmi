@@ -10,7 +10,7 @@
 		<view class="p-2">
 			<view class="rounded border bg-light-secondary">
 				<uni-list-item clickable @click="show('attr')" style="background-color: #EEEEEE">
-					<view slot="body"  class="d-flex">
+					<view slot="body" class="d-flex">
 						<text class="mr-2 text-muted">已选</text>
 						<text>火焰红 64G 标配</text>
 					</view>
@@ -22,7 +22,7 @@
 						<text class="main-text-color">现配</text>
 					</view>
 				</uni-list-item>
-				<uni-list-item style="background-color: #EEEEEE">
+				<uni-list-item clickable @click="show('service')" style="background-color: #EEEEEE">
 					<view slot="body" class="d-flex a-center">
 						<view class="text-muted font d-flex a-center mr-2">
 							<view class="iconfont icon-finish main-text-color"></view>
@@ -47,19 +47,17 @@
 		图片 h115
 		-->
 		<scroll-comments :comments="comments" />
-		
+
 
 		<!-- 商品详情 -->
 		<view class="py-4">
 			<u-parse className="uparse" :content="context" @preview="preview" @navigate="navigate"></u-parse>
 		</view>
-		
+
 		<!-- 热门推荐 -->
-		<card headTitle="热门推荐" :headTitleWeight="false"
-		:headBorderBottom="false">
+		<card headTitle="热门推荐" :headTitleWeight="false" :headBorderBottom="false">
 			<view class="row j-sb">
-				<common-list v-for="(item,index) in hotList" :key="index"
-				:item="item" :index="index"></common-list>
+				<common-list v-for="(item,index) in hotList" :key="index" :item="item" :index="index"></common-list>
 			</view>
 		</card>
 		<!-- 底部操作条 -->
@@ -71,8 +69,8 @@
 			图片 180*180
 			-->
 			<view class="d-flex a-center" style="height: 275rpx;">
-				<image src="../../static/images/demo/cate_01.png" mode="widthFix"
-				style="height: 180rpx; width: 180rpx;" class="border rounded"></image>
+				<image src="../../static/images/demo/cate_01.png" mode="widthFix" style="height: 180rpx; width: 180rpx;"
+					class="border rounded"></image>
 				<view class="pl-2">
 					<price priceSize="font-lg" unitSize="font">2365</price>
 					<text class="d-block">
@@ -84,21 +82,17 @@
 			表单部分(660rpx)
 			-->
 			<scroll-view scroll-y class="w-100" style="height: 660rpx;">
-				<card headTitle="颜色" :headTitleWeight="false" :headBorderBottom="false"
-				v-for="(item,index) in selects">
-					<zcm-radio-group :label="item"
-					:selected.sync='item.selected'></zcm-radio-group>
+				<card headTitle="颜色" :headTitleWeight="false" :headBorderBottom="false" v-for="(item,index) in selects">
+					<zcm-radio-group :label="item" :selected.sync='item.selected'></zcm-radio-group>
 				</card>
 				<view class="d-flex j-sb a-center p-2 border-top border-light-secondary">
 					<text>购买数量</text>
-					 <uni-number-box :min="1" :value="detail.num" @change="detail.num = $event"></uni-number-box>
+					<uni-number-box :min="1" :value="detail.num" @change="detail.num = $event"></uni-number-box>
 				</view>
 			</scroll-view>
 			<!-- 按钮(100rpx) -->
-			<view class="main-bg-color text-white font-md d-flex a-center j-center"
-			hover-class="main-bf-hover-color"
-			style="height: 100rpx;margin-left: -30rpx; margin-right: -30rpx;"
-			@tap.stop="hide">
+			<view class="main-bg-color text-white font-md d-flex a-center j-center" hover-class="main-bf-hover-color"
+				style="height: 100rpx;margin-left: -30rpx; margin-right: -30rpx;" @tap.stop="hide">
 				加入购物车
 			</view>
 		</common-popup>
@@ -120,9 +114,37 @@
 			<!--
 			 按钮(100rpx)
 			 -->
-			 <view class="main-bg-color text-white font-md d-flex a-center j-center" hover-class="main-bg-hover-color" style="height: 100rpx;margin-left: -30rpx;margin-right: -30rpx;" @tap.stop="hide('express')">
-			 	选择新的地址
-			 </view>
+			<view class="main-bg-color text-white font-md d-flex a-center j-center" hover-class="main-bg-hover-color"
+				style="height: 100rpx;margin-left: -30rpx;margin-right: -30rpx;" @tap.stop="hide('express')">
+				选择新的地址
+			</view>
+		</common-popup>
+		<!-- 服务说明 -->
+		<common-popup :popupClass="popup.service" @hide="hide('service')">
+			<view class="d-flex a-center j-center font-md border-bottom border-light-secondary" style="height: 100rpx;">
+				服务说明
+			</view>
+			<scroll-view scroll-y class="w-100" style="height: 835rpx;">
+				<view class="py-1" v-for="(item,index) in servicelist" :key="index">
+					<view class="d-flex a-center">
+						<view class="iconfont icon-finish main-text-color mr-1"></view>
+						{{item.title}}
+					</view>
+					<template v-if="item.list">
+						<text v-for="(item2,index2) in item.list" class="text-light-muted font pl-4 d-block">
+							{{item2.explain}}
+						</text>
+					</template>
+					
+				</view>
+			</scroll-view>
+			<!--
+			 按钮(100rpx)
+			 -->
+			<view class="main-bg-color text-white font-md d-flex a-center j-center" hover-class="main-bg-hover-color"
+				style="height: 100rpx;margin-left: -30rpx;margin-right: -30rpx;" @tap.stop="hide('service')">
+				确定
+			</view>
 		</common-popup>
 	</view>
 </template>
@@ -166,81 +188,114 @@
 		},
 		data() {
 			return {
-				selects:[
+				servicelist: [{
+						title: "小米自营"
+					},
 					{
-						title:"颜色",
-						selected:0,
-						list:[
-							{name:"黄色"},
-							{name:"黑色"},
-							{name:"红色"},
+						title: "小米发货",
+						list: [{
+							explain: "由小米商城发货"
+						}]
+					}, {
+						title: "七天无理由不退货",
+					}, {
+						title: "运费说明",
+						list: [{
+								explain: "不管满多少，就是不包邮;"
+							},
+							{
+								explain: "特殊产品，也是一样;"
+							}
+						]
+					},
+				],
+				selects: [{
+						title: "颜色",
+						selected: 0,
+						list: [{
+								name: "黄色"
+							},
+							{
+								name: "黑色"
+							},
+							{
+								name: "红色"
+							},
 						]
 					},
 					{
-						title:"容量",
-						selected:0,
-						list:[
-							{name:"64GB"},
-							{name:"128GB"},
+						title: "容量",
+						selected: 0,
+						list: [{
+								name: "64GB"
+							},
+							{
+								name: "128GB"
+							},
 						]
 					},
 					{
-						title:"套餐",
-						selected:0,
-						list:[
-							{name:"标配"},
-							{name:"套餐一"},
-							{name:"套餐二"},
+						title: "套餐",
+						selected: 0,
+						list: [{
+								name: "标配"
+							},
+							{
+								name: "套餐一"
+							},
+							{
+								name: "套餐二"
+							},
 						]
 					}
 				],
-				popup:{
-					attr:"none",
-					express:"none"
+				popup: {
+					attr: "none",
+					express: "none",
+					service: "none"
 				},
-				context:htmlString,
-				hotList:[
-					{
-						cover:"/static/images/demo/list/1.jpg",
-						title:"米家空调",
-						desc:"1.5匹变频",
-						oprice:2699,
-						pprice:1399
+				context: htmlString,
+				hotList: [{
+						cover: "/static/images/demo/list/1.jpg",
+						title: "米家空调",
+						desc: "1.5匹变频",
+						oprice: 2699,
+						pprice: 1399
 					},
 					{
-						cover:"/static/images/demo/list/1.jpg",
-						title:"米家空调",
-						desc:"1.5匹变频",
-						oprice:2699,
-						pprice:1399
+						cover: "/static/images/demo/list/1.jpg",
+						title: "米家空调",
+						desc: "1.5匹变频",
+						oprice: 2699,
+						pprice: 1399
 					},
 					{
-						cover:"/static/images/demo/list/1.jpg",
-						title:"米家空调",
-						desc:"1.5匹变频",
-						oprice:2699,
-						pprice:1399
+						cover: "/static/images/demo/list/1.jpg",
+						title: "米家空调",
+						desc: "1.5匹变频",
+						oprice: 2699,
+						pprice: 1399
 					},
 					{
-						cover:"/static/images/demo/list/1.jpg",
-						title:"米家空调",
-						desc:"1.5匹变频",
-						oprice:2699,
-						pprice:1399
+						cover: "/static/images/demo/list/1.jpg",
+						title: "米家空调",
+						desc: "1.5匹变频",
+						oprice: 2699,
+						pprice: 1399
 					},
 					{
-						cover:"/static/images/demo/list/1.jpg",
-						title:"米家空调",
-						desc:"1.5匹变频",
-						oprice:2699,
-						pprice:1399
+						cover: "/static/images/demo/list/1.jpg",
+						title: "米家空调",
+						desc: "1.5匹变频",
+						oprice: 2699,
+						pprice: 1399
 					},
 					{
-						cover:"/static/images/demo/list/1.jpg",
-						title:"米家空调",
-						desc:"1.5匹变频",
-						oprice:2699,
-						pprice:1399
+						cover: "/static/images/demo/list/1.jpg",
+						title: "米家空调",
+						desc: "1.5匹变频",
+						oprice: 2699,
+						pprice: 1399
 					}
 				],
 				comments: [{
@@ -291,8 +346,8 @@
 					title: "小米MIX3 6GB+128GB",
 					desc: "磁动力滑盖全面屏 / 前后旗舰AI双摄 / 四曲面彩色陶瓷机身 / 高效10W无线充电",
 					pprice: 3299,
-					num:1,
-					max:100
+					num: 1,
+					max: 100
 				},
 				baseAttrs: [{
 						icon: "icon-cpu",
@@ -332,14 +387,25 @@
 				]
 			}
 		},
+		// 监听页面返回事件
+		onBackPress() {
+			// 关闭模态框
+			for (let key in this.popup) { // 遍历每一个popup
+				// 如果popup[key]不等于none的情况下
+				if (this.popup[key] !== 'none') {
+					this.hide(key) // 关闭模态框
+					return true
+				}
+			}
+		},
 		methods: {
-			hide(key){
+			hide(key) {
 				this.popup[key] = 'hide'
-				setTimeout(()=>{
+				setTimeout(() => {
 					this.popup[key] = "none"
-				},200);
+				}, 200);
 			},
-			show(key){ // 打开弹出框
+			show(key) { // 打开弹出框
 				this.popup[key] = 'show'
 			},
 			preview(src, e) {
@@ -355,8 +421,12 @@
 </script>
 
 <style>
-.uparse .p{ padding: 0!important; }
-.uparse view,.uparse uni-view{ line-height: 0!important; }
+	.uparse .p {
+		padding: 0 !important;
+	}
 
-
+	.uparse view,
+	.uparse uni-view {
+		line-height: 0 !important;
+	}
 </style>
