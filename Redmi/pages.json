@@ -139,7 +139,19 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/detail-comment/detail-comment",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "商品评价",
+                "app-plus":{
+					"scrollIndicator":"none",
+					"bounce":"none"
+				}
+            }
+            
+        }
+    ],
 	// 全局配置
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

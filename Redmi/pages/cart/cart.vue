@@ -17,11 +17,48 @@
 </template>
 
 <script>
+	import {mapState,mapGetters} from "vuex"
 	export default {
 		data() {
 			return {
 				
 			}
+		},
+		onLoad() {
+			// console.log(JSON.stringify(this.$store.state.list));
+			// console.log(JSON.stringify(this.list));
+			// console.log(JSON.stringify(this.newList));
+			
+			// console.log(JSON.stringify(this.$store.getters.activeList));
+			console.log(JSON.stringify(this.active));
+			console.log(JSON.stringify(this.noActive));
+			console.log(JSON.stringify(this.getList));
+			console.log(JSON.stringify(this.getById(1)));
+		},
+		// computed:mapState({
+		// 	list:state => state.list,
+		// 	list:"list",
+		// 	newList(state) {
+		// 		return state.list.filter(v=> v.status)
+		// 	}
+		// }),
+		computed:{
+			// ...mapState({
+			// 	list:state => state.list,
+			// 	list:"list",
+			// 	newList(state){
+			// 		return state.list.filter(v=> v.status)
+			// 	}
+			// })
+			// ...mapState([
+			// 	'list'  // 通过数组的形式
+			// ])
+			...mapGetters({
+				active:'activeList',
+				noActive:'noActiveList',
+				getList:'getList',
+				getById:'getById'
+			})
 		},
 		methods: {
 			
