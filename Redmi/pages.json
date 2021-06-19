@@ -64,7 +64,11 @@
 		}, {
 			"path": "pages/cart/cart",
 			"style": {
-				"enablePullDownRefresh": false
+				"app-plus":{
+					"titleNView":false,
+					"scrollIndicator":"none",
+					"bounce":"none"
+				}
 			}
 
 		}, {
