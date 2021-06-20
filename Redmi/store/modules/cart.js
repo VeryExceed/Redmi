@@ -1,73 +1,273 @@
 export default {
 	state: {
-		number:1,
-		list: [{
-				id: 1,
-				name: "商品一",
-				status: false,
-				num: 1
+		list: [
+			{
+				checked: false,
+				id: 11,
+				title: "商品标题111",
+				cover: "/static/images/demo/list/1.jpg",
+				// 选中商品属性
+				attrs: [{
+						title: "颜色",
+						selected: 0,
+						list: [{
+								name: '火焰红',
+							},
+							{
+								name: '炭黑',
+							},
+							{
+								name: '冰川兰',
+							}
+						]
+					},
+					{
+						title: "容量",
+						selected: 0,
+						list: [{
+								name: '64GB',
+							},
+							{
+								name: '128GB',
+							},
+						]
+					},
+					{
+						title: "套餐",
+						selected: 0,
+						list: [{
+								name: '标配',
+							},
+							{
+								name: '套餐一',
+							},
+							{
+								name: '套餐二',
+							}
+						]
+					},
+				],
+				pprice: 336,
+				num: 1,
+				minnum: 1,
+				maxnum: 10, // 该商品最大商品数，跟库存有关
 			},
 			{
-				id: 2,
-				name: "商品二",
-				status: true,
-				num: 5
+				checked: false,
+				id: 12,
+				title: "商品标题111",
+				cover: "/static/images/demo/list/1.jpg",
+				// 选中商品属性
+				attrs: [{
+						title: "颜色",
+						selected: 0,
+						list: [{
+								name: '火焰红',
+							},
+							{
+								name: '炭黑',
+							},
+							{
+								name: '冰川兰',
+							}
+						]
+					},
+					{
+						title: "容量",
+						selected: 0,
+						list: [{
+								name: '64GB',
+							},
+							{
+								name: '128GB',
+							},
+						]
+					},
+					{
+						title: "套餐",
+						selected: 0,
+						list: [{
+								name: '标配',
+							},
+							{
+								name: '套餐一',
+							},
+							{
+								name: '套餐二',
+							}
+						]
+					},
+				],
+				pprice: 336,
+				num: 1,
+				minnum: 1,
+				maxnum: 10, // 该商品最大商品数，跟库存有关
 			},
 			{
-				id: 3,
-				name: "商品三",
-				status: false,
-				num: 9
+				checked: false,
+				id: 13,
+				title: "商品标题111",
+				cover: "/static/images/demo/list/1.jpg",
+				// 选中商品属性
+				attrs: [{
+						title: "颜色",
+						selected: 0,
+						list: [{
+								name: '火焰红',
+							},
+							{
+								name: '炭黑',
+							},
+							{
+								name: '冰川兰',
+							}
+						]
+					},
+					{
+						title: "容量",
+						selected: 0,
+						list: [{
+								name: '64GB',
+							},
+							{
+								name: '128GB',
+							},
+						]
+					},
+					{
+						title: "套餐",
+						selected: 0,
+						list: [{
+								name: '标配',
+							},
+							{
+								name: '套餐一',
+							},
+							{
+								name: '套餐二',
+							}
+						]
+					},
+				],
+				pprice: 336,
+				num: 1,
+				minnum: 1,
+				maxnum: 10, // 该商品最大商品数，跟库存有关
 			},
-			{
-				id: 4,
-				name: "商品四",
-				status: true,
-				num: 10
-			},
-			{
-				id: 5,
-				name: "商品五",
-				status: false,
-				num: 15
-			},
-		]
+		],
+		// 选中列表（存放选中的id）
+		selectedList:[],
+		// popup显示
+		popupShow:'none',
+		popupIndex:-1
 	},
 	getters: {
-		activeList: (state) => {
-			return state.list.filter(v => {
-				return v.status // 找到status为true的
-			})
+		// 判断是否全选
+		checkedAll:(state)=>{
+			return state.list.length === state.selectedList.length
 		},
-		noActiveList: (state) => {
-			return state.list.filter(v => {
-				return !v.status // 找到status为false的
+		// 合计
+		totalPrice:(state)=>{
+			var total = 0
+			state.list.forEach(v=>{
+				if(state.selectedList.indexOf(v.id)>-1){
+					total += v.pprice*v.num
+				}
 			})
+			return total
 		},
-		getList: (state, getters) =>{
-			return getters.activeList.filter(v=>{
-				return v.num>5  // 找到status为true的并且num大于5的数
-			})
+		// 禁用全选
+		disableSelectAll:(state)=>{
+			 return  state.list.length === 0 
 		},
-		getById:(state)=>(id)=>{
-			return state.list.filter(v=>{
-				return v.id === id // 找到当前id
-			})
+		// 拿到当前需要修改属性的商品
+		popupData:(state,index)=>{
+			// console.log(state.list)
+			// console.log(state.popupIndex)
+			// state.popupIndex = index
+			// console.log(state.popupIndex)
+			return state.popupIndex > -1 ? state.list[state.popupIndex] : {}
 		}
 	},
-	mutations: { // 同步的方法
-		inc(state,n) {
-			state.number += n
-			console.log(state.number);
+	mutations: {
+		// 选中/取消选中某个商品
+		selectItem(state,index) {
+			let id = state.list[index].id
+			console.log(index)
+			let i = state.selectedList.indexOf(id)
+			// 之前是选中，取消选中
+			if (i > -1) {
+				// 取消当前商品选中状态
+				state.list[index].checked = false
+				// 移除选中列表中的当前商品
+				return state.selectedList.splice(i,1)
+			}
+			// 选中
+			state.list[index].checked = true
+			state.selectedList.push(id)
+		},
+		// 全选
+		selectAll(state){
+			state.selectedList = state.list.map(v=>{
+				// 设置选中的状态
+				
+				v.checked = true
+				console.log(v.id)
+				return v.id
+			})
+		},
+		// 取消全选
+		unSelectAll(state) {
+			state.list.forEach(v=>{
+				// 设置选中的状态
+				v.checked = false
+			})
+			state.selectedList = []
+		},
+		// 删除选中 
+		delGoods(state){
+			state.list = state.list.filter(v=>{
+				return state.selectedList.indexOf(v.id)
+			}) 
+		},
+		// 初始化popupIndex
+		initPopupIndex(state,index){
+			state.popupIndex = index
+		},
+		// 加入购物车
+		addGoodsToCart(state,goods){
+			state.list.unshift(goods)
 		}
 	},
-	actions: { // 异步方法
-		AsyncInc({commit,state},n){ // 解构方法
-			console.log(n);
-			setInterval(()=>{
-				commit('inc',n)
-				console.log(state.number)
-			},2000)
+	actions: {
+		// 显示popup
+		doShowPopup({state,commit},index){
+			commit('initPopupIndex',index)
+			state.popupShow = 'show'
+		},
+		// 隐藏popup
+		doHidePopup({state,commit}){
+			state.popupShow = 'hide'
+			setTimeout(()=>{
+				state.popupShow = 'none'
+				commit('initPopupIndex',-1)
+			},200)
+		},
+		doSelectAll({commit,getters}){
+			getters.checkedAll ? commit('unSelectAll') : commit('selectAll')
+		},
+		doDelGoods({commit}){
+			uni.showModal({
+				content:'是否删除选中商品',
+				success:(res)=> {
+					if (res.confirm){
+						commit('delGoods')
+						uni.showToast({
+							title:'删除成功'
+						})
+					}
+				}
+			})
 		}
 	}
 }

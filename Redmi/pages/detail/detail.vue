@@ -61,7 +61,7 @@
 			</view>
 		</card>
 		<!-- 底部操作条 -->
-		<bottom-btn></bottom-btn>
+		<bottom-btn @show="show('attr')"></bottom-btn>
 		<!-- 属性筛选框 -->
 		<common-popup :popupClass="popup.attr" @hide="hide('attr')">
 			<!--
@@ -92,7 +92,8 @@
 			</scroll-view>
 			<!-- 按钮(100rpx) -->
 			<view class="main-bg-color text-white font-md d-flex a-center j-center" hover-class="main-bf-hover-color"
-				style="height: 100rpx;margin-left: -30rpx; margin-right: -30rpx;" @tap.stop="hide">
+				style="height: 100rpx;margin-left: -30rpx; margin-right: -30rpx;" 
+				@tap.stop="addCart">
 				加入购物车
 			</view>
 		</common-popup>
@@ -161,6 +162,7 @@
 	import commonPopup from "@/components/common/common-popup.vue"
 	import price from "@/components/common/price.vue"
 	import zcmRadioGroup from "@/components/common/radio-group.vue"
+	import {mapMutations} from "vuex"
 	var htmlString = `
 	<p>
 		<img src="https://i8.mifile.cn/v1/a1/9c3e29dc-151f-75cb-b0a5-c423a5d13926.webp">
@@ -343,8 +345,10 @@
 					}
 				],
 				detail: {
+					id:20,
 					title: "小米MIX3 6GB+128GB",
 					desc: "磁动力滑盖全面屏 / 前后旗舰AI双摄 / 四曲面彩色陶瓷机身 / 高效10W无线充电",
+					cover:"/static/images/demo/list/1.jpg",
 					pprice: 3299,
 					num: 1,
 					max: 100
@@ -399,6 +403,24 @@
 			}
 		},
 		methods: {
+			...mapMutations([
+				'addGoodsToCart'
+			]),
+			// 加入购物车
+			addCart(){
+				// 组织数据
+				let goods = this.detail
+				goods['checked'] = false
+				goods['attrs'] = this.selects
+				// 加入购物车
+				this.addGoodsToCart(goods)
+				// 隐藏筛选框
+				this.hide('attr')
+				// 成功提示
+				uni.showToast({
+					title:'加入成功'
+				})
+			},
 			hide(key) {
 				this.popup[key] = 'hide'
 				setTimeout(() => {
