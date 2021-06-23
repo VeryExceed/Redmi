@@ -74,7 +74,10 @@
 		}, {
 			"path": "pages/my/my",
 			"style": {
-				"enablePullDownRefresh": false
+				"app-plus":{
+					"titleNView":false,
+					"bounce":"none"
+				}
 			}
 
 		}, {
@@ -155,6 +158,54 @@
             }
             
         }
+        ,{
+            "path" : "pages/user-set/user-set",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "用户设置"
+            }
+            
+        }
+        ,{
+            "path" : "pages/user-userinfo/user-userinfo",
+            "style" :                                                                                    
+            {
+               "navigationBarTitleText":"修改资料"
+            }
+            
+        }
+        ,{
+            "path" : "pages/user-path-edit/user-path-edit",
+            "style" :{
+				"navigationBarTitleText":"增加收货地址",
+				"app-plus":{
+					"scrollIndicator":"none",
+					"bounce":"none"
+				}
+			}
+        }
+        ,{
+            "path" : "pages/user-path-list/user-path-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "收货地址",
+               "app-plus":{
+				   "scrollIndicator":"none",
+				   "bounce":"none",
+				   "titleNView":{
+					   "buttons":[{
+						   "float":"right",
+						   "color":"#999999",
+						   "colorPressed":"#BBBBBB",
+						   "fontSrc":"/static/font/iconfont.ttf",
+						   "text":"\ue626",
+						   "fontSize":"15px"
+					   }]
+				   }
+			   }
+            }
+            
+        }
     ],
 	// 全局配置
 	"globalStyle": {
@@ -191,16 +242,6 @@
 				"text": "我的",
 				"iconPath": "static/tabbar/my.png",
 				"selectedIconPath": "static/tabbar/mySelected.png"
-			}
-		]
-	},
-	"condition" : { //模式配置，仅开发期间生效
-		"current": 0, //当前激活的模式(list 的索引项)
-		"list": [
-			{
-				"name": "", //模式名称
-				"path": "", //启动页面，必选
-				"query": "" //启动参数，在页面的onLoad函数里面得到
 			}
 		]
 	}

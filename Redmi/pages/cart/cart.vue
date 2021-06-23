@@ -56,8 +56,8 @@
 		<!-- 占位 -->
 		<view style="height: 100rpx;"></view>
 		<!-- 合计 -->
-		<view class="d-flex a-center position-fixed left-0 bottom-0 right-0 border-top border-light-secondary a-stretch"
-		style="height: 100rpx; z-index: 1000;">
+		<view class="d-flex a-center position-fixed left-0 right-0 bottom-0 border-top border-light-secondary a-stretch"
+		style="height: 100rpx; z-index: 1000; bottom: var(--window-bottom,0);">
 			<label class="radio d-flex a-center j-center flex-shrink"
 			style="width: 120rpx;" @click="doSelectAll">
 				<radio color="#FD6801"  :disabled="disableSelectAll" :checked="checkedAll"/>

@@ -103,11 +103,11 @@
 				收货地址
 			</view>
 			<scroll-view scroll-y class="w-100" style="height: 835rpx;">
-				<uni-list-item v-for="i in 10" :key="i">
+				<uni-list-item v-for="(item,index) in pathList" :key="index">
 					<view slot="body">
-						<view class="iconfont icon-dingwei font-weight font-md">罗喵</view>
+						<view class="iconfont icon-dingwei font-weight font-md">{{item.name}}</view>
 						<view class="font text-light-muted">
-							广东省广州市天河区
+							{{item.path}} {{item.detailPath}}
 						</view>
 					</view>
 				</uni-list-item>
@@ -116,7 +116,7 @@
 			 按钮(100rpx)
 			 -->
 			<view class="main-bg-color text-white font-md d-flex a-center j-center" hover-class="main-bg-hover-color"
-				style="height: 100rpx;margin-left: -30rpx;margin-right: -30rpx;" @tap.stop="hide('express')">
+				style="height: 100rpx;margin-left: -30rpx;margin-right: -30rpx;" @tap.stop="openCreatePath">
 				选择新的地址
 			</view>
 		</common-popup>
@@ -162,7 +162,7 @@
 	import commonPopup from "@/components/common/common-popup.vue"
 	import price from "@/components/common/price.vue"
 	import zcmRadioGroup from "@/components/common/radio-group.vue"
-	import {mapMutations} from "vuex"
+	import {mapState,mapMutations} from "vuex"
 	var htmlString = `
 	<p>
 		<img src="https://i8.mifile.cn/v1/a1/9c3e29dc-151f-75cb-b0a5-c423a5d13926.webp">
@@ -402,10 +402,22 @@
 				}
 			}
 		},
+		computed:{
+			...mapState({
+				pathList:state=>state.path.list
+			})
+		},
 		methods: {
 			...mapMutations([
 				'addGoodsToCart'
 			]),
+			// 选择新地址
+			openCreatePath(){
+				uni.navigateTo({
+					url:'../user-path-edit/user-path-edit'
+				});
+				this.hide('express')
+			},
 			// 加入购物车
 			addCart(){
 				// 组织数据

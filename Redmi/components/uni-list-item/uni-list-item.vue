@@ -14,20 +14,26 @@
 				<slot name="header">
 					<view class="uni-list-item__header">
 						<view v-if="thumb" class="uni-list-item__icon"><image :src="thumb" class="uni-list-item__icon-img" :class="['uni-list--' + thumbSize]" /></view>
-						<view v-else-if="showExtraIcon" class="uni-list-item__icon"><uni-icons :color="extraIcon.color" :size="extraIcon.size" :type="extraIcon.type" /></view>
+						<view v-else-if="showExtraIcon" class="uni-list-item__icon">
+							<uni-icons v-if="!leftIcon" :color="extraIcon.color" :size="extraIcon.size" :type="extraIcon.type" />
+							<view v-if="leftIcon" class="iconfont" :class="leftIcon" :style="leftIconStyle"></view>
+						</view>
 					</view>
 				</slot>
 				<slot name="body">
 					<view class="uni-list-item__content" :class="{ 'uni-list-item__content--center': thumb || showExtraIcon || showBadge || showSwitch }">
 						<text v-if="title" class="uni-list-item__content-title" :class="[ellipsis !== 0 && ellipsis <= 2 ? 'uni-ellipsis-' + ellipsis : '']">{{ title }}</text>
 						<text v-if="note" class="uni-list-item__content-note">{{ note }}</text>
+						<slot></slot>
 					</view>
 				</slot>
 				<slot name="footer">
 					<view v-if="rightText || showBadge || showSwitch" class="uni-list-item__extra" :class="{ 'flex--justify': direction === 'column' }">
-						<text v-if="rightText" class="uni-list-item__extra-text">{{ rightText }}</text>
-						<uni-badge v-if="showBadge" :type="badgeType" :text="badgeText" />
-						<switch v-if="showSwitch" :disabled="disabled" :checked="switchChecked" @change="onSwitchChange" />
+						<slot name="right">
+							<text v-if="rightText" class="uni-list-item__extra-text">{{ rightText }}</text>
+							<uni-badge v-if="showBadge" :type="badgeType" :text="badgeText" />
+							<switch v-if="showSwitch" :disabled="disabled" :checked="switchChecked" @change="onSwitchChange" />
+						</slot>
 					</view>
 				</slot>
 			</view>
@@ -75,6 +81,14 @@
 export default {
 	name: 'UniListItem',
 	props: {
+		leftIcon:{
+			type:String,
+			default:''
+		},
+		leftIconStyle:{
+			type:String,
+			default:''
+		},
 		direction: {
 			type: String,
 			default: 'row'
@@ -97,7 +111,7 @@ export default {
 		},
 		clickable: {
 			type: Boolean,
-			default: false
+			default: true
 		},
 		showArrow: {
 			type: [Boolean, String],

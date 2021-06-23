@@ -193,7 +193,6 @@ export default {
 		// 选中/取消选中某个商品
 		selectItem(state,index) {
 			let id = state.list[index].id
-			console.log(index)
 			let i = state.selectedList.indexOf(id)
 			// 之前是选中，取消选中
 			if (i > -1) {
@@ -210,9 +209,7 @@ export default {
 		selectAll(state){
 			state.selectedList = state.list.map(v=>{
 				// 设置选中的状态
-				
 				v.checked = true
-				console.log(v.id)
 				return v.id
 			})
 		},
