@@ -17,6 +17,12 @@ export default {
 			}
 		],
 	},
+	getters:{
+		// 获取默认地址
+		defaultPath:(state) =>{
+			return  state.list.filter(v=> v.isdefault)
+		}
+	},
 	mutations:{
 		// 创建收货地址
 		createPath(state,item){
@@ -31,6 +37,31 @@ export default {
 			for (let key in item) {
 				state.list[index][key] = item[key]
 			}
+		},
+		// 取消默认地址
+		removeDefault(state){
+			state.list.forEach((v)=>{
+				if (v.isdefault) {
+					v.isdefault = false
+				}
+			})
+		}
+		
+	},
+	actions:{
+		// 修改地址
+		updatePathAction({commit},obj){
+			if (obj.item.isdefault){
+				commit('removeDefault')
+			}
+			commit('updatePath',obj)
+		},
+		// 增加地址
+		createPathAction({commit},item){
+			if (item.isdefault) {
+				commit('removeDefault')
+			}
+			commit('createPath',item)
 		}
 	}
 }

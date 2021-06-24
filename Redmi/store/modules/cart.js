@@ -184,8 +184,9 @@ export default {
 		popupData:(state,index)=>{
 			// console.log(state.list)
 			// console.log(state.popupIndex)
-			// state.popupIndex = index
+			// console.log(index)
 			// console.log(state.popupIndex)
+			// console.log(state.list[state.popupIndex])
 			return state.popupIndex > -1 ? state.list[state.popupIndex] : {}
 		}
 	},
@@ -253,18 +254,18 @@ export default {
 		doSelectAll({commit,getters}){
 			getters.checkedAll ? commit('unSelectAll') : commit('selectAll')
 		},
-		doDelGoods({commit}){
-			uni.showModal({
-				content:'是否删除选中商品',
-				success:(res)=> {
-					if (res.confirm){
-						commit('delGoods')
-						uni.showToast({
-							title:'删除成功'
-						})
-					}
-				}
-			})
+		doDelGoods({commit,getters}){
+					uni.showModal({
+						content:'是否删除选中商品',
+						success:(res)=> {
+							if (res.confirm){
+								commit('delGoods')
+								uni.showToast({
+									title:'删除成功'
+								})
+							}
+						}
+					})
 		}
 	}
 }

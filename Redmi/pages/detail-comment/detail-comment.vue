@@ -36,10 +36,10 @@
 				</view>
 				<view class="d-flex a-center">
 					<text class="text-light-muted">2021-06-16</text>
-					<view class="d-felx text-light-muted ml-auto a-center mr-2">
+					<view class="d-flex text-light-muted ml-auto a-center mr-2">
 						0 <text class="iconfont icon-dianzan text-muted ml"></text>
 					</view>
-					<view class="d-felx text-light-muted a-center">
+					<view class="d-flex text-light-muted a-center">
 						10 <text class="iconfont icon-pinglun text-muted ml"></text>
 					</view>
 				</view>

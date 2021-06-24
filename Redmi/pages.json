@@ -206,6 +206,45 @@
             }
             
         }
+        ,{
+            "path" : "pages/order/order",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的订单",
+				"app-plus":{
+					"scrollIndicator":"none",
+					"titleNView":{
+						"buttons":[{
+								"float":"right",
+								"color":"#999999",
+								"colorPressed":"#BBBBBB",
+								"fontSrc":"/static/font/iconfont.ttf",
+								"text":"\ue60c",
+								"fontSize":"15px"
+							},
+							{
+								"float":"right",
+								"color":"#999999",
+								"colorPressed":"#BBBBBB",
+								"fontSrc":"/static/font/iconfont.ttf",
+								"text":"\ue6e3",
+								"fontSize":"15px"
+							}]
+					}
+				}
+            }
+            
+        }
+        ,{
+            "path" : "pages/order-confirm/order-confirm",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "订单配送至",
+				"navigationBarBackgroundColor":"#F46801",
+				"navigationBarTextStyle":"white"
+            }
+            
+        }
     ],
 	// 全局配置
 	"globalStyle": {

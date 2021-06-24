@@ -38,7 +38,7 @@
 		<view class="p-2 d-flex a-center bg-white">
 			<view class="font-md text-secondary mr-1 flex-shrink">
 				设为默认地址：</view>
-			<switch checked="true" class="ml-auto" color="#FD6801" @change="form.isdefault = $event.detail.value" />
+			<switch :checked="form.isdefault" class="ml-auto" color="#FD6801" @change="form.isdefault = $event.detail.value" />
 		</view>
 
 		<view class="p-3">
@@ -53,7 +53,7 @@
 <script>
 	import mpvueCityPicker from "@/components/uni-ui/mpvue-citypicker/mpvueCityPicker.vue"
 	import {
-		mapMutations
+		mapActions
 	} from "vuex"
 	export default {
 		components: {
@@ -99,13 +99,13 @@
 			}
 		},
 		methods: {
-			...mapMutations(['createPath', 'updatePath']),
+			...mapActions(['createPathAction', 'updatePathAction']),
 			// 提交
 			submit() {
 				// 验证表单
 				// 修改
 				if (this.isedit) {
-					this.updatePath({
+					this.updatePathAction({
 						index: this.index,
 						item: this.form
 					})
@@ -117,7 +117,7 @@
 					})
 				}
 				// 创建
-				this.createPath(this.form)
+				this.createPathAction(this.form)
 				uni.showToast({
 					title: '创建成功'
 				});

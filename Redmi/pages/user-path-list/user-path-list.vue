@@ -57,7 +57,7 @@
 		computed: {
 			...mapState({
 				list: state => state.path.list
-			})
+			}) 
 		},
 		methods: {
 			...mapMutations(['delPath']),
