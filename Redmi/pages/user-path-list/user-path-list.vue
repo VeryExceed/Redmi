@@ -2,9 +2,10 @@
 	<view>
 		<uni-swipe-action>
 			<!-- 基础用法 -->
-			<uni-swipe-action-item :right-options="options" @click="bindClick($event,index)"
-				v-for="(item,index) in list" :key="index">
-				<uni-list-item>
+			<uni-swipe-action-item :right-options="options" 
+			@click="bindClick($event,index)"
+			v-for="(item,index) in list" :key="index">
+				<uni-list-item @click="choose(item)">
 					<view class="text-secondary">
 						<view class="d-flex a-center">
 							<text class="main-text-color">{{item.name}}</text>
@@ -33,6 +34,7 @@
 		data() {
 
 			return {
+				isChoose:false,
 				options: [{
 					text: '修改',
 					style: {
@@ -52,6 +54,11 @@
 				uni.navigateTo({
 					url: '../user-path-edit/user-path-edit'
 				})
+			}
+		},
+		onLoad(e) {
+			if (e.type === 'choose') {
+				this.isChoose = true
 			}
 		},
 		computed: {
@@ -87,6 +94,17 @@
 							}
 						})
 						break;
+				}
+			},
+			// 选择收货地址
+			choose(item) {
+				if (this.isChoose){
+					// 通知订单提交页修改收货地址
+					uni.$emit('choosePath',item)
+					// 关闭当前页面
+					uni.navigateBack({
+						delta: 1
+					})
 				}
 			}
 		}

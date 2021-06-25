@@ -29,6 +29,7 @@
 				</slot>
 				<slot name="footer">
 					<view v-if="rightText || showBadge || showSwitch" class="uni-list-item__extra" :class="{ 'flex--justify': direction === 'column' }">
+						<slot name="rightContent"></slot>
 						<slot name="right">
 							<text v-if="rightText" class="uni-list-item__extra-text">{{ rightText }}</text>
 							<uni-badge v-if="showBadge" :type="badgeType" :text="badgeText" />
