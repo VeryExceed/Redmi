@@ -2,8 +2,12 @@
 	<view>
 		<!-- 头部 -->
 		<view class="position-relative d-flex a-center" style="height: 320rpx;">
-			<view class="iconfont icon-xiaoxi position-absolute text-white"
-			style="font-size: 50rpx; top:75rpx; right: 20rpx; z-index: 100;"></view>
+			<!-- 消息列表 -->
+				<view 
+				class="iconfont icon-xiaoxi position-absolute text-white" 
+				@click="navigate('msg-list')"
+				style="font-size: 50rpx;top: 75rpx;right: 20rpx;z-index: 100;"
+				></view>
 			<image src="../../static/images/bg.jpg" style="height: 320rpx;width: 100%;"></image>
 			
 			<view class="d-flex a-center position-absolute left-0 right-0" style="bottom: 50rpx;">

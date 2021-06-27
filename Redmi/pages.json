@@ -246,9 +246,16 @@
 					"titleNView": false
 				}
 			}
-
 		}
-	],
+        ,{
+            "path" : "pages/msg-list/msg-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "消息列表"
+            }
+            
+        }
+    ],
 	// 全局配置
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
