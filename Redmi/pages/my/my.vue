@@ -10,7 +10,10 @@
 				<image src="../../static/images/demo/demo6.jpg" mode="widthFix"
 				style="height: 145rpx;width: 145rpx; border: 5rpx solid;"
 				class="rounded-circle border-light ml-4"></image>
-				<view class="ml-2 text-white font-md">测试昵称</view>
+				<navigator url="../login/login">
+					<view class="ml-2 text-white font-md">测试昵称</view>
+				</navigator>
+				
 				<view class="a-self-end d-flex a-center j-center ml-auto px-2" style="height: 70rpx;background: #FFD43F; color: #CC4A00;border-top-left-radius: 40rpx; border-bottom-left-radius:40rpx ;">
 					<view class="line-h iconfont icon-huangguan mr-1"></view>
 					会员积分 1.99
