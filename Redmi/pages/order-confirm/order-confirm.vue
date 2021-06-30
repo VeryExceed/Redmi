@@ -46,7 +46,7 @@
 				<uni-list-item title="运费" :showArrow="false">
 					<view slot="rightContent">包邮</view>
 				</uni-list-item>
-				<uni-list-item title="优惠券" :showArrow="false">
+				<uni-list-item title="优惠券" :showArrow="false" @click="openNavigate('order-coupon')">
 					<view slot="rightContent" class="text-light-muted">无可用</view>
 				</uni-list-item>
 				<uni-list-item :showArrow="false">
@@ -68,7 +68,8 @@
 				<price>20.00</price>
 			</view>
 			<view class="ml-2 px-2 py-1 main-bg-color text-white font-md"
-			hover-class="main-bg-hover-color" style="border-radius: 80rpx;">
+			hover-class="main-bg-hover-color" style="border-radius: 80rpx;"
+			@click="oepnPayMethods">
 				去支付
 			</view>
 		</view>
@@ -106,6 +107,11 @@
 			})
 		},
 		methods: {
+			oepnPayMethods(){
+				uni.navigateTo({
+					url: '../pay-methods/pay-methods'
+				})
+			},
 			openPathList(){
 				uni.navigateTo({
 					url:'../user-path-list/user-path-list?type=choose'

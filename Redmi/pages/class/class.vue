@@ -1,6 +1,8 @@
 <template>
-	<view class="d-flex border-top border-light-secondary" style="height: 100%;box-sizing: border-box;">
-		<loading :show="showLoading"></loading>
+	<view class="d-flex border-top border-light-secondary animated fadeIn faster" style="height: 100%;box-sizing: border-box;">
+		<!-- <loading :show="showLoading"></loading> -->
+		<loading-plus v-if="beforeReady"></loading-plus>
+		
 		<scroll-view id="leftScroll" scroll-y style="flex: 1;height: 100%;" 
 		class="border-right border-light-secondary" :scroll-top="leftScrollTop" :scroll-with-animation="true">
 			<view class="border-bottom border-light-secondary py-1 left-scroll-item"
@@ -29,7 +31,9 @@
 </template>
 
 <script>
+	import loading from "@/common/mixin/loading.js"
 	export default {
+		mixins:[loading],
 		data() {
 			return {
 				showLoading:true,
@@ -84,6 +88,9 @@
 			}).then(data=>{
 				this.rightDomsTop = data.map(v=> v.top)
 			})
+			setTimeout(()=>{
+				this.beforeReady = false
+			},500)
 		},
 		methods: {
 			// 获取节点信息
@@ -118,9 +125,6 @@
 						})
 					}
 				}
-				this.$nextTick(()=>{
-					this.showLoading = false
-				})
 			},
 			// 点击左边分类
 			changeCate(index){

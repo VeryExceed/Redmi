@@ -1,5 +1,8 @@
 <template>
-	<view style="background: #F5F5F5;">
+	<view class="animated fadeIn faster" style="background: #F5F5F5;">
+		
+		<loading-plus v-if="beforeReady"></loading-plus>
+		
 		<uni-nav-bar :right-text="isedit?'完成':'编辑'" title="购物车" :fixed="true" statusBar :shadow="false"
 			@clickRight="isedit = !isedit"></uni-nav-bar>
 		<!-- 购物车为空 -->
@@ -122,6 +125,7 @@
 </template>
 
 <script>
+	import loading from "@/common/mixin/loading.js"
 	import {
 		mapState,
 		mapGetters,
@@ -134,6 +138,7 @@
 	import card from "@/components/common/card.vue"
 	import commonList from "@/components/common/common-list.vue"
 	export default {
+		mixins:[loading],
 		components: {
 			price,
 			commonPopup,
@@ -187,6 +192,7 @@
 				'popupData'
 			])
 		},
+		
 		methods: {
 			...mapActions([
 				'doSelectAll',

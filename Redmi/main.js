@@ -13,6 +13,9 @@ Vue.component('divider',divider)
 import loading from "@/components/common/loading.vue"
 Vue.component('loading',loading)
 
+import loadingPlus from "@/common/mixin/loading-plus.vue"
+Vue.component('loading-plus',loadingPlus)
+
 App.mpType = 'app'
 
 const app = new Vue({
