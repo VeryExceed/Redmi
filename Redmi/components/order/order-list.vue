@@ -1,5 +1,5 @@
 <template>
-	<view class="bg-white">
+	<view class="bg-white" @click.stop="openDetail">
 		<divider></divider>
 		<!-- 头部 -->
 		<view class="d-flex a-center p-2 border-bottom border-light-secondary">
@@ -29,8 +29,14 @@
 			<text class="text-dark font-md ml-auto">共{{item.total_num}}件商品，合计：￥{{item.total_price}}</text>
 		</view>
 		<view class="d-flex j-end a-center px-2 pb-2">
+			<view class="rounded border border-light-secondary py-1 px-2 text-secondary mr-2"
+				hover-class="bg-light-secondary" @click.stop="openAfterSale">
+				申请售后
+			</view>
 			<view class="rounded border border-light-secondary py-1 px-2 text-secondary"
-				hover-class="bg-light-secondary">查看物流</view>
+				hover-class="bg-light-secondary" @click.stop="oepnLogistics">
+				查看物流
+			</view>
 			<view class="ml-2 border border-light-secondary py-1 px-2 text-secondary" hover-class="bg-light-secondary">
 				确认收货</view>
 		</view>
@@ -42,6 +48,23 @@
 		props: {
 			item: Object,
 			index: Number
+		},
+		methods: {
+			openDetail() {
+				uni.navigateTo({
+					url: '/pages/order-detail/order-detail'
+				})
+			},
+			oepnLogistics() {
+				uni.navigateTo({
+					url: '/pages/logistics-detail/logistics-detail'
+				})
+			},
+			openAfterSale(){
+				uni.navigateTo({
+					url:'/pages/after-sale/after-sale'
+				})
+			}
 		}
 	}
 </script>

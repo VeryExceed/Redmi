@@ -37,7 +37,7 @@
 						label: "关于",
 						value: [{
 								title: "关于商城",
-								path: ""
+								path: "about"
 							},
 							{
 								title: "意见反馈",
