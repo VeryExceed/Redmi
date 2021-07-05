@@ -1,7 +1,7 @@
 <template>
-	<view class="d-flex line-h" :class="priceSize + ' ' + color">
-		<text class="a-self-start" :class="unitSize">￥</text><slot />
-	</view>
+		<view class="d-flex line-h" :class="priceSize+' '+color">
+			<text class="a-self-start" :class="unitSize">￥</text><slot />
+		</view>
 </template>
 
 <script>

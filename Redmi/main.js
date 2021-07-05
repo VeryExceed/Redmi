@@ -16,10 +16,14 @@ Vue.component('loading',loading)
 import loadingPlus from "@/common/mixin/loading-plus.vue"
 Vue.component('loading-plus',loadingPlus)
 
+// 引入request库
+import $H from '@/common/lib/request.js'
+Vue.prototype.$H = $H
+
 App.mpType = 'app'
 
 const app = new Vue({
 	store,
     ...App
-})
+})  
 app.$mount()

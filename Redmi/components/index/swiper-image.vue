@@ -17,7 +17,7 @@
 <script>
 	export default {
 		props: {
-			resdata: Array,
+			resdata:[Array,Object],
 			height: {
 				type: String,
 				default:"350"
@@ -32,13 +32,12 @@
 				return `height:${this.height}rpx;`
 			},
 			getUrls(){
-				return this.resdata.map((v)=> v.src)
+				var urls = []
+				for (let v in this.resdata){
+					urls.push(this.resdata[v].src)
+				}
+				return urls
 			}
-		},
-		data() {
-			return {
-
-			};
 		},
 		methods: {
 			event(item,index) {

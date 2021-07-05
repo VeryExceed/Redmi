@@ -12,7 +12,7 @@
 <script>
 	export default {
 		props:{
-			resdata:Array
+			resdata:[Array,Object]
 		},
 		data() {
 			return {

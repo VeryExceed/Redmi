@@ -5,10 +5,8 @@
 				<text class="text-dark font-md font-weight">{{item.title}}</text>
 			</div>
 			<div>
-				<image :src="item.cover" 
-				style="height: 300px;" 
-				class="w-100">
-				</image>
+				<image src="/static/images/demo/demo4.jpg"
+				style="height: 300px;" class="w-100"></image>
 			</div>
 		</div>
 	</div>

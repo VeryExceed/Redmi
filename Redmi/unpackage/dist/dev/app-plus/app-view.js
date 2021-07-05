@@ -3386,7 +3386,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-uni-view",
-    { staticStyle: { width: "372.5upx" }, attrs: { _i: 0 } },
+    { staticStyle: { width: "372.5rpx" }, attrs: { _i: 0 } },
     [
       _c("v-uni-image", {
         attrs: {
