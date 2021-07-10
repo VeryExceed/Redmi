@@ -3,7 +3,7 @@
 		<!-- 商品详情大图 -->
 		<swiper-image :resdata="banners" height="750" priview />
 		<!-- 基础详情 -->
-		<base-info :detail="detail"></base-info>
+		<base-info :detail="detail" :showPrice="showPrice"></base-info>
 		<!-- 滚动商品特性 w170*h110 -->
 		<scroll-attrs :baseAttrs="baseAttrs"></scroll-attrs>
 		<!-- 属性选择 -->
@@ -12,7 +12,7 @@
 				<uni-list-item clickable @click="show('attr')" style="background-color: #EEEEEE">
 					<view slot="body" class="d-flex">
 						<text class="mr-2 text-muted">已选</text>
-						<text>火焰红 64G 标配</text>
+						<text>{{checkedSkus}}</text>
 					</view>
 				</uni-list-item>
 				<uni-list-item clickable @click="show('express')" style="background-color: #EEEEEE">
@@ -71,29 +71,27 @@
 			<view class="d-flex a-center" style="height: 275rpx;">
 				<image src="../../static/images/demo/cate_01.png" mode="widthFix" style="height: 180rpx; width: 180rpx;"
 					class="border rounded"></image>
-				<view class="pl-2">
-					<price priceSize="font-lg" unitSize="font">2365</price>
-					<text class="d-block">
-						火焰红 64GB 标配
-					</text>
+				<view class="pl-2" >
+					<price priceSize="font-lg" unitSize="font">{{showPrice}}</price>
+					<text class="d-block">{{checkedSkus}}</text>
 				</view>
 			</view>
 			<!--
 			表单部分(660rpx)
 			-->
 			<scroll-view scroll-y class="w-100" style="height: 660rpx;">
-				<card headTitle="颜色" :headTitleWeight="false" :headBorderBottom="false" v-for="(item,index) in selects">
+				<card headTitle="颜色" :headTitleWeight="false" :headBorderBottom="false" v-for="(item,index) in selects"
+				:key="index">
 					<zcm-radio-group :label="item" :selected.sync='item.selected'></zcm-radio-group>
 				</card>
 				<view class="d-flex j-sb a-center p-2 border-top border-light-secondary">
 					<text>购买数量</text>
-					<uni-number-box :min="1" :value="detail.num" @change="detail.num = $event"></uni-number-box>
+					<uni-number-box :min="1" :max="maxStock" :value="detail.num" @change="detail.num = $event"></uni-number-box>
 				</view>
 			</scroll-view>
 			<!-- 按钮(100rpx) -->
 			<view class="main-bg-color text-white font-md d-flex a-center j-center" hover-class="main-bf-hover-color"
-				style="height: 100rpx;margin-left: -30rpx; margin-right: -30rpx;" 
-				@tap.stop="addCart">
+				style="height: 100rpx;margin-left: -30rpx; margin-right: -30rpx;" @tap.stop="addCart">
 				加入购物车
 			</view>
 		</common-popup>
@@ -132,11 +130,12 @@
 						{{item.title}}
 					</view>
 					<template v-if="item.list">
-						<text v-for="(item2,index2) in item.list" class="text-light-muted font pl-4 d-block">
+						<text v-for="(item2,index2) in item.list" :key="index2"
+							class="text-light-muted font pl-4 d-block">
 							{{item2.explain}}
 						</text>
 					</template>
-					
+
 				</view>
 			</scroll-view>
 			<!--
@@ -162,18 +161,10 @@
 	import commonPopup from "@/components/common/common-popup.vue"
 	import price from "@/components/common/price.vue"
 	import zcmRadioGroup from "@/components/common/radio-group.vue"
-	import {mapState,mapMutations} from "vuex"
-	var htmlString = `
-	<p>
-		<img src="https://i8.mifile.cn/v1/a1/9c3e29dc-151f-75cb-b0a5-c423a5d13926.webp">
-		<img src="https://i8.mifile.cn/v1/a1/f442b971-379f-5030-68aa-3b0accb8c2b9.webp">
-		<img src="https://i8.mifile.cn/v1/a1/63b700b6-643e-ec18-fdf3-da66b4b4173f.webp">
-		<img src="https://i8.mifile.cn/v1/a1/e9dbf276-193e-11c4-99a6-3097fde82350.webp">
-		<img src="https://i8.mifile.cn/v1/a1/1249d3ee-2990-a2b4-28d9-f719c2417b1f.webp">
-		<img src="https://i8.mifile.cn/v1/a1/97c79915-64b2-808c-53b4-4345652a179f.webp">
-		<img src="https://i8.mifile.cn/v1/a1/cd0fbe1e-a1b3-a87a-f4a6-6fb08ec54931.webp">
-	</p>
-	    `
+	import {
+		mapState,
+		mapMutations
+	} from "vuex"
 	export default {
 		components: {
 			swiperImage,
@@ -211,184 +202,22 @@
 						]
 					},
 				],
-				selects: [{
-						title: "颜色",
-						selected: 0,
-						list: [{
-								name: "黄色"
-							},
-							{
-								name: "黑色"
-							},
-							{
-								name: "红色"
-							},
-						]
-					},
-					{
-						title: "容量",
-						selected: 0,
-						list: [{
-								name: "64GB"
-							},
-							{
-								name: "128GB"
-							},
-						]
-					},
-					{
-						title: "套餐",
-						selected: 0,
-						list: [{
-								name: "标配"
-							},
-							{
-								name: "套餐一"
-							},
-							{
-								name: "套餐二"
-							},
-						]
-					}
-				],
+				selects: [],
 				popup: {
 					attr: "none",
 					express: "none",
 					service: "none"
 				},
-				context: htmlString,
-				hotList: [{
-						cover: "/static/images/demo/list/1.jpg",
-						title: "米家空调",
-						desc: "1.5匹变频",
-						oprice: 2699,
-						pprice: 1399
-					},
-					{
-						cover: "/static/images/demo/list/1.jpg",
-						title: "米家空调",
-						desc: "1.5匹变频",
-						oprice: 2699,
-						pprice: 1399
-					},
-					{
-						cover: "/static/images/demo/list/1.jpg",
-						title: "米家空调",
-						desc: "1.5匹变频",
-						oprice: 2699,
-						pprice: 1399
-					},
-					{
-						cover: "/static/images/demo/list/1.jpg",
-						title: "米家空调",
-						desc: "1.5匹变频",
-						oprice: 2699,
-						pprice: 1399
-					},
-					{
-						cover: "/static/images/demo/list/1.jpg",
-						title: "米家空调",
-						desc: "1.5匹变频",
-						oprice: 2699,
-						pprice: 1399
-					},
-					{
-						cover: "/static/images/demo/list/1.jpg",
-						title: "米家空调",
-						desc: "1.5匹变频",
-						oprice: 2699,
-						pprice: 1399
-					}
-				],
-				comments: [{
-						userpic: "/static/images/demo/demo6.jpg",
-						username: "罗喵琳",
-						create_time: "2021-05-28",
-						goods_num: 123,
-						context: "丁尼格菲尔：神说要有光就有了光",
-						imglist: [
-							"/static/images/demo/demo6.jpg",
-							"/static/images/demo/demo6.jpg",
-							"/static/images/demo/demo6.jpg"
-						]
-					},
-					{
-						userpic: "/static/images/demo/demo6.jpg",
-						username: "罗喵",
-						create_time: "2021-05-28",
-						goods_num: 123,
-						context: "评论内容",
-						imglist: [
-							"/static/images/demo/demo6.jpg",
-							"/static/images/demo/demo6.jpg",
-							"/static/images/demo/demo6.jpg"
-						]
-					},
-					{
-						userpic: "/static/images/demo/demo6.jpg",
-						username: "罗喵",
-						create_time: "2021-05-28",
-						goods_num: 123,
-						context: "评论内容",
-						imglist: [
-							"/static/images/demo/demo6.jpg",
-							"/static/images/demo/demo6.jpg",
-							"/static/images/demo/demo6.jpg"
-						]
-					}
-				],
-				banners: [{
-						src: 'https://i8.mifile.cn/v1/a1/6d13e060-d5c5-e610-88d0-80816fa2b0ce.webp'
-					},
-					{
-						src: 'https://i8.mifile.cn/v1/a1/aff0b715-e63a-68f3-91b0-46a22543555e.webp'
-					}
-				],
+				context: "",
+				hotList: [],
+				comments: [],
+				banners: [],
 				detail: {
-					id:20,
-					title: "小米MIX3 6GB+128GB",
-					desc: "磁动力滑盖全面屏 / 前后旗舰AI双摄 / 四曲面彩色陶瓷机身 / 高效10W无线充电",
-					cover:"/static/images/demo/list/1.jpg",
-					pprice: 3299,
-					num: 1,
-					max: 100
+					goodsSkus:[{
+						skusText:'',
+					}]
 				},
-				baseAttrs: [{
-						icon: "icon-cpu",
-						title: "CPU",
-						desc: "蛟龙845八核"
-					},
-					{
-						icon: "icon-cpu",
-						title: "CPU",
-						desc: "蛟龙845八核"
-					},
-					{
-						icon: "icon-cpu",
-						title: "CPU",
-						desc: "蛟龙845八核"
-					},
-					{
-						icon: "icon-cpu",
-						title: "CPU",
-						desc: "蛟龙845八核"
-					},
-					{
-						icon: "icon-cpu",
-						title: "CPU",
-						desc: "蛟龙845八核"
-					},
-					{
-						icon: "icon-cpu",
-						title: "CPU",
-						desc: "蛟龙845八核"
-					},
-					{
-						icon: "icon-cpu",
-						title: "CPU",
-						desc: "蛟龙845八核"
-					},
-				]
+				baseAttrs: [],
 			}
 		},
 		// 监听页面返回事件
@@ -402,24 +231,140 @@
 				}
 			}
 		},
-		computed:{
+		computed: {
 			...mapState({
-				pathList:state=>state.path.list
-			})
+				pathList: state => state.path.list
+			}),
+			// 选中的sku
+			checkedSkus() {
+				// 拿到选中skus组成字符串
+				let checkedSkus = this.selects.map(v => {
+					return v.list[v.selected].name
+				})
+				return checkedSkus.join(',')
+			},
+			// 显示价格
+			showPrice(){
+				if (this.checkedSkusIndex > 0) {
+					return this.detail.min_price || 0.00
+				}
+				return this.detail.goodsSkus[this.checkedSkusIndex].pprice
+			},
+			
+			// 选中skus的索引
+			checkedSkusIndex(){
+				let index = this.detail.goodsSkus.findIndex((item)=>{
+					return item.skusText === this.checkedSkus
+					
+				})
+				return index
+			},
+			// 最大库存
+			maxStock() {
+				return this.detail.goodsSkus[this.checkedSkusIndex].stock
+			}
+		},
+		onLoad(e) {
+			if (e.detail) {
+				this.__init(JSON.parse(e.detail))
+				
+			}
 		},
 		methods: {
 			...mapMutations([
 				'addGoodsToCart'
 			]),
+			
+			// 初始化页面
+			__init(data) {
+				this.$H.get('/goods/' + data.id).then(res => {
+					// 轮播图
+					this.banners = res.goodsBanner.map(v => {
+						return {
+							src: v.url
+						}
+					})
+					// 初始化基本信息
+					this.detail = res
+					console.log(this.detail)
+					// 修改页面标题
+					uni.setNavigationBarTitle({
+						title: res.title
+					})
+					// 滚动商品属性
+					this.baseAttrs = res.goodsAttrs.map(v => {
+						return {
+							icon: 'icon-cpu',
+							title: v.name,
+							desc: v.value
+						}
+					})
+					// 热门评论
+					this.comments = res.hotComments.map(v => {
+						var imglist = []
+
+						for (let k in v.imglist) {
+							imglist.push(v.imglist[k].src)
+						}
+						return {
+							id: v.id,
+							user_id: v.user.id,
+							userpic: v.user.avatar,
+							username: v.user.nickname,
+							create_time: v.review_time,
+							goods_num: v.goods_num,
+							context: v.review.data,
+							imglist: v.review.image
+						}
+					})
+					// 商品详情
+					this.context = res.content
+					// 热门推荐
+					this.hotList = res.hotList.map(v => {
+						return {
+							id: v.id,
+							cover: v.cover,
+							title: v.title,
+							desc: v.desc,
+							oprice: v.min_oprice,
+							pprice: v.min_price
+						}
+					})
+					// 商品规格(选项部分)
+					this.selects = res.goodsSkusCard.map(v => {
+						let list = v.goodsSkusCardValue.map(v1 => {
+							return {
+								id: v1.id,
+								name: v1.value
+							}
+						})
+						return {
+							id: v.id,
+							title: v.name,
+							selected: 0,
+							list: list
+						}
+
+					})
+					// 商品规格(匹配价格)
+					this.detail.goodsSkus.forEach(item => {
+						let arr = []
+						for (let key in item.skus) {
+							arr.push(item.skus[key].value)
+						}
+						item.skusText = arr.join(',')
+					})
+				})
+			},
 			// 选择新地址
-			openCreatePath(){
+			openCreatePath() {
 				uni.navigateTo({
-					url:'../user-path-edit/user-path-edit'
+					url: '../user-path-edit/user-path-edit'
 				});
 				this.hide('express')
 			},
 			// 加入购物车
-			addCart(){
+			addCart() {
 				// 组织数据
 				let goods = this.detail
 				goods['checked'] = false
@@ -430,7 +375,7 @@
 				this.hide('attr')
 				// 成功提示
 				uni.showToast({
-					title:'加入成功'
+					title: '加入成功'
 				})
 			},
 			hide(key) {

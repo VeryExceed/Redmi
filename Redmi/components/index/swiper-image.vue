@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<swiper indicator-dots autoplay :interval="3000" :duration="1000" circular
+		<swiper indicator-dots autoplay :interval="3000" :duration="200" circular
 		:style="getStyle">
 			<block v-for="(item, index) in resdata" :key="index">
 				<swiper-item>

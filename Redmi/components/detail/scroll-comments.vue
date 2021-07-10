@@ -13,7 +13,7 @@
 						<text class="font-md line-h">
 							{{item.username}}
 						</text>
-						<text class="d-block font text-light-muted font line-h">{{item.create_time}}</text>
+						<text class="d-block font text-light-muted font line-h">{{item.create_time || formatTime}}</text>
 					</view>
 					<view class="iconfont icon-dianzan text-light-muted font pl-1 ml-auto">
 						{{item.goods_num}}
@@ -43,8 +43,14 @@
 </template>
 
 <script>
+	import $T from '@/common/lib/time.js'
 	export default {
-		props:['comments']
+		props:['comments'],
+		filters:{
+			formatTime(value) {
+				return $T.gettime(value)
+			}
+		}
 	}
 </script>
 
