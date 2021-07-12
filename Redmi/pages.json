@@ -85,6 +85,7 @@
 			"style": {
 				"app-plus": {
 					"scrollIndicator": "none",
+					"bounce":"none",
 					"titleNView": {
 						"searchInput": {
 							"align": "left",
@@ -149,6 +150,7 @@
 			"path": "pages/detail-comment/detail-comment",
 			"style": {
 				"navigationBarTitleText": "商品评价",
+				"enablePullDownRefresh":true,
 				"app-plus": {
 					"scrollIndicator": "none",
 					"bounce": "none"

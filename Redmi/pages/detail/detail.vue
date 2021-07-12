@@ -46,7 +46,7 @@
 		头像 w70*h70
 		图片 h115
 		-->
-		<scroll-comments :comments="comments" />
+		<scroll-comments :goods_id="detail.id" :comments="comments" />
 
 
 		<!-- 商品详情 -->

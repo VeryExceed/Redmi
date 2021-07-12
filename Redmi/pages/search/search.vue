@@ -9,32 +9,30 @@
 		<card headTitle="常用分类" :bodyPadding="true" :headBorderBottom="false">
 			<color-tag v-for="(item,index) in cate" :key="index" :item="item" :color="false" />
 		</card>
-		<!-- 分割线 -->
-		<divider />
-		<!-- 搜索记录 -->
-		<card headTitle="搜索记录">
-			<!-- <uni-list> -->
-				<uni-list-item title="小米手环" clickable :showArrow="false"></uni-list-item>
-				<uni-list-item title="小米11" clickable></uni-list-item>
-			<!-- </uni-list> -->
-		</card>
-		
-		
+		<template v-if="historyList.length > 0">
+			<!-- 分割线 -->
+			<divider />
+			<!-- 搜索记录 -->
+			<card headTitle="搜索记录">
+				<uni-list-item v-for="(item,index) in historyList" :key="index" :title="item" clickable
+					:showArrow="false"></uni-list-item>
+			</card>
+		</template>
 	</view>
 </template>
 
 <script>
 	import card from "@/components/common/card.vue"
 	import colorTag from "@/components/search/color-tag.vue"
-	// import uniListItem from "@/components/uni-ui/uni-list/components/uni-list-item/uni-list-item.vue"
 	export default {
 		components: {
 			card,
 			colorTag,
-			// uniListItem
 		},
 		data() {
 			return {
+				historyList: [],
+				keyword: "",
 				hot: [{
 						name: '领券中心'
 					},
@@ -81,15 +79,52 @@
 		onNavigationBarButtonTap(e) {
 			if (e.index === 0) {
 				uni.navigateTo({
-					url:'../search-list/search-list'
+					url: '../search-list/search-list'
 				})
 			}
 		},
-		methods: {
-
+		onNavigationBarSearchInputChanged(e) {
+			this.keyword = e.text
 		},
-
-
+		onNavigationBarSearchInputConfirmed() {
+			this.search()
+		},
+		onNavigationBarButtonTap() {
+			this.search()
+		},
+		onLoad() {
+			// 加载历史记录
+			let history = uni.getStorageSync('searchHistory')
+			this.historyList = history ? JSON.parse(history) : []
+		},
+		methods: {
+			search(){
+				if (this.keyword === ''){
+					return uni.showToast({
+						title:'关键词不能为空',
+						icon:'none'
+					})
+				}
+				// #ifdef APP-PLUS
+				plus.key.hideSoftKeybord()
+				// #endif
+				// #ifndef APP-PLUS
+				uni.hideKeyboard()
+				// #endif
+				this.addHistory()
+				console.log('搜索');
+			},
+			// 加入搜索记录
+			addHistory(){
+				let index = this.historyList.indexOf(this.keyword)
+				if (index === -1) {
+					this.historyList.unshift(this.keyword)
+				}else {
+					this.historyList.unshift(this.historyList.splice(index,1)[0])
+				}
+				uni.setStorageSync('searchHistory',JSON.stringify(this.historyList))
+			}
+		}
 	}
 </script>
 
