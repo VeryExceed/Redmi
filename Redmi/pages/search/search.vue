@@ -14,6 +14,7 @@
 			<divider />
 			<!-- 搜索记录 -->
 			<card headTitle="搜索记录">
+				<view slot="right" class="font text-primary" @click="clearHistory">清除搜索记录</view>
 				<uni-list-item v-for="(item,index) in historyList" :key="index" :title="item" clickable
 					:showArrow="false"></uni-list-item>
 			</card>
@@ -112,7 +113,9 @@
 				uni.hideKeyboard()
 				// #endif
 				this.addHistory()
-				console.log('搜索');
+				uni.navigateTo({
+					url:'../search-list/search-list?keyword='+this.keyword
+				})
 			},
 			// 加入搜索记录
 			addHistory(){
@@ -123,6 +126,21 @@
 					this.historyList.unshift(this.historyList.splice(index,1)[0])
 				}
 				uni.setStorageSync('searchHistory',JSON.stringify(this.historyList))
+			},
+			// 清除搜索记录
+			clearHistory(){
+				uni.showModal({
+					title: '提示',
+					content: '是否要清除搜索历史?',
+					cancelText: '取消',
+					confirmText: '清除',
+					success: res => {
+						if (res.confirm) {
+							uni.clearStorageSync()
+							this.historyList = []
+						}
+					},
+				});
 			}
 		}
 	}

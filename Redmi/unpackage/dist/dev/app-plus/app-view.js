@@ -3246,21 +3246,22 @@ var render = function() {
                     : _vm._e()
                 ],
                 { _i: 2 }
-              )
+              ),
+              _vm._t("right", null, { _i: 4 })
             ],
             2
           )
         : _vm._e(),
       _c(
         "v-uni-view",
-        { class: _vm._$g(4, "c"), style: _vm._$g(4, "s"), attrs: { _i: 4 } },
+        { class: _vm._$g(5, "c"), style: _vm._$g(5, "s"), attrs: { _i: 5 } },
         [
-          _vm._$g(5, "i")
+          _vm._$g(6, "i")
             ? _c("v-uni-image", {
-                attrs: { src: _vm._$g(5, "a-src"), mode: "widthFix", _i: 5 }
+                attrs: { src: _vm._$g(6, "a-src"), mode: "widthFix", _i: 6 }
               })
             : _vm._e(),
-          _vm._t("default", null, { _i: 6 })
+          _vm._t("default", null, { _i: 7 })
         ],
         2
       )
@@ -4487,13 +4488,29 @@ var render = function() {
             _c(
               "card",
               { attrs: { _i: 8 } },
-              _vm._l(_vm._$g(9, "f"), function(item, index, $22, $32) {
-                return _c("uni-list-item", {
-                  key: item,
-                  attrs: { _i: "9-" + $32 }
+              [
+                _c(
+                  "v-uni-view",
+                  {
+                    staticClass: _vm._$g(9, "sc"),
+                    attrs: { slot: "right", _i: 9 },
+                    on: {
+                      click: function($event) {
+                        return _vm.$handleViewEvent($event)
+                      }
+                    },
+                    slot: "right"
+                  },
+                  [_vm._v("清除搜索记录")]
+                ),
+                _vm._l(_vm._$g(10, "f"), function(item, index, $22, $32) {
+                  return _c("uni-list-item", {
+                    key: item,
+                    attrs: { _i: "10-" + $32 }
+                  })
                 })
-              }),
-              1
+              ],
+              2
             )
           ]
         : _vm._e()
@@ -4868,7 +4885,12 @@ var render = function() {
                 "v-uni-view",
                 {
                   staticClass: _vm._$g(12, "sc"),
-                  attrs: { "hover-class": "main-bg-hover-color", _i: 12 }
+                  attrs: { "hover-class": "main-bg-hover-color", _i: 12 },
+                  on: {
+                    click: function($event) {
+                      return _vm.$handleViewEvent($event)
+                    }
+                  }
                 },
                 [_vm._v("确定")]
               ),
@@ -4876,7 +4898,12 @@ var render = function() {
                 "v-uni-view",
                 {
                   staticClass: _vm._$g(13, "sc"),
-                  attrs: { "hover-class": "bg-light-secondary", _i: 13 }
+                  attrs: { "hover-class": "bg-light-secondary", _i: 13 },
+                  on: {
+                    click: function($event) {
+                      return _vm.$handleViewEvent($event)
+                    }
+                  }
                 },
                 [_vm._v("重置")]
               )

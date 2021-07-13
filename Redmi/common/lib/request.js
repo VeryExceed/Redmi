@@ -14,10 +14,10 @@ export default {
 	request(options = {}) {
 		// 组织数据
 		options.url = this.common.baseUrl + options.url
-		options.header = this.common.header || options.header
-		options.data = this.common.data || options.data
-		options.method = this.common.method || options.method
-		options.dataType = this.common.dataType || options.dataType
+		options.header = options.header || this.common.header
+		options.data = options.data || this.common.data
+		options.method = options.method || this.common.method
+		options.dataType = options.dataType || this.common.dataType
 		// 请求
 		return new Promise((res, rej) => {
 			// 请求之前... todo

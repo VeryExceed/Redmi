@@ -1,12 +1,13 @@
 <template>
 	<view class="card" :style="cardStyle">
 		<!-- head -->
-		<view v-if="showhead" class="p-2"
+		<view v-if="showhead" class="p-2  d-flex a-center j-sb"
 		:class="getHeadClass">
 			<slot name="title">
 				<text v-if="headTitle" class="font-md "
 				:class="headTitleWeight?'font-weight':''">{{headTitle}}</text>
 			</slot>
+			<slot name="right"></slot>
 		</view>
 		<!-- body -->
 		<view :class="getBodyClass" :style="bodyStyle">
