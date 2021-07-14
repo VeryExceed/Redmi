@@ -1,5 +1,5 @@
 <template>
-	<view class="row p-2 border-bottom border-light-secondary animated fadeIn faster">
+	<view class="row p-2 border-bottom border-light-secondary animated fadeIn faster" @click="openDetail">
 		<view class="span-6">
 			<image :src="item.titlepic" mode="widthFix" class="w-100"></image>
 		</view>
@@ -27,6 +27,13 @@
 		props:{
 			item:Object,
 			index:Number
+		},
+		methods: {
+			openDetail(){
+				uni.navigateTo({
+					url:'/pages/detail/detail?detail=' + JSON.stringify(this.item)
+				})
+			}
 		}
 	}
 </script>

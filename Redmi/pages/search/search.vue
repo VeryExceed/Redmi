@@ -3,11 +3,13 @@
 		<card headTitle="热门搜索" bodyCover="../../static/images/demo/search-banner.png"></card>
 		<!-- 多色按钮 -->
 		<view class="px-1 mb-2">
-			<color-tag v-for="(item,index) in hot" :key="index" :item="item" />
+			<color-tag v-for="(item,index) in hot" :key="index" :item="item" 
+			@click="quickSearch(item.name)"/>
 		</view>
 		<!-- 常用分类 -->
 		<card headTitle="常用分类" :bodyPadding="true" :headBorderBottom="false">
-			<color-tag v-for="(item,index) in cate" :key="index" :item="item" :color="false" />
+			<color-tag v-for="(item,index) in cate" :key="index" :item="item" :color="false" 
+			@click="quickSearch(item.name)" />
 		</card>
 		<template v-if="historyList.length > 0">
 			<!-- 分割线 -->
@@ -16,7 +18,7 @@
 			<card headTitle="搜索记录">
 				<view slot="right" class="font text-primary" @click="clearHistory">清除搜索记录</view>
 				<uni-list-item v-for="(item,index) in historyList" :key="index" :title="item" clickable
-					:showArrow="false"></uni-list-item>
+					:showArrow="false" @click="quickSearch(item)"></uni-list-item>
 			</card>
 		</template>
 	</view>
@@ -93,12 +95,16 @@
 		onNavigationBarButtonTap() {
 			this.search()
 		},
-		onLoad() {
+		onShow() {
 			// 加载历史记录
 			let history = uni.getStorageSync('searchHistory')
 			this.historyList = history ? JSON.parse(history) : []
 		},
 		methods: {
+			quickSearch(name){
+				this.keyword = name
+				this.search()
+			},
 			search(){
 				if (this.keyword === ''){
 					return uni.showToast({
@@ -112,10 +118,12 @@
 				// #ifndef APP-PLUS
 				uni.hideKeyboard()
 				// #endif
-				this.addHistory()
 				uni.navigateTo({
 					url:'../search-list/search-list?keyword='+this.keyword
 				})
+				setTimeout(()=>{
+					this.addHistory()
+				},500)
 			},
 			// 加入搜索记录
 			addHistory(){
@@ -124,6 +132,10 @@
 					this.historyList.unshift(this.keyword)
 				}else {
 					this.historyList.unshift(this.historyList.splice(index,1)[0])
+				}
+				// 移除最后一条
+				if (this.historyList.length > 6 ) {
+					this.historyList.splice(this.historyList.length -1,1)
 				}
 				uni.setStorageSync('searchHistory',JSON.stringify(this.historyList))
 			},
@@ -136,7 +148,7 @@
 					confirmText: '清除',
 					success: res => {
 						if (res.confirm) {
-							uni.clearStorageSync()
+							uni.removeStorageSync('searchHistory')
 							this.historyList = []
 						}
 					},

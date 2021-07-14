@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<!-- 排序|筛选 -->
-		<view class="d-flex border-top border-bottom a-center" style="height: 100upx;">
+		<view class="d-flex border-top border-bottom border-light-secondary a-center position-fixed top-0 left-0 right-0 bg-white" style="height: 100rpx; z-index: 100;">
 			<view class="flex-1 d-flex a-center j-center font-md" v-for="(item,index) in screen.list" :key="index"
 				@tap="changeScreen(index)">
 				<text :class="screen.currentIndex === index ? 'main-text-color':'text-muted'">{{item.name}}</text>
@@ -16,6 +16,7 @@
 			</view>
 			<view class="flex-1 d-flex a-center j-center main-text-color font-md" @click="showDrawer">筛选</view>
 		</view>
+		<view style="height: 100rpx;"></view>
 		<!-- 抽屉 -->
 
 		<uni-drawer ref="showRight" mode="right" :mask-click="true" :width="300">
@@ -38,6 +39,13 @@
 		<block v-for="(item,index) in list" :key="index">
 			<search-list :item="item" :index="index"></search-list>
 		</block>
+		<!-- 没有数据 -->
+		<no-thing v-if="list.length === 0 " msg="没有这个商品"></no-thing>
+		<!-- 上拉加载更多 -->
+		<divider />
+		<view class="d-flex a-center j-center text-light-muted font-md py-3">
+			{{loadtext}}
+		</view>
 	</view>
 </template>
 
@@ -45,14 +53,18 @@
 	import card from "@/components/common/card.vue"
 	import zcmRadioGroup from "@/components/common/radio-group.vue"
 	import searchList from "@/components/search-list/search-list.vue"
+	import noThing from "@/components/common/no-thing.vue"
 	export default {
 		components: {
 			card,
 			zcmRadioGroup,
-			searchList
+			searchList,
+			noThing
 		},
 		data() {
 			return {
+				// 1.上拉加载更多 2.加载中... 3.没有更多了
+				loadtext: "上拉加载更多",
 				keyword: "",
 				page: 1,
 				screen: {
@@ -125,23 +137,94 @@
 			},
 
 		},
+		onNavigationBarSearchInputChanged(e) {
+			this.keyword = e.text
+		},
+		onNavigationBarSearchInputConfirmed() {
+			this.search()
+		},
+		onNavigationBarButtonTap() {
+			this.search()
+		},
 		onLoad(e) {
 			this.keyword = e.keyword
 			// 加载数据
 			this.getData()
 		},
+		onPullDownRefresh() {
+			this.getData(true, () => {
+				uni.showToast({
+					title: '刷新成功',
+					icon: 'none'
+				})
+				uni.stopPullDownRefresh()
+			})
+		},
+		onReachBottom() {
+			// 是否处于加载状态
+			if (this.loadtext !== '上拉加载更多') return
+			// 改变加载状态
+			this.loadtext = '加载中...'
+			this.page++
+			// 请求数据
+			this.getData(false)
+		},
 		methods: {
+			// 初始化搜索
+			initSearch(){
+				this.label.selected = 0
+				this.condition = {},
+				this.page = 1 
+			},
+			// 搜索记录
+			search(){
+				if (this.keyword === ''){
+					return uni.showToast({
+						title:'关键词不能为空',
+						icon:'none'
+					})
+				}
+				// #ifdef APP-PLUS
+				plus.key.hideSoftKeybord()
+				// #endif
+				// #ifndef APP-PLUS
+				uni.hideKeyboard()
+				// #endif
+				this.addHistory()
+				this.initSearch()
+				this.getData()
+			},
+			addHistory(){
+				// 拿到所有的搜索历史
+				let history = uni.getStorageSync('searchHistory')
+				history = history ? JSON.parse(history) : []
+				// 判断之前是否有这个搜索记录
+				let index = history.indexOf(this.keyword)
+				if (index === -1) {
+					history.unshift(this.keyword)
+				}else {
+					history.unshift(history.splice(index,1)[0])
+				}
+				uni.setStorageSync('searchHistory',JSON.stringify(history))
+			},
 			// 加载数据
-			getData() {
+			getData(refresh = true, callback = false) {
+				let page = refresh ? 1 : this.page
 				this.$H.post('/goods/search', {
 					title: this.keyword,
-					page: this.page,
+					page: page,
 					...this.options,
 					...this.condition
 				}).then(res => {
 					console.log(res)
 					let list = this.format(res)
-					this.list = [...list]
+					this.list = refresh ? [...list] : [...this.list, ...list]
+
+					// 恢复加载状态
+					this.loadtext = res.length < 10 ? '没有更多了' : '上拉加载更多'
+					if (typeof callback === 'function') {
+						callback()
+					}
 				})
 			},
 			// 格式化数据
@@ -215,11 +298,9 @@
 			// 组织价格筛选条件
 			getCondition() {
 				let item = this.label.list[this.label.selected]
-				if (item.rule && item.value) {
-					this.condition = {
-						price: item.rule + ',' + item.value
-					}
-				}
+				this.condition = (item.rule && item.value) ? {
+					price:item.rule+','+item.value
+				} : {}
 			}
 		}
 	}

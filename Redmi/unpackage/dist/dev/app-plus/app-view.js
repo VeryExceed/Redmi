@@ -3390,7 +3390,15 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-uni-view",
-    { staticStyle: { width: "372.5rpx" }, attrs: { _i: 0 } },
+    {
+      staticStyle: { width: "372.5rpx" },
+      attrs: { _i: 0 },
+      on: {
+        click: function($event) {
+          return _vm.$handleViewEvent($event)
+        }
+      }
+    },
     [
       _c("v-uni-image", {
         attrs: {
@@ -4470,7 +4478,15 @@ var render = function() {
         "v-uni-view",
         { staticClass: _vm._$g(2, "sc"), attrs: { _i: 2 } },
         _vm._l(_vm._$g(3, "f"), function(item, index, $20, $30) {
-          return _c("color-tag", { key: item, attrs: { _i: "3-" + $30 } })
+          return _c("color-tag", {
+            key: item,
+            attrs: { _i: "3-" + $30 },
+            on: {
+              click: function($event) {
+                return _vm.$handleViewEvent($event)
+              }
+            }
+          })
         }),
         1
       ),
@@ -4478,7 +4494,15 @@ var render = function() {
         "card",
         { attrs: { _i: 4 } },
         _vm._l(_vm._$g(5, "f"), function(item, index, $21, $31) {
-          return _c("color-tag", { key: item, attrs: { _i: "5-" + $31 } })
+          return _c("color-tag", {
+            key: item,
+            attrs: { _i: "5-" + $31 },
+            on: {
+              click: function($event) {
+                return _vm.$handleViewEvent($event)
+              }
+            }
+          })
         }),
         1
       ),
@@ -4506,7 +4530,12 @@ var render = function() {
                 _vm._l(_vm._$g(10, "f"), function(item, index, $22, $32) {
                   return _c("uni-list-item", {
                     key: item,
-                    attrs: { _i: "10-" + $32 }
+                    attrs: { _i: "10-" + $32 },
+                    on: {
+                      click: function($event) {
+                        return _vm.$handleViewEvent($event)
+                      }
+                    }
                   })
                 })
               ],
@@ -4642,7 +4671,16 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-uni-view",
-    { staticClass: _vm._$g(0, "sc"), style: _vm._$g(0, "s"), attrs: { _i: 0 } },
+    {
+      staticClass: _vm._$g(0, "sc"),
+      style: _vm._$g(0, "s"),
+      attrs: { _i: 0 },
+      on: {
+        click: function($event) {
+          return _vm.$handleViewEvent($event)
+        }
+      }
+    },
     [_vm._v(_vm._$g(0, "t0-0"))]
   )
 }
@@ -4795,7 +4833,7 @@ var render = function() {
         "v-uni-view",
         {
           staticClass: _vm._$g(1, "sc"),
-          staticStyle: { height: "100upx" },
+          staticStyle: { height: "100rpx", "z-index": "100" },
           attrs: { _i: 1 }
         },
         [
@@ -4858,16 +4896,17 @@ var render = function() {
         ],
         2
       ),
+      _c("v-uni-view", { staticStyle: { height: "100rpx" }, attrs: { _i: 8 } }),
       _c(
         "uni-drawer",
-        { ref: "showRight", attrs: { _i: 8 } },
+        { ref: "showRight", attrs: { _i: 9 } },
         [
           _c(
             "card",
-            { attrs: { _i: 9 } },
+            { attrs: { _i: 10 } },
             [
               _c("zcm-radio-group", {
-                attrs: { _i: 10 },
+                attrs: { _i: 11 },
                 on: {
                   "update:selected": function($event) {
                     return _vm.$handleViewEvent($event)
@@ -4879,13 +4918,13 @@ var render = function() {
           ),
           _c(
             "v-uni-view",
-            { staticClass: _vm._$g(11, "sc"), attrs: { _i: 11 } },
+            { staticClass: _vm._$g(12, "sc"), attrs: { _i: 12 } },
             [
               _c(
                 "v-uni-view",
                 {
-                  staticClass: _vm._$g(12, "sc"),
-                  attrs: { "hover-class": "main-bg-hover-color", _i: 12 },
+                  staticClass: _vm._$g(13, "sc"),
+                  attrs: { "hover-class": "main-bg-hover-color", _i: 13 },
                   on: {
                     click: function($event) {
                       return _vm.$handleViewEvent($event)
@@ -4897,8 +4936,8 @@ var render = function() {
               _c(
                 "v-uni-view",
                 {
-                  staticClass: _vm._$g(13, "sc"),
-                  attrs: { "hover-class": "bg-light-secondary", _i: 13 },
+                  staticClass: _vm._$g(14, "sc"),
+                  attrs: { "hover-class": "bg-light-secondary", _i: 14 },
                   on: {
                     click: function($event) {
                       return _vm.$handleViewEvent($event)
@@ -4913,11 +4952,16 @@ var render = function() {
         ],
         1
       ),
-      _vm._l(_vm._$g(14, "f"), function(item, index, $21, $31) {
+      _vm._l(_vm._$g(15, "f"), function(item, index, $21, $31) {
         return [
-          _c("search-list", { key: item["k0"], attrs: { _i: "15-" + $31 } })
+          _c("search-list", { key: item["k0"], attrs: { _i: "16-" + $31 } })
         ]
-      })
+      }),
+      _vm._$g(17, "i") ? _c("no-thing", { attrs: { _i: 17 } }) : _vm._e(),
+      _c("divider", { attrs: { _i: 18 } }),
+      _c("v-uni-view", { staticClass: _vm._$g(19, "sc"), attrs: { _i: 19 } }, [
+        _vm._v(_vm._$g(19, "t0-0"))
+      ])
     ],
     2
   )
@@ -5221,7 +5265,15 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-uni-view",
-    { staticClass: _vm._$g(0, "sc"), attrs: { _i: 0 } },
+    {
+      staticClass: _vm._$g(0, "sc"),
+      attrs: { _i: 0 },
+      on: {
+        click: function($event) {
+          return _vm.$handleViewEvent($event)
+        }
+      }
+    },
     [
       _c(
         "v-uni-view",
@@ -5334,7 +5386,8 @@ __webpack_require__.r(__webpack_exports__);
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 var _card = _interopRequireDefault(__webpack_require__(/*! @/components/common/card.vue */ 74));
 var _radioGroup = _interopRequireDefault(__webpack_require__(/*! @/components/common/radio-group.vue */ 66));
-var _searchList = _interopRequireDefault(__webpack_require__(/*! @/components/search-list/search-list.vue */ 126));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
+var _searchList = _interopRequireDefault(__webpack_require__(/*! @/components/search-list/search-list.vue */ 126));
+var _noThing = _interopRequireDefault(__webpack_require__(/*! @/components/common/no-thing.vue */ 308));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
 {
 
   data: function data() {
@@ -5345,7 +5398,8 @@ var _searchList = _interopRequireDefault(__webpack_require__(/*! @/components/se
   components: {
     'card': _card.default,
     'zcmRadioGroup': _radioGroup.default,
-    'searchList': _searchList.default } };exports.default = _default;
+    'searchList': _searchList.default,
+    'noThing': _noThing.default } };exports.default = _default;
 
 /***/ }),
 /* 133 */
