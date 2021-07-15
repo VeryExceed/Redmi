@@ -2,6 +2,8 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
+			// 初始化登录状态
+			this.$store.commit('initUser')
 		},
 		onShow: function() {
 			console.log('App Show')

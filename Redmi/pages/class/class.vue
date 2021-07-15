@@ -20,8 +20,9 @@
 			<view class="row right-scroll-item" v-for="(item,index) in list" 
 			:key="index">
 				<view class="span24-8 text-center py-1"
-				v-for="(item2,index2) in item.list" :key="index2">
-					<image :src="item2.src"
+				v-for="(item2,index2) in item.list" :key="index2"
+				@click="openDetail(item2)">
+					<image :src="item2.cover"
 					style="width: 120upx;height: 120upx;"></image>
 					<text class="d-block">{{item2.name}}</text>
 				</view>
@@ -70,28 +71,6 @@
 		onLoad() {
 			this.getData()
 		},
-		onReady() {
-			this.getElInfo({
-				all:'left',
-				size:true,
-				rect:true
-			}).then(data=>{
-				this.leftDomsTop = data.map(v=>{
-					  this.cateItemHeight = v.height
-					  return v.top
-				})
-			})
-			this.getElInfo({
-				all:'right',
-				size:false,
-				rect:true
-			}).then(data=>{
-				this.rightDomsTop = data.map(v=> v.top)
-			})
-			setTimeout(()=>{
-				this.beforeReady = false
-			},500)
-		},
 		methods: {
 			// 获取节点信息
 			getElInfo(obj = {}){
@@ -109,22 +88,56 @@
 				})
 			},
 			getData(){
-				for (let i = 0; i < 20; i++) {
-					this.cate.push({
-						name:"分类"+i
-					})
-					this.list.push({
-						list:[]
-					})
-				}
-				for (let i = 0; i < this.list.length; i++) {
-					for (let j = 0; j < 20; j++) {
-						this.list[i].list.push({ 
-							src:"/static/images/demo/cate_03.png",
-							name:`分类${i}-商品${j}`,
+				/* 数据格式
+				cate:[{
+					name:"分类1"
+				},{
+					name:"分类2"
+				}]
+				
+				list:[{
+					list:[...]
+				},{
+					list:[...]
+				}]
+				*/
+				this.$H.get('/category/app_category').then(res=>{
+					var cate = []
+					var list = []
+					res.forEach(v=>{
+						cate.push({
+							id:v.id,
+							name:v.name
 						})
-					}
-				}
+						list.push({
+							list:v.app_category_items
+						})
+					})
+					this.cate = cate
+					this.list = list
+					this.$nextTick(()=>{
+						this.getElInfo({
+							all:'left',
+							size:true,
+							rect:true
+						}).then(data=>{
+							this.leftDomsTop = data.map(v=>{
+								  this.cateItemHeight = v.height
+								  return v.top
+							})
+						})
+						this.getElInfo({
+							all:'right',
+							size:false,
+							rect:true
+						}).then(data=>{
+							this.rightDomsTop = data.map(v=> v.top)
+						})
+						setTimeout(()=>{
+							this.beforeReady = false
+						},500)
+					})
+				})
 			},
 			// 点击左边分类
 			changeCate(index){
@@ -141,8 +154,19 @@
 						return false
 					}
 				})
+			},
+			// 打开详情页
+			openDetail(item) {
+				uni.navigateTo({
+					url: '../detail/detail?detail='+JSON.stringify({
+						id:item.goods_id,
+						title:item.name
+					})
+				})
 			}
+			
 		}
+		
 	}
 </script>
 

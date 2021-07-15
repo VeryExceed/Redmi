@@ -34,6 +34,7 @@
 </template>
 
 <script>
+	import {mapMutations} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -43,16 +44,16 @@
 				// 验证规则
 				rules:{
 					username:[
-						{
-							rule:/^[a-zA-Z]\w{5,17}$/,
-							msg:"账号必须字母开头，长度在6~18之间，只能包含字母、数字和下划线"
-						}
+						// {
+						// 	rule:/^[a-zA-Z]\w{5,17}$/,
+						// 	msg:"账号必须字母开头，长度在6~18之间，只能包含字母、数字和下划线"
+						// }
 					],
 					password:[
-						{
-							rule:/^.{5,20}$/,
-							msg:"密码长度必须为5-20个字符"
-						}
+						// {
+						// 	rule:/^.{5,20}$/,
+						// 	msg:"密码长度必须为5-20个字符"
+						// }
 					]
 				},
 				focusClass:{
@@ -62,6 +63,7 @@
 			}
 		},
 		methods: {
+			...mapMutations(['login']),
 			goBack(){
 				uni.navigateBack({
 					delta:1
@@ -97,17 +99,26 @@
 				if (!this.validate('password')) return;
 				
 				console.log('提交成功');
-				uni.showLoading({
-					title:'登陆中...',
-					mask:true
-				})
-				
-				setTimeout(()=>{
+				// uni.showLoading({
+				// 	title:'登录中...',
+				// 	mask:true
+				// })
+				this.$H.post('/login',{
+					username:this.username,
+					password:this.password
+				}).then(res=>{
+					// 状态存储
+					this.login(res)
+					
 					uni.hideLoading()
+					uni.showToast({
+						title: '登录成功',
+						icon: 'none'
+					});
 					uni.navigateBack({
-						delta:1
-					})
-				},2000)
+						delta: 1
+					});
+				})
 			},
 			forget(){
 				

@@ -1,12 +1,14 @@
 <template>
 	<view>
-		<card :headTitle="item.label" bodyStyle="background:#FFFFFF;"
-		v-for="(item,index) in list" :key="index">
-			<uni-list-item :title="list.title" v-for="(list,listIndex) in item.value"
-			:key="listIndex" @click="navigate(list.path)"></uni-list-item>
+		<card v-if="loginStatus" headTitle="账号管理" bodyStyle="background:#FFFFFF;">
+			<uni-list-item title="个人资料"></uni-list-item>
+			<uni-list-item title="收货地址"></uni-list-item>
 		</card>
-		<view class="p-3">
-			<button type="default" class="bg-white">退出登陆</button>
+		<card headTitle="关于" bodyStyle="background:#FFFFFF;">
+			<uni-list-item :title="item.title" v-for="(item,index) in list" :key="index" @click="navigate(item.path)"></uni-list-item>
+		</card>
+		<view class="p-3" v-if="loginStatus">
+			<button type="default" class="bg-white" @click="logoutEvent">退出登陆</button>
 		</view>
 	</view>
 
@@ -14,61 +16,72 @@
 
 <script>
 	import card from "@/components/common/card.vue"
+	import {
+		mapMutations,
+		mapState
+	} from "vuex"
 	export default {
 		components: {
 			card
 		},
 		data() {
 			return {
-				list: [
-					{
-						label: "账户管理",
-						value: [{
-								title: "个人资料",
-								path: "user-userinfo"
-							},
-							{
-								title: "收货地址",
-								path: "user-path-list"
-							}
-						]
+				list: [{
+						title: "关于商城",
+						path: "about"
 					},
 					{
-						label: "关于",
-						value: [{
-								title: "关于商城",
-								path: "about"
-							},
-							{
-								title: "意见反馈",
-								path: ""
-							},
-							{
-								title: "协议规则",
-								path: ""
-							},
-							{
-								title: "资质证件",
-								path: ""
-							},
-							{
-								title: "用户协议",
-								path: ""
-							},
-							{
-								title: "隐私政策",
-								path: ""
-							}
-						]
+						title: "意见反馈",
+						path: ""
+					},
+					{
+						title: "协议规则",
+						path: ""
+					},
+					{
+						title: "资质证件",
+						path: ""
+					},
+					{
+						title: "用户协议",
+						path: ""
+					},
+					{
+						title: "隐私政策",
+						path: ""
 					}
 				]
 			}
 		},
+		computed: {
+			...mapState({
+				token: state => state.user.token,
+				loginStatus: state => state.user.loginStatus
+			})
+		},
 		methods: {
-			navigate(path){
+			...mapMutations(['logout']),
+			navigate(path) {
 				if (!path) return;
 				uni.navigateTo({
-					url:`/pages/${path}/${path}`
+					url: `/pages/${path}/${path}`
+				})
+			},
+			// 退出登录
+			logoutEvent() {
+				this.$H.post('/logout', {}, {
+					header: {
+						token: this.token
+					}
+				}).then(res => {
+					this.logout()
+					uni.showToast({
+						title: '退出成功',
+						icon: 'none'
+					})
+					uni.navigateBack({
+						delta: 1
+					})
 				})
 			}
 		}
