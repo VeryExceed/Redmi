@@ -5,7 +5,8 @@
 			<uni-list-item title="收货地址"></uni-list-item>
 		</card>
 		<card headTitle="关于" bodyStyle="background:#FFFFFF;">
-			<uni-list-item :title="item.title" v-for="(item,index) in list" :key="index" @click="navigate(item.path)"></uni-list-item>
+			<uni-list-item :title="item.title" v-for="(item,index) in list" :key="index" @click="navigate(item.path)">
+			</uni-list-item>
 		</card>
 		<view class="p-3" v-if="loginStatus">
 			<button type="default" class="bg-white" @click="logoutEvent">退出登陆</button>
@@ -63,16 +64,17 @@
 			...mapMutations(['logout']),
 			navigate(path) {
 				if (!path) return;
+
 				uni.navigateTo({
 					url: `/pages/${path}/${path}`
 				})
+
 			},
 			// 退出登录
 			logoutEvent() {
 				this.$H.post('/logout', {}, {
-					header: {
-						token: this.token
-					}
+					token: false,
+					toast: false
 				}).then(res => {
 					this.logout()
 					uni.showToast({
@@ -82,6 +84,8 @@
 					uni.navigateBack({
 						delta: 1
 					})
+				}).catch(rej => {
+					console.log(rej)
 				})
 			}
 		}

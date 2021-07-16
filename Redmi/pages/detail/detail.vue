@@ -3,7 +3,7 @@
 		<!-- 商品详情大图 -->
 		<swiper-image :resdata="banners" height="750" priview />
 		<!-- 基础详情 -->
-		<base-info :detail="detail" :showPrice="showPrice"></base-info>
+		<base-info :detail="detail" :show-price="showPrice"></base-info>
 		<!-- 滚动商品特性 w170*h110 -->
 		<scroll-attrs :baseAttrs="baseAttrs"></scroll-attrs>
 		<!-- 属性选择 -->
@@ -71,7 +71,7 @@
 			<view class="d-flex a-center" style="height: 275rpx;">
 				<image src="../../static/images/demo/cate_01.png" mode="widthFix" style="height: 180rpx; width: 180rpx;"
 					class="border rounded"></image>
-				<view class="pl-2" >
+				<view class="pl-2">
 					<price priceSize="font-lg" unitSize="font">{{showPrice}}</price>
 					<text class="d-block">{{checkedSkus}}</text>
 				</view>
@@ -81,12 +81,13 @@
 			-->
 			<scroll-view scroll-y class="w-100" style="height: 660rpx;">
 				<card headTitle="颜色" :headTitleWeight="false" :headBorderBottom="false" v-for="(item,index) in selects"
-				:key="index">
+					:key="index">
 					<zcm-radio-group :label="item" :selected.sync='item.selected'></zcm-radio-group>
 				</card>
 				<view class="d-flex j-sb a-center p-2 border-top border-light-secondary">
 					<text>购买数量</text>
-					<uni-number-box :min="1" :max="maxStock" :value="detail.num" @change="detail.num = $event"></uni-number-box>
+					<uni-number-box :min="1" :max="maxStock" :value="detail.num" @change="detail.num = $event">
+					</uni-number-box>
 				</view>
 			</scroll-view>
 			<!-- 按钮(100rpx) -->
@@ -213,8 +214,8 @@
 				comments: [],
 				banners: [],
 				detail: {
-					goodsSkus:[{
-						skusText:'',
+					goodsSkus: [{
+						skusText: '',
 					}]
 				},
 				baseAttrs: [],
@@ -244,37 +245,39 @@
 				return checkedSkus.join(',')
 			},
 			// 显示价格
-			showPrice(){
-				if (this.checkedSkusIndex > 0) {
+			showPrice() {
+				if (this.checkedSkusIndex < 0) {
 					return this.detail.min_price || 0.00
 				}
 				return this.detail.goodsSkus[this.checkedSkusIndex].pprice
 			},
-			
+
 			// 选中skus的索引
 			checkedSkusIndex(){
 				let index = this.detail.goodsSkus.findIndex((item)=>{
 					return item.skusText === this.checkedSkus
-					
 				})
 				return index
 			},
 			// 最大库存
-			maxStock() {
-				return this.detail.goodsSkus[this.checkedSkusIndex].stock
+			maxStock(){
+				if (this.detail.sku_type === 0) {
+					return this.detail.stock
+				}
+				return this.detail.goodsSkus[this.checkedSkusIndex].stock || 100
 			}
 		},
 		onLoad(e) {
 			if (e.detail) {
 				this.__init(JSON.parse(e.detail))
-				
+
 			}
 		},
 		methods: {
 			...mapMutations([
 				'addGoodsToCart'
 			]),
-			
+
 			// 初始化页面
 			__init(data) {
 				this.$H.get('/goods/' + data.id).then(res => {
@@ -331,30 +334,31 @@
 							pprice: v.min_price
 						}
 					})
-					// 商品规格(选项部分)
-					this.selects = res.goodsSkusCard.map(v => {
-						let list = v.goodsSkusCardValue.map(v1 => {
+					if (this.detail.sku_type === 1) {
+						// 商品规格（选项部分）
+						this.selects = res.goodsSkusCard.map(v => {
+							let list = v.goodsSkusCardValue.map(v1 => {
+								return {
+									id: v1.id,
+									name: v1.value
+								}
+							})
 							return {
-								id: v1.id,
-								name: v1.value
+								id: v.id,
+								title: v.name,
+								selected: 0,
+								list: list
 							}
 						})
-						return {
-							id: v.id,
-							title: v.name,
-							selected: 0,
-							list: list
-						}
-
-					})
-					// 商品规格(匹配价格)
-					this.detail.goodsSkus.forEach(item => {
-						let arr = []
-						for (let key in item.skus) {
-							arr.push(item.skus[key].value)
-						}
-						item.skusText = arr.join(',')
-					})
+						// 商品规格（匹配价格）
+						this.detail.goodsSkus.forEach(item => {
+							let arr = []
+							for (let key in item.skus) {
+								arr.push(item.skus[key].value)
+							}
+							item.skusText = arr.join(',')
+						})
+					}
 				})
 			},
 			// 选择新地址
