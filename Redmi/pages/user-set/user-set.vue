@@ -2,7 +2,7 @@
 	<view>
 		<card v-if="loginStatus" headTitle="账号管理" bodyStyle="background:#FFFFFF;">
 			<uni-list-item title="个人资料"></uni-list-item>
-			<uni-list-item title="收货地址"></uni-list-item>
+			<uni-list-item title="收货地址" @click="navigate('user-path-list')" ></uni-list-item>
 		</card>
 		<card headTitle="关于" bodyStyle="background:#FFFFFF;">
 			<uni-list-item :title="item.title" v-for="(item,index) in list" :key="index" @click="navigate(item.path)">
@@ -73,7 +73,7 @@
 			// 退出登录
 			logoutEvent() {
 				this.$H.post('/logout', {}, {
-					token: false,
+					token: true,
 					toast: false
 				}).then(res => {
 					this.logout()

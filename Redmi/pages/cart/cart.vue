@@ -1,8 +1,8 @@
 <template>
 	<view class="animated fadeIn faster" style="background: #F5F5F5;">
-		
+
 		<loading-plus v-if="beforeReady"></loading-plus>
-		
+
 		<uni-nav-bar :right-text="isedit?'完成':'编辑'" title="购物车" :fixed="true" statusBar :shadow="false"
 			@clickRight="isedit = !isedit"></uni-nav-bar>
 		<!-- 购物车为空 -->
@@ -17,8 +17,8 @@
 		<!-- 购物车商品列表 -->
 		<view class="bg-white px-2" v-else>
 			<!-- 列表 -->
-			<view class="d-flex a-center py-3 border-bottom border-light-secondary" v-for="(item,index) in list"
-				:key="index">
+			<view class="d-flex a-center py-3 border-bottom border-light-secondary" 
+			v-for="(item,index) in list" :key="index">
 				<label class="radio d-flex a-center j-center" style="width: 80rpx; height: 80rpx;"
 					@click="selectItem(index)">
 					<radio :value="item.id" :checked="item.checked" color="#FD6801" />
@@ -33,12 +33,13 @@
 						{{item.title}}
 					</view>
 					<!-- 规格属性 -->
-					<view class="d-flex text-light-muted mb-1" :class="isedit ? ' p-1 bg-light-secondary mb-2' : ''"
-						@tap.stop="doShowPopup(index)">
-						<text class="mr-1" v-for="(attr,attrIndex) in item.attrs"
-							:key="attrIndex">{{attr.list[attr.selected].name}}</text>
-
-						<view class="iconfont icon-bottom font ml-auto" v-if="isedit"></view>
+					<view class="d-flex text-light-muted mb-1"
+					:class="isedit ? ' p-1 bg-light-secondary mb-2' : ''"
+					@tap.stop="showPopup(index,item)"
+					v-if="item.skus_type === 1">
+						{{item.skusText}}
+						<view class="iconfont icon-bottom font ml-auto"
+						v-if="isedit"></view>
 					</view>
 					<view class="mt-auto d-flex j-sb">
 						<price>{{item.pprice}}</price>
@@ -94,33 +95,7 @@
 			</template>
 		</view>
 		<!-- 属性筛选框 -->
-		<common-popup :popupClass="popupShow" @hide="doHidePopup">
-			<view class="d-flex a-center" style="height: 275rpx;">
-				<image src="../../static/images/demo/list/1.jpg" mode="widthFix" style="height: 180rpx;width: 180rpx;"
-					class="border rounded"></image>
-				<view class="pl-2">
-					<price priceSize="font-lg" unitSize="font">2365</price>
-					<view class="d-block">
-						<text class="mr-1" v-for="(attr,attrIndex) in popupData.attrs"
-							:key="attrIndex">{{attr.list[attr.selected].name}}</text>
-					</view>
-				</view>
-			</view>
-			<scroll-view scroll-y class="w-100" style="height: 660rpx;">
-				<card :headTitle="item.title" :headTitleWeight="false" :headBorderBottom="false" :key="index"
-					v-for="(item,index) in popupData.attrs">
-					<zcm-radio-group :label="item" :selected.sync='item.selected'></zcm-radio-group>
-				</card>
-				<view class="d-flex j-sb a-center p-2 border-top border-light-secondary">
-					<text>购买数量</text>
-					<uni-number-box :min="1" :value="popupData.num" @change="popupData.num = $event"></uni-number-box>
-				</view>
-			</scroll-view>
-			<view class="main-bg-color text-white font-md d-flex a-center j-center" hover-class="main-bg-hover-color"
-				style="height: 100rpx;margin-left: -30rpx;margin-right: -30rpx;" @tap.stop="doHidePopup">
-				确定
-			</view>
-		</common-popup>
+		<sku-popup></sku-popup>
 	</view>
 </template>
 
@@ -133,83 +108,102 @@
 		mapActions
 	} from "vuex"
 	import price from "@/components/common/price.vue"
-	import commonPopup from "@/components/common/common-popup.vue"
-	import zcmRadioGroup from "@/components/common/radio-group.vue"
-	import card from "@/components/common/card.vue"
 	import commonList from "@/components/common/common-list.vue"
+	import skuPopup from "@/components/cart/sku-popup.vue"
 	export default {
-		mixins:[loading],
+		mixins: [loading],
 		components: {
 			price,
-			commonPopup,
-			zcmRadioGroup,
-			card,
-			commonList
+			commonList,
+			skuPopup
 		},
 		data() {
 			return {
 				isedit: false,
-				hotList: [{
-						cover: "/static/images/demo/list/1.jpg",
-						title: "米家空调",
-						desc: "1.5匹变频",
-						oprice: 2699,
-						pprice: 1399
-					},
-					{
-						cover: "/static/images/demo/list/1.jpg",
-						title: "米家空调",
-						desc: "1.5匹变频",
-						oprice: 2699,
-						pprice: 1399
-					},
-					{
-						cover: "/static/images/demo/list/1.jpg",
-						title: "米家空调",
-						desc: "1.5匹变频",
-						oprice: 2699,
-						pprice: 1399
-					},
-					{
-						cover: "/static/images/demo/list/1.jpg",
-						title: "米家空调",
-						desc: "1.5匹变频",
-						oprice: 2699,
-						pprice: 1399
-					}
-				]
+				hotList: []
 			}
 		},
 		computed: {
 			...mapState({
 				list: state => state.cart.list,
-				popupShow: state => state.cart.popupShow
+
 			}),
 			...mapGetters([
 				'checkedAll',
 				'totalPrice',
 				'disableSelectAll',
-				'popupData'
 			])
 		},
-		
+		onShow() {
+			this.getData()
+		},
 		methods: {
 			...mapActions([
 				'doSelectAll',
 				'doDelGoods',
 				'doShowPopup',
-				'doHidePopup'
 			]),
 			...mapMutations([
-				'selectItem'
+				'selectItem',
+				'initCartList'
 			]),
-			changeNum(e, item, index) {
-				item.num = e
+			changeNum(e,item,index){
+				if (item.num === e) return;
+				uni.showLoading({
+					title:"加载中..."
+				})
+				this.$H.post('/cart/updatenumber/'+item.id,{
+					num:e
+				},{
+					token:true
+				}).then(res=>{
+					console.log(res);
+					item.num = e
+					uni.hideLoading()
+				}).catch(err=>{
+					console.log(err + '失败啦')
+				})
 			},
 			// 订单结算
 			orderConfirm() {
 				uni.navigateTo({
 					url: '../order-confirm/order-confirm'
+				})
+			},
+			showPopup(index,item){
+				this.$H.get('/cart/'+item.id+'/sku',{},{
+					token:true
+				}).then(res=>{
+					if (this.isedit) {
+						this.doShowPopup({
+							index,
+							data:res
+						})
+					}
+				})
+			},
+			// 获取数据
+			getData() {
+				// 获取购物车
+				this.$H.get('/cart', {}, {
+					token: true,
+					toast: false
+				}).then(res => {
+					console.log(res)
+					this.initCartList(res)
+				})
+				// 获取热门推荐
+				this.$H.get('/goods/hotlist').then(res => {
+					this.hotList = res.map(v => {
+						return {
+							id: v.id,
+							cover: v.cover,
+							title: v.title,
+							desc: v.desc,
+							oprice: v.min_oprice,
+							pprice: v.min_price
+						}
+					})
 				})
 			}
 		}

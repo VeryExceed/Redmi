@@ -2,39 +2,51 @@
 	<view>
 		<uni-swipe-action>
 			<!-- 基础用法 -->
-			<uni-swipe-action-item :right-options="options" 
-			@click="bindClick($event,index)"
-			v-for="(item,index) in list" :key="index">
+			<uni-swipe-action-item :right-options="options" @click="bindClick($event,index)"
+				v-for="(item,index) in list" :key="index">
 				<uni-list-item @click="choose(item)">
 					<view class="text-secondary">
 						<view class="d-flex a-center">
-							<text class="main-text-color">{{item.name}}</text>
-							{{item.phpne}}
-							<text class="main-text-color" v-if="item.isdefault">[默认]</text>
+							<text class="main-text-color mr-1">{{item.name}}</text>
+							{{item.phone}}
+							<text class="main-text-color" v-if="index === 0 && item.last_used_time !== null">[默认]</text>
 						</view>
 						<view>
-							{{item.path}}
+							{{item.province}} {{item.city}} {{item.district}}
 						</view>
 						<view>
-							{{item.detailPath}}
+							{{item.address}}
 						</view>
 					</view>
 				</uni-list-item>
 			</uni-swipe-action-item>
 		</uni-swipe-action>
+		<no-thing v-if="list.length === 0" msg="空空如也"></no-thing>
+		<!-- 上拉加载更多 -->
+		<divider />
+		<view class="d-flex a-center j-center text-light-muted font-md py-3">
+			{{loadtext}}
+		</view>
 	</view>
 </template>
 
 <script>
+	import noThing from '@/components/common/no-thing.vue'
 	import {
 		mapState,
-		mapMutations
+		mapMutations,
 	} from "vuex"
 	export default {
+		components:{
+			noThing
+		},
 		data() {
-
+			
 			return {
-				isChoose:false,
+				// 1.上拉加载更多 2.加载中... 3.没有更多了
+				loadtext:"上拉加载更多",
+				isChoose: false,
+				page: 1,
 				options: [{
 					text: '修改',
 					style: {
@@ -60,36 +72,98 @@
 			if (e.type === 'choose') {
 				this.isChoose = true
 			}
+			this.getData()
+			
+			// 注册一个监听事件
+			uni.$on('updateUserPathList',()=>{
+				this.page=1
+				this.getData()
+			})
+		},
+		onUnload() {
+			uni.$off('updateUserPathList')
+		},
+		onPullDownRefresh() {
+			this.page = 1
+			this.getData(() => {
+				uni.stopPullDownRefresh()
+			})
+		},
+		onReachBottom() {
+			// 是否已经处于加载状态
+			if (this.loadtext !== '上拉加载更多') return
+			// 改变加载状态
+			this.loadtext = '加载中...'
+			this.page++
+			// 请求数据
+			this.getData()
 		},
 		computed: {
 			...mapState({
 				list: state => state.path.list
-			}) 
+			})
 		},
 		methods: {
-			...mapMutations(['delPath']),
+			...mapMutations(['delPath', 'updatePathList']),
+			// 初始化
+			getData(callback = false) {
+				this.$H.get('/useraddresses/' + this.page, {}, {
+					token: true
+				}).then(res => {
+					let refresh = this.page === 1
+					this.updatePathList({
+						refresh: refresh,
+						list: res
+					})
+					this.loadtext = res.length < 10 ? '没有更多数据了' : '上拉加载更多'
+					// 下拉刷新
+					if (typeof callback === 'function'){
+						uni.showToast({
+							title: '刷新成功',
+							icon: 'none' 
+						}); callback()
+					}
+				}).catch(err => {
+					if (typeof callback === 'function') {
+						callback()
+					}
+					if (this.page > 1){
+						// 页码回归上一页
+						this.page--
+						this.loadtext = '上拉加载更多'
+					}
+				})
+			},
 			bindClick(value, i) {
 				switch (value.index) {
 					case 0: // 修改
-					let obj = JSON.stringify({
-						index:i,
-						item:this.list[i]
-					})
-					setTimeout(()=>{
-						uni.navigateTo({
-							url: '../user-path-edit/user-path-edit?data='+obj,
-						});
-					})
+						let obj = {
+							index: i,
+							item: this.list[i]
+						}
+					
+						// 加上是否默认
+						obj.item.default = (i === 0 && obj.item.last_used_time !== null) ? 1 : 0;
+						setTimeout(() => {
+							uni.navigateTo({
+								url: '../user-path-edit/user-path-edit?data=' + JSON.stringify(obj),
+							});
+						}, 50);
 						break;
 					case 1: //删除
 						uni.showModal({
 							content: '要删除该收货地址吗？',
 							success: (res) => {
 								if (res.confirm) {
-									this.delPath(i)
-									uni.showToast({
-										title: '删除成功'
-									});
+									this.$H.del('/useraddresses/' + this.list[i].id,{},{
+										token:true
+									}).then(res=>{
+										this.delPath(i)
+										uni.showToast({
+											title: '删除成功'
+										});
+									})
+									
 								}
 							}
 						})
@@ -98,9 +172,9 @@
 			},
 			// 选择收货地址
 			choose(item) {
-				if (this.isChoose){
+				if (this.isChoose) {
 					// 通知订单提交页修改收货地址
-					uni.$emit('choosePath',item)
+					uni.$emit('choosePath', item)
 					// 关闭当前页面
 					uni.navigateBack({
 						delta: 1

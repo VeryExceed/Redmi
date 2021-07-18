@@ -1,165 +1,12 @@
 export default {
 	state: {
-		list: [
-			{
-				checked: false,
-				id: 11,
-				title: "商品标题111",
-				cover: "/static/images/demo/list/1.jpg",
-				// 选中商品属性
-				attrs: [{
-						title: "颜色",
-						selected: 0,
-						list: [{
-								name: '火焰红',
-							},
-							{
-								name: '炭黑',
-							},
-							{
-								name: '冰川兰',
-							}
-						]
-					},
-					{
-						title: "容量",
-						selected: 0,
-						list: [{
-								name: '64GB',
-							},
-							{
-								name: '128GB',
-							},
-						]
-					},
-					{
-						title: "套餐",
-						selected: 0,
-						list: [{
-								name: '标配',
-							},
-							{
-								name: '套餐一',
-							},
-							{
-								name: '套餐二',
-							}
-						]
-					},
-				],
-				pprice: 336,
-				num: 1,
-				minnum: 1,
-				maxnum: 10, // 该商品最大商品数，跟库存有关
-			},
-			{
-				checked: false,
-				id: 12,
-				title: "商品标题111",
-				cover: "/static/images/demo/list/1.jpg",
-				// 选中商品属性
-				attrs: [{
-						title: "颜色",
-						selected: 0,
-						list: [{
-								name: '火焰红',
-							},
-							{
-								name: '炭黑',
-							},
-							{
-								name: '冰川兰',
-							}
-						]
-					},
-					{
-						title: "容量",
-						selected: 0,
-						list: [{
-								name: '64GB',
-							},
-							{
-								name: '128GB',
-							},
-						]
-					},
-					{
-						title: "套餐",
-						selected: 0,
-						list: [{
-								name: '标配',
-							},
-							{
-								name: '套餐一',
-							},
-							{
-								name: '套餐二',
-							}
-						]
-					},
-				],
-				pprice: 336,
-				num: 1,
-				minnum: 1,
-				maxnum: 10, // 该商品最大商品数，跟库存有关
-			},
-			{
-				checked: false,
-				id: 13,
-				title: "商品标题111",
-				cover: "/static/images/demo/list/1.jpg",
-				// 选中商品属性
-				attrs: [{
-						title: "颜色",
-						selected: 0,
-						list: [{
-								name: '火焰红',
-							},
-							{
-								name: '炭黑',
-							},
-							{
-								name: '冰川兰',
-							}
-						]
-					},
-					{
-						title: "容量",
-						selected: 0,
-						list: [{
-								name: '64GB',
-							},
-							{
-								name: '128GB',
-							},
-						]
-					},
-					{
-						title: "套餐",
-						selected: 0,
-						list: [{
-								name: '标配',
-							},
-							{
-								name: '套餐一',
-							},
-							{
-								name: '套餐二',
-							}
-						]
-					},
-				],
-				pprice: 336,
-				num: 1,
-				minnum: 1,
-				maxnum: 10, // 该商品最大商品数，跟库存有关
-			},
-		],
+		list: [],
 		// 选中列表（存放选中的id）
 		selectedList:[],
 		// popup显示
 		popupShow:'none',
-		popupIndex:-1
+		popupIndex:-1,
+		popupData:{}
 	},
 	getters: {
 		// 判断是否全选
@@ -171,7 +18,7 @@ export default {
 			var total = 0
 			state.list.forEach(v=>{
 				if(state.selectedList.indexOf(v.id)>-1){
-					total += v.pprice*v.num
+					total += v.pprice*v.num 
 				}
 			})
 			return total
@@ -181,16 +28,15 @@ export default {
 			 return  state.list.length === 0 
 		},
 		// 拿到当前需要修改属性的商品
-		popupData:(state,index)=>{
-			// console.log(state.list)
-			// console.log(state.popupIndex)
-			// console.log(index)
-			// console.log(state.popupIndex)
-			// console.log(state.list[state.popupIndex])
+		popupData:(state)=>{
 			return state.popupIndex > -1 ? state.list[state.popupIndex] : {}
 		}
 	},
 	mutations: {
+		// 初始化list
+		initCartList(state,list) {
+			state.list = list
+		},
 		// 选中/取消选中某个商品
 		selectItem(state,index) {
 			let id = state.list[index].id
@@ -225,7 +71,7 @@ export default {
 		// 删除选中 
 		delGoods(state){
 			state.list = state.list.filter(v=>{
-				return state.selectedList.indexOf(v.id)
+				return state.selectedList.indexOf(v.id) === -1
 			}) 
 		},
 		// 初始化popupIndex
@@ -239,9 +85,11 @@ export default {
 	},
 	actions: {
 		// 显示popup
-		doShowPopup({state,commit},index){
+		doShowPopup({state,commit},{index,data}){
 			commit('initPopupIndex',index)
-			state.popupShow = 'show'
+		state.popupData = data
+		state.popupData.item = state.list[index]
+		state.popupShow = 'show'
 		},
 		// 隐藏popup
 		doHidePopup({state,commit}){
@@ -254,12 +102,14 @@ export default {
 		doSelectAll({commit,getters}){
 			getters.checkedAll ? commit('unSelectAll') : commit('selectAll')
 		},
-		doDelGoods({commit,getters}){
+		doDelGoods({commit}){
 					uni.showModal({
 						content:'是否删除选中商品',
 						success:(res)=> {
 							if (res.confirm){
 								commit('delGoods')
+								
+								commit('unSelectAll')
 								uni.showToast({
 									title:'删除成功'
 								})

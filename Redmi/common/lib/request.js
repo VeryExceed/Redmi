@@ -78,5 +78,12 @@ export default {
 		options.data = data
 		options.method = 'POST'
 		return this.request(options)
+	},
+	// delete请求
+	del(url, data = {}, options = {}) {
+		options.url = url
+		options.data = data
+		options.method = 'DELETE'
+		return this.request(options)
 	}
 }
