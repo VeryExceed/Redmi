@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<card v-if="loginStatus" headTitle="账号管理" bodyStyle="background:#FFFFFF;">
-			<uni-list-item title="个人资料"></uni-list-item>
+			<uni-list-item title="个人资料" @click="navigate('user-userinfo')"></uni-list-item>
 			<uni-list-item title="收货地址" @click="navigate('user-path-list')" ></uni-list-item>
 		</card>
 		<card headTitle="关于" bodyStyle="background:#FFFFFF;">

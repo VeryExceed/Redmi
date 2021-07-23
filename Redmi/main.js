@@ -35,6 +35,9 @@ Vue.prototype.navigateTo = (options)=>{
 	}
 	uni.navigateTo(options);
 }
+// 助手函数
+import $U from 'common/lib/util.js'
+Vue.prototype.$U = $U
 
 App.mpType = 'app'
 

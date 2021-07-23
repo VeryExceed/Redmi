@@ -74,7 +74,7 @@
 			})
 		},
 		methods: {
-			navigate(path,check = false){
+			navigate(path,check = true){
 				if (!path) return;
 				if (check) {
 					return this.navigateTo({

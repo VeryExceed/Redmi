@@ -1,33 +1,34 @@
 export default {
-	state: {
+	state:{
 		// 登录状态
-		loginStatus: false,
+		loginStatus:false,
 		// token
-		token: null,
+		token:null,
 		// 用户信息
-		userInfo: {}
+		userInfo:{}
 	},
-	mutations: {
+	mutations:{
 		// 初始化登录状态
-		initUser(state) {
+		initUser(state){
 			let userInfo = uni.getStorageSync('userInfo')
 			if (userInfo) {
 				userInfo = JSON.parse(userInfo)
+				
 				state.userInfo = userInfo
 				state.token = userInfo.token
 				state.loginStatus = true
 			}
 		},
 		// 登录
-		login(state, userinfo) {
+		login(state,userinfo){
 			state.userInfo = userinfo
 			state.loginStatus = true
 			state.token = userinfo.token
 			// 持久化存储
-			uni.setStorageSync('userInfo', JSON.stringify(userinfo))
+			uni.setStorageSync('userInfo',JSON.stringify(userinfo))
 		},
 		// 退出登录
-		logout(state) {
+		logout(state){
 			state.userInfo = {}
 			state.loginStatus = false
 			state.token = null

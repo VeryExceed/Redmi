@@ -91,9 +91,12 @@
 				</view>
 			</scroll-view>
 			<!-- 按钮(100rpx) -->
-			<view class="main-bg-color text-white font-md d-flex a-center j-center" hover-class="main-bf-hover-color"
-				style="height: 100rpx;margin-left: -30rpx; margin-right: -30rpx;" @tap.stop="addCart">
-				加入购物车
+			<view class="text-white font-md d-flex a-center j-center"
+				style="height: 100rpx;margin-left: -30rpx; margin-right: -30rpx;" 
+				:class="maxStock === 0 ? 'bg-secondary' : 'main-bg-color'"
+				:hover-class="maxStock !== 0 ? 'main-bg-hover' : ''"
+				@tap.stop="addCart">
+				{{maxStock === 0 ? '暂无库存' : '加入购物车'}}
 			</view>
 		</common-popup>
 		<!-- 收货地址 -->
@@ -261,10 +264,12 @@
 			},
 			// 最大库存
 			maxStock(){
+				
 				if (this.detail.sku_type === 0) {
 					return this.detail.stock
 				}
-				return this.detail.goodsSkus[this.checkedSkusIndex].stock || 100
+				console.log(this.detail.goodsSkus[this.checkedSkusIndex].stock)
+				return this.detail.goodsSkus[this.checkedSkusIndex].stock
 			}
 		},
 		onLoad(e) {
@@ -370,18 +375,27 @@
 			},
 			// 加入购物车
 			addCart() {
-				// 组织数据
-				let goods = this.detail
-				goods['checked'] = false
-				goods['attrs'] = this.selects
-				// 加入购物车
-				this.addGoodsToCart(goods)
-				// 隐藏筛选框
-				this.hide('attr')
-				// 成功提示
-				uni.showToast({
-					title: '加入成功'
+				// 没有库存
+				if (this.maxStock === 0 ){
+					return 
+				}
+				this.$H.post('/cart',{
+					shop_id:this.detail.sku_type === 0 ? this.detail.id : this.detail.goodsSkus[this.checkedSkusIndex].id,
+					skus_type:this.detail.sku_type,
+					num:this.detail.num
+				},{
+					token:true
+				}).then(res=>{
+					// 通知购物车页更新数据
+					uni.$emit('updateCart')
+					// 隐藏筛选框
+					this.hide('attr')
+					// 成功提示
+					uni.showToast({
+						title: '加入成功'
+					})
 				})
+				
 			},
 			hide(key) {
 				this.popup[key] = 'hide'

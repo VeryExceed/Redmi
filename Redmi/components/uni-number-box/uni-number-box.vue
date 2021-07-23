@@ -49,6 +49,9 @@
 				if (this.inputValue > newVal) {
 					this.inputValue = newVal
 				}
+				if (this.inputValue === 0 && newVal > 0) {
+					this.inputValue = 1
+				}
 			}
 		},
 		created() {

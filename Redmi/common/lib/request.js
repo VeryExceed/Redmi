@@ -27,10 +27,10 @@ export default {
 				uni.showToast({
 					title: '请先登录',
 					icon: 'none'
-				})
+				});
 				return uni.navigateTo({
-					url: '/pages/login/login'
-				})
+					url: '/pages/login/login',
+				});
 			}
 		}
 

@@ -1,3 +1,5 @@
+import $H from "@/common/lib/request.js"
+import $U from "@/common/lib/util.js"
 export default {
 	state: {
 		list: [],
@@ -27,15 +29,12 @@ export default {
 		disableSelectAll:(state)=>{
 			 return  state.list.length === 0 
 		},
-		// 拿到当前需要修改属性的商品
-		popupData:(state)=>{
-			return state.popupIndex > -1 ? state.list[state.popupIndex] : {}
-		}
 	},
 	mutations: {
 		// 初始化list
 		initCartList(state,list) {
 			state.list = list
+			$U.updateCartBadge(state.list.length)
 		},
 		// 选中/取消选中某个商品
 		selectItem(state,index) {
@@ -73,6 +72,7 @@ export default {
 			state.list = state.list.filter(v=>{
 				return state.selectedList.indexOf(v.id) === -1
 			}) 
+			$U.updateCartBadge(state.list.length)
 		},
 		// 初始化popupIndex
 		initPopupIndex(state,index){
@@ -81,15 +81,17 @@ export default {
 		// 加入购物车
 		addGoodsToCart(state,goods){
 			state.list.unshift(goods)
+			$U.updateCartBadge(state.list.length)
 		}
 	},
 	actions: {
 		// 显示popup
 		doShowPopup({state,commit},{index,data}){
 			commit('initPopupIndex',index)
-		state.popupData = data
-		state.popupData.item = state.list[index]
-		state.popupShow = 'show'
+			state.popupData = data
+			state.popupData.item = state.list[index]
+			console.log(state.popupData);
+			state.popupShow = 'show'
 		},
 		// 隐藏popup
 		doHidePopup({state,commit}){
@@ -102,17 +104,29 @@ export default {
 		doSelectAll({commit,getters}){
 			getters.checkedAll ? commit('unSelectAll') : commit('selectAll')
 		},
-		doDelGoods({commit}){
+		doDelGoods({commit,state}){
+					if (state.selectedList.length === 0){
+						return uni.showToast({
+							title:'请选择要删除的商品',
+							icon:'none'
+						})
+					}
 					uni.showModal({
 						content:'是否删除选中商品',
 						success:(res)=> {
 							if (res.confirm){
-								commit('delGoods')
-								
-								commit('unSelectAll')
-								uni.showToast({
-									title:'删除成功'
+								$H.post('/cart/delete',{
+									shop_ids:state.selectedList.join(',')
+								},{
+									token:true
+								}).then(res=>{
+									commit('delGoods')
+									commit('unSelectAll')
+									uni.showToast({
+										title:'删除成功'
+									})
 								})
+								
 							}
 						}
 					})

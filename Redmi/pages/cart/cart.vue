@@ -17,8 +17,8 @@
 		<!-- 购物车商品列表 -->
 		<view class="bg-white px-2" v-else>
 			<!-- 列表 -->
-			<view class="d-flex a-center py-3 border-bottom border-light-secondary" 
-			v-for="(item,index) in list" :key="index">
+			<view class="d-flex a-center py-3 border-bottom border-light-secondary" v-for="(item,index) in list"
+				:key="index">
 				<label class="radio d-flex a-center j-center" style="width: 80rpx; height: 80rpx;"
 					@click="selectItem(index)">
 					<radio :value="item.id" :checked="item.checked" color="#FD6801" />
@@ -33,13 +33,10 @@
 						{{item.title}}
 					</view>
 					<!-- 规格属性 -->
-					<view class="d-flex text-light-muted mb-1"
-					:class="isedit ? ' p-1 bg-light-secondary mb-2' : ''"
-					@tap.stop="showPopup(index,item)"
-					v-if="item.skus_type === 1">
+					<view class="d-flex text-light-muted mb-1" :class="isedit ? ' p-1 bg-light-secondary mb-2' : ''"
+						@tap.stop="showPopup(index,item)" v-if="item.skus_type === 1">
 						{{item.skusText}}
-						<view class="iconfont icon-bottom font ml-auto"
-						v-if="isedit"></view>
+						<view class="iconfont icon-bottom font ml-auto" v-if="isedit"></view>
 					</view>
 					<view class="mt-auto d-flex j-sb">
 						<price>{{item.pprice}}</price>
@@ -125,7 +122,7 @@
 		},
 		computed: {
 			...mapState({
-				list: state => state.cart.list,
+				list: state => state.cart.list
 
 			}),
 			...mapGetters([
@@ -134,7 +131,17 @@
 				'disableSelectAll',
 			])
 		},
-		onShow() {
+		onLoad() {
+			this.getData()
+			// 监听购物车更新
+			uni.$on('updateCart',()=>{
+				this.getData()
+			})
+		},
+		beforeDestroy() {
+			uni.$off('updateCart')
+		},
+		onPullDownRefresh() {
 			this.getData()
 		},
 		methods: {
@@ -145,22 +152,23 @@
 			]),
 			...mapMutations([
 				'selectItem',
-				'initCartList'
+				'initCartList',
+				'unSelectAll'
 			]),
-			changeNum(e,item,index){
+			changeNum(e, item, index) {
 				if (item.num === e) return;
 				uni.showLoading({
-					title:"加载中..."
+					title: "加载中..."
 				})
-				this.$H.post('/cart/updatenumber/'+item.id,{
-					num:e
-				},{
-					token:true
-				}).then(res=>{
+				this.$H.post('/cart/updatenumber/' + item.id, {
+					num: e
+				}, {
+					token: true
+				}).then(res => {
 					console.log(res);
 					item.num = e
 					uni.hideLoading()
-				}).catch(err=>{
+				}).catch(err => {
 					console.log(err + '失败啦')
 				})
 			},
@@ -170,16 +178,46 @@
 					url: '../order-confirm/order-confirm'
 				})
 			},
-			showPopup(index,item){
-				this.$H.get('/cart/'+item.id+'/sku',{},{
-					token:true
-				}).then(res=>{
-					if (this.isedit) {
-						this.doShowPopup({
-							index,
-							data:res
+			showPopup(index, item) {
+				if (!this.isedit) {
+					return
+				}
+				this.$H.get('/cart/' + item.id + '/sku', {}, {
+					token: true
+				}).then(res => {
+					console.log(res)
+					// 商品规格（选项部分）
+					let check = item.skusText.split(',')
+					res.selects = res.goods_skus_card.map((v, i) => {
+						let selected = 0
+						let list = v.goods_skus_card_value.map((v1, i1) => {
+							if (check[i] === v1.value) {
+								selected = i1
+							}
+							return {
+								id: v1.id,
+								name: v1.value
+							}
 						})
-					}
+						return {
+							id: v.id,
+							title: v.name,
+							selected,
+							list: list
+						}
+					})
+					// 商品规格（匹配价格）
+					res.goods_skus.forEach(item => {
+						let arr = []
+						for (let key in item.skus) {
+							arr.push(item.skus[key].value)
+						}
+						item.skusText = arr.join(',')
+					})
+					this.doShowPopup({
+						index: index,
+						data: res
+					})
 				})
 			},
 			// 获取数据
@@ -189,8 +227,14 @@
 					token: true,
 					toast: false
 				}).then(res => {
-					console.log(res)
+					// 取消选中状态
+					this.unSelectAll()
+					// 赋值
 					this.initCartList(res)
+					uni.stopPullDownRefresh()
+				}).catch(err => {
+					console.log(err + '失败啦')
+					uni.stopPullDownRefresh()
 				})
 				// 获取热门推荐
 				this.$H.get('/goods/hotlist').then(res => {
