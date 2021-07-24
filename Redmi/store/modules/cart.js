@@ -29,6 +29,13 @@ export default {
 		disableSelectAll:(state)=>{
 			 return  state.list.length === 0 
 		},
+		// 购物车商品数量
+		cartCount:(state)=>{
+			if (state.list.length <= 99) {
+				return state.list.length
+			}
+			return '99+'
+		}
 	},
 	mutations: {
 		// 初始化list
@@ -82,9 +89,32 @@ export default {
 		addGoodsToCart(state,goods){
 			state.list.unshift(goods)
 			$U.updateCartBadge(state.list.length)
+		},
+		// 清空购物车
+		clearCart(state){
+			state.list = []
+			state.selectedList = []
+			$U.updateCartBadge(state.list.length)
 		}
 	},
 	actions: {
+		// 更新购物车列表
+		updateCartList({state,commit}){
+			return new Promise((res,rej)=>{
+				$H.get('/cart', {}, {
+					token: true,
+					toast: false
+				}).then(res => {
+					// 取消选中状态
+					commit('unSelectAll')
+					// 赋值
+					commit('initCartList',res)
+					res(res)
+				}).catch(err => {
+					rej(err)
+				})
+			})
+		},
 		// 显示popup
 		doShowPopup({state,commit},{index,data}){
 			commit('initPopupIndex',index)

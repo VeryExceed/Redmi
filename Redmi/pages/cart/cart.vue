@@ -133,12 +133,9 @@
 		},
 		onLoad() {
 			this.getData()
-			// 监听购物车更新
-			uni.$on('updateCart',()=>{
-				this.getData()
-			})
 		},
 		beforeDestroy() {
+			// 移除监听购物车更新
 			uni.$off('updateCart')
 		},
 		onPullDownRefresh() {
@@ -149,6 +146,7 @@
 				'doSelectAll',
 				'doDelGoods',
 				'doShowPopup',
+				'updateCartList'
 			]),
 			...mapMutations([
 				'selectItem',
@@ -222,18 +220,10 @@
 			},
 			// 获取数据
 			getData() {
-				// 获取购物车
-				this.$H.get('/cart', {}, {
-					token: true,
-					toast: false
-				}).then(res => {
-					// 取消选中状态
-					this.unSelectAll()
-					// 赋值
-					this.initCartList(res)
+				// 获取购物车数据
+				this.updateCartList().then(res=>{
 					uni.stopPullDownRefresh()
-				}).catch(err => {
-					console.log(err + '失败啦')
+				}).catch(err=>{
 					uni.stopPullDownRefresh()
 				})
 				// 获取热门推荐

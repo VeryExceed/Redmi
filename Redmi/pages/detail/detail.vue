@@ -377,7 +377,7 @@
 			addCart() {
 				// 没有库存
 				if (this.maxStock === 0 ){
-					return 
+					return
 				}
 				this.$H.post('/cart',{
 					shop_id:this.detail.sku_type === 0 ? this.detail.id : this.detail.goodsSkus[this.checkedSkusIndex].id,
