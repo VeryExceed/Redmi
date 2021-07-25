@@ -73,7 +73,7 @@
 			// 退出登录
 			logoutEvent() {
 				this.$H.post('/logout', {}, {
-					token: true,
+					token: false,
 					toast: false
 				}).then(res => {
 					// 退出登录

@@ -122,8 +122,8 @@
 		},
 		computed: {
 			...mapState({
-				list: state => state.cart.list
-
+				list: state => state.cart.list,
+				selectedList:state=> state.cart.selectedList
 			}),
 			...mapGetters([
 				'checkedAll',
@@ -172,8 +172,14 @@
 			},
 			// 订单结算
 			orderConfirm() {
+				if (this.selectedList.length === 0) {
+					return uni.showToast({
+						title:'请选择要结算的商品',
+						icon:'none'
+					})
+				}
 				uni.navigateTo({
-					url: '../order-confirm/order-confirm'
+					url: '../order-confirm/order-confirm?detail=' +JSON.stringify(this.selectedList)
 				})
 			},
 			showPopup(index, item) {
@@ -227,15 +233,15 @@
 					uni.stopPullDownRefresh()
 				})
 				// 获取热门推荐
-				this.$H.get('/goods/hotlist').then(res => {
-					this.hotList = res.map(v => {
+				this.$H.get('/goods/hotlist').then(res=>{
+					this.hotList = res.map(v=>{
 						return {
-							id: v.id,
-							cover: v.cover,
-							title: v.title,
-							desc: v.desc,
-							oprice: v.min_oprice,
-							pprice: v.min_price
+						  id:v.id,
+						  cover:v.cover,
+						  title:v.title,
+						  desc:v.desc,
+						  oprice:v.min_oprice,
+						  pprice:v.min_price
 						}
 					})
 				})

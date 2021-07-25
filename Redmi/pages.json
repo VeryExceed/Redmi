@@ -314,6 +314,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/coupon/coupon",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "领取优惠券",
+				"enablePullDownRefresh":true
+            }
+            
+        }
     ],
 	// 全局配置
 	"globalStyle": {
