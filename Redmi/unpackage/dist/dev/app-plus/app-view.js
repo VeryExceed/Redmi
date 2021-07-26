@@ -13548,7 +13548,12 @@ var render = function() {
                       return [
                         _c("order-list", {
                           key: item["k0"],
-                          attrs: { _i: "7-" + $31 + "-" + $32 }
+                          attrs: { _i: "7-" + $31 + "-" + $32 },
+                          on: {
+                            update: function($event) {
+                              return _vm.$handleViewEvent($event)
+                            }
+                          }
                         })
                       ]
                     })
@@ -14272,7 +14277,7 @@ var render = function() {
                   _c(
                     "v-uni-view",
                     {
-                      staticClass: _vm._$g(22, "sc"),
+                      class: _vm._$g(22, "c"),
                       attrs: { slot: "rightContent", _i: 22 },
                       slot: "rightContent"
                     },
@@ -14359,6 +14364,7 @@ var render = function() {
             "v-uni-view",
             {
               staticClass: _vm._$g(35, "sc"),
+              class: _vm._$g(35, "c"),
               staticStyle: { "border-radius": "80rpx" },
               attrs: { "hover-class": "main-bg-hover-color", _i: 35 },
               on: {
@@ -14367,7 +14373,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("去支付")]
+            [_vm._v(_vm._$g(35, "t0-0"))]
           )
         ],
         1
@@ -15477,7 +15483,7 @@ var render = function() {
             { staticClass: _vm._$g(2, "sc"), attrs: { _i: 2 } },
             [_vm._v("支付金额")]
           ),
-          _c("price", { attrs: { _i: 3 } }, [_vm._v("38.00")])
+          _c("price", { attrs: { _i: 3 } }, [_vm._v(_vm._$g(3, "t0-0"))])
         ],
         1
       ),
@@ -15486,63 +15492,55 @@ var render = function() {
         { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } },
         [
           _c(
-            "v-uni-label",
-            { staticClass: _vm._$g(5, "sc"), attrs: { _i: 5 } },
-            [
-              _c(
-                "uni-list-item",
-                { attrs: { _i: 6 } },
+            "v-uni-radio-group",
+            {
+              attrs: { _i: 5 },
+              on: {
+                change: function($event) {
+                  return _vm.$handleViewEvent($event)
+                }
+              }
+            },
+            _vm._l(_vm._$g(6, "f"), function(item, index, $20, $30) {
+              return _c(
+                "v-uni-label",
+                { key: item, attrs: { _i: "6-" + $30 } },
                 [
-                  _c("v-uni-radio", {
-                    attrs: {
-                      slot: "right",
-                      value: "1",
-                      color: "#FD6801",
-                      _i: 7
-                    },
-                    slot: "right"
-                  })
+                  _c(
+                    "uni-list-item",
+                    { attrs: { _i: "7-" + $30 } },
+                    [
+                      _c("v-uni-radio", {
+                        attrs: {
+                          slot: "right",
+                          value: _vm._$g("8-" + $30, "a-value"),
+                          color: "#FD6801",
+                          checked: _vm._$g("8-" + $30, "a-checked"),
+                          _i: "8-" + $30
+                        },
+                        slot: "right"
+                      })
+                    ],
+                    1
+                  )
                 ],
                 1
               )
-            ],
-            1
-          ),
-          _c(
-            "v-uni-label",
-            { staticClass: _vm._$g(8, "sc"), attrs: { _i: 8 } },
-            [
-              _c(
-                "uni-list-item",
-                { attrs: { _i: 9 } },
-                [
-                  _c("v-uni-radio", {
-                    attrs: {
-                      slot: "right",
-                      value: "1",
-                      color: "#FD6801",
-                      _i: 10
-                    },
-                    slot: "right"
-                  })
-                ],
-                1
-              )
-            ],
+            }),
             1
           ),
           _c(
             "v-uni-view",
             {
-              staticClass: _vm._$g(11, "sc"),
-              attrs: { "hover-class": "main-bg-hover-color", _i: 11 },
+              staticClass: _vm._$g(9, "sc"),
+              attrs: { "hover-class": "main-bg-hover-color", _i: 9 },
               on: {
                 click: function($event) {
                   return _vm.$handleViewEvent($event)
                 }
               }
             },
-            [_vm._v("确认支付")]
+            [_vm._v(_vm._$g(9, "t0-0"))]
           )
         ],
         1
@@ -15906,7 +15904,12 @@ var render = function() {
             "v-uni-view",
             {
               staticClass: _vm._$g(5, "sc"),
-              attrs: { "hover-class": "main-bg-hover-color", _i: 5 }
+              attrs: { "hover-class": "main-bg-hover-color", _i: 5 },
+              on: {
+                click: function($event) {
+                  return _vm.$handleViewEvent($event)
+                }
+              }
             },
             [_vm._v("查看订单")]
           ),
@@ -15914,7 +15917,12 @@ var render = function() {
             "v-uni-view",
             {
               staticClass: _vm._$g(6, "sc"),
-              attrs: { "hover-class": "bg-light", _i: 6 }
+              attrs: { "hover-class": "bg-light", _i: 6 },
+              on: {
+                click: function($event) {
+                  return _vm.$handleViewEvent($event)
+                }
+              }
             },
             [_vm._v("返回首页")]
           )
@@ -16117,25 +16125,46 @@ var render = function() {
                             $22,
                             $32
                           ) {
-                            return _c("coupon", {
-                              key: item,
-                              attrs: { _i: "8-" + $31 + "-" + $32 },
-                              on: {
-                                click: function($event) {
-                                  return _vm.$handleViewEvent($event)
+                            return _c(
+                              "coupon",
+                              {
+                                key: item,
+                                attrs: { _i: "8-" + $31 + "-" + $32 },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.$handleViewEvent($event)
+                                  }
                                 }
-                              }
-                            })
+                              },
+                              [
+                                _vm._$g("9-" + $31 + "-" + $32, "i")
+                                  ? _c(
+                                      "v-uni-text",
+                                      { attrs: { _i: "9-" + $31 + "-" + $32 } },
+                                      [_vm._v("已使用")]
+                                    )
+                                  : _c(
+                                      "v-uni-text",
+                                      {
+                                        attrs: { _i: "10-" + $31 + "-" + $32 }
+                                      },
+                                      [
+                                        _vm._v(
+                                          _vm._$g(
+                                            "10-" + $31 + "-" + $32,
+                                            "t0-0"
+                                          )
+                                        )
+                                      ]
+                                    )
+                              ],
+                              1
+                            )
                           }),
                           1
                         )
                       ]
-                    : [
-                        _c("no-thing", {
-                          staticStyle: { height: "100%" },
-                          attrs: { _i: "10-" + $31 }
-                        })
-                      ]
+                    : [_c("no-thing", { attrs: { _i: "12-" + $31 } })]
                 ],
                 2
               )

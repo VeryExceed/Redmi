@@ -5,10 +5,10 @@
 			<text class="text-dark font-lg">支付成功</text>
 		</view>
 		<view class="px-5 font-md">
-			<view class="rounded main-bg-color text-white w-100 py-2 mt-3 text-center" hover-class="main-bg-hover-color">
+			<view class="rounded main-bg-color text-white w-100 py-2 mt-3 text-center" hover-class="main-bg-hover-color" @click="openDetail">
 				查看订单
 			</view>
-			<view class="rounded border  w-100 py-2 mt-3 text-center" hover-class="bg-light">
+			<view class="rounded border  w-100 py-2 mt-3 text-center" hover-class="bg-light" @click="openIndex">
 				返回首页
 			</view>
 		</view>
@@ -23,7 +23,16 @@
 			}
 		},
 		methods: {
-			
+			openDetail(){
+				uni.navigateBack({
+					delta:1
+				})
+			},
+			openIndex(){
+				uni.switchTab({
+					url:"/pages/index/index"
+				})
+			}
 		}
 	}
 </script>

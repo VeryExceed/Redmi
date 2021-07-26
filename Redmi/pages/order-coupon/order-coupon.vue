@@ -13,11 +13,14 @@
 				<view class="position-relative" v-show="tabI === tabIndex" style="min-height: 440rpx;">
 					<template v-if="tab.list.length > 0">
 						<view class="p-3">
-							<coupon v-for="(item,index) in tab.list" :key="index" :item="item" :index="index" @click="chooseCoupon(item)"></coupon>
+							<coupon v-for="(item,index) in tab.list" :key="index" :item="item" :index="index" @click="chooseCoupon(item)">
+								<text v-if="item.disabled">已使用</text>
+								<text v-else>{{item.status ? '去使用' : validText}}</text>
+							</coupon>
 						</view>
 					</template>
 					<template v-else>
-						<no-thing :icon="tab.no_thing" :msg="tab.msg" style="height: 100%;"></no-thing>
+						<no-thing :icon="tab.no_thing" :msg="tab.msg"></no-thing>
 					</template>
 				</view>
 			</block>
@@ -57,7 +60,10 @@
 				]
 			}
 		},
-		onLoad() {
+		onLoad(e) {
+			if(e.detail){
+				this.price =  (JSON.parse(e.detail)).price
+			}
 			this.getData()
 		},
 		computed:{
@@ -68,7 +74,11 @@
 			// 当前页码
 			page(){
 				return this.tabBars[this.tabIndex].page
+			},
+			validText(){
+				return this.tabIndex === 0 ? '不可用' : '已失效'
 			}
+			
 		},
 		methods: {
 			getData(){
@@ -77,6 +87,7 @@
 					token:true
 				}).then(res=>{
 					this.tabBars[index].list = res.map(item=>{
+						let status = (index === 0) && (this.price >= parseFloat(item.coupon.min_price))
 						return {
 							id:item.id,
 							title: item.coupon.name,
@@ -84,7 +95,7 @@
 							end_time: item.coupon.end_time,
 							price: item.coupon.value,
 							desc: item.coupon.desc,
-							status: index === 0,
+							status: status,
 							disabled: item.used,
 							type:item.coupon.type
 						}
@@ -102,6 +113,19 @@
 			},
 			// 选择优惠券
 			chooseCoupon(item){
+				// 已使用
+				if(item.disabled){
+					return uni.showToast({
+						title:'该优惠券已经使用过了',
+						icon:'none'
+					})
+				}
+				// 已失效/不可用
+				if(!item.status) {
+					return uni.showToast({
+						title:'该优惠券'+this.validText
+					})
+				}
 				uni.$emit('couponUser',{
 					id:item.id,
 					type:item.type,

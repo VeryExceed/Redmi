@@ -3,7 +3,7 @@
 		<!-- 头部 -->
 		<view class="position-relative d-flex a-center" style="height: 320rpx;">
 			<!-- 消息列表 -->
-			<view class="iconfont icon-xiaoxi position-absolute text-white" @click="navigate('msg-list')"
+			<view class="iconfont icon-xiaoxi position-absolute text-white" @click="navigate('msg-list',true)"
 				style="font-size: 50rpx;top: 75rpx;right: 20rpx;z-index: 100;"></view>
 			<image src="../../static/images/bg.jpg" style="height: 320rpx;width: 100%;"></image>
 
@@ -25,7 +25,7 @@
 		<card>
 			<view slot="title" class="d-flex a-center j-sb w-100">
 				<text class="font-md font-weight">我的订单</text>
-				<view class="text-secondary font" @click="navigate('order')">
+				<view class="text-secondary font" @click="navigate('order',true)">
 					全部订单 <text class="iconfont icon-you font"></text>
 				</view>
 			</view>
@@ -74,7 +74,7 @@
 			})
 		},
 		methods: {
-			navigate(path,check = true){
+			navigate(path,check = false){
 				if (!path) return;
 				if (check) {
 					return this.navigateTo({
