@@ -6,13 +6,13 @@
 		class="rounded mx-2 flex-shrink">
 		</image>
 		<view class="flex-1">
-			<view class="d-flex a-center">
-				<text class="font-md text-dark">{{item.title}}</text>
-				<text class="font-md text-light-muted ml-auto">￥{{item.pprice}}</text>
+			<view class="d-flex a-center font-md text-dark">
+				<text>{{item.title}}</text>
+				<text class="text-light-muted ml-auto">￥{{item.pprice}}</text>
 			</view>
-			<view class="d-flex a-center">
-				<text class="font text-light-muted">{{item.attrs}}</text>
-				<text class="font text-light-muted ml-auto">x{{item.num}}</text>
+			<view class="d-flex a-center font text-light-muted">
+				<text>{{item.attrs}}</text>
+				<text class="ml-auto">x{{item.num}}</text>
 			</view>
 		</view>
 	</view>

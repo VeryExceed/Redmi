@@ -85,5 +85,25 @@ export default{
 		let birthday=new Date(data.replace(/-/g, "\/")); 
 		let d=new Date(); 
 		return d.getFullYear()-birthday.getFullYear()-((d.getMonth()<birthday.getMonth()|| d.getMonth()==birthday.getMonth() && d.getDate()<birthday.getDate())?1:0);
+	},
+	// 倒计时
+	timeDown(endTime){
+		//获取时间差
+		let now = new Date().getTime()/1000
+		let totalSeconds = parseInt((endTime - now));
+		//天数
+		var days = Math.floor(totalSeconds / (60 * 60 * 24));
+		//取模（余数）
+		var modulo = totalSeconds % (60 * 60 * 24);
+		//小时数
+		var hours = Math.floor(modulo / (60 * 60));
+		modulo = modulo % (60 * 60);
+		//分钟
+		var minutes = Math.floor(modulo / 60);
+		//秒
+		var seconds = modulo % 60;
+		//输出还剩多少时间
+		return `${days}天 ${hours}小时 ${minutes}分 ${seconds}秒`
 	}
+	
 }

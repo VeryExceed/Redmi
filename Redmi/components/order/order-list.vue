@@ -8,63 +8,130 @@
 		</view>
 		<!-- 身体 -->
 		<view class="px-2">
-			<view class="border-bottom d-flex a-center py-2 border-light-secondary"
-				v-for="(order,orderIndex) in item.order_items" :key="orderIndex">
-				<image :src="order.cover" mode="widthFix" style="width: 150rpx;height: 150rpx;"
-					class="rounded mx-2 flex-shrink"></image>
-				<view class="flex-1">
-					<view class="d-flex a-center">
-						<text class="font-md text-dark">{{order.title}}</text>
-						<text class="font-md text-light-muted ml-auto">￥{{order.pprice}}</text>
-					</view>
-					<view class="d-flex a-center">
-						<text class="font text-light-muted">{{order.attrs}}</text>
-						<text class="font text-light-muted ml-auto">x{{order.num}}</text>
-					</view>
-				</view>
-			</view>
+			<block v-for="(order,orderIndex) in item.order_items" :key="orderIndex">
+				<order-list-item :item="order" :index="orderIndex"></order-list-item>
+			</block>
 		</view>
 		<!-- 底部 -->
 		<view class="d-flex a-center p-2">
-			<text class="text-dark font-md ml-auto">共{{item.total_num}}件商品，合计：￥{{item.total_price}}</text>
+			<text class="text-dark font-md ml-auto">共{{item.order_items.length}}件商品，合计：￥{{item.total_price}}</text>
 		</view>
 		<view class="d-flex j-end a-center px-2 pb-2">
-			<view class="rounded border border-light-secondary py-1 px-2 text-secondary mr-2"
-				hover-class="bg-light-secondary" @click.stop="openAfterSale">
-				申请售后
-			</view>
-			<view class="rounded border border-light-secondary py-1 px-2 text-secondary"
-				hover-class="bg-light-secondary" @click.stop="oepnLogistics">
-				查看物流
-			</view>
-			<view class="ml-2 border border-light-secondary py-1 px-2 text-secondary" hover-class="bg-light-secondary">
-				确认收货</view>
+			<template v-if="item.status === '待支付'">
+				<common-button @click="openPayMethods">去支付</common-button>
+				<common-button @click="closeOrder">取消订单</common-button>
+			</template>
+			<template v-else-if="item.status === '待发货'">
+				<common-button>提醒发货</common-button>
+				<common-button @click="applyRefund">申请退款</common-button>
+			</template>
+			<template v-else-if="item.status === '待发货'">
+				<common-button @click="openLgoistics">查看物流</common-button>
+				<common-button @click="received">确认收货</common-button>
+			</template>
+			<template v-else>
+				<common-button @click="openDetail">查看详情</common-button>
+			</template>
 		</view>
 	</view>
 </template>
 
 <script>
+	import orderListItem from './order-list-item.vue'
+	import commonButton from '../common/common-button.vue'
 	export default {
 		props: {
 			item: Object,
 			index: Number
 		},
+		components: {
+			orderListItem,
+			commonButton
+		},
 		methods: {
+			// 去支付
+			openPayMethods() {
+				// 跳转到支付页面
+				uni.navigateTo({
+					url:'../../pages/pay-methods/pay-methods?detail='+JSON.stringify({
+						id:this.item.id,
+						price:this.item.total_price
+					})
+				})
+			},
+			// 取消订单
+			closeOrder(){
+				uni.showModal({
+					content:'是否要取消该订单',
+					success:(res)=> {
+						if (res.confirm) {
+							uni.showLoading({
+							    title: '取消订单中'
+							});
+							this.$H.post('/closeorder/'+this.item.id,{},{
+								token:true
+							}).then(res=>{
+								uni.hideLoading()
+								uni.showToast({
+									title:'取消订单成功',
+									icon:'none'
+								})
+								this.$emit('update')
+							}).catch(err=>{
+								uni.hideLoading()
+							})
+						}
+					
+						
+					}
+				})
+			},
+			// 申请退款
+			applyRefund(){
+				uni.navigateTo({
+					url:'/pages/order-refund/order-refund?detail='+JSON.stringify({
+						id:this.item.id
+					})
+				})
+			},
+			// 查看物流
+			openLgoistics(){
+				uni.navigateTo({
+					url:'/pages/logistics-detail/logistics-detail?detail='+JSON.stringify({
+						id:this.item.id
+					})
+				})
+			},
+			// 确认收货
+			received(){
+				uni.showModal({
+					content:'是否要确认收货?',
+					success:(res)=> {
+						if (res.confirm){
+							uni.showLoading({
+								title:'确认收货中...',
+							})
+							this.$H.post('/order/'+this.item.id+'/received',{},{
+								token:true
+							}).then(res=>{
+								uni.hideLoading()
+								uni.showToast({
+									title:'确认收货',
+									icon:'none'
+								})
+								this.$emit('update')
+							}).catch(err=>{
+								uni.hideLoading()
+							})
+						}
+					}
+				})
+			},
 			openDetail() {
 				uni.navigateTo({
-					url: '/pages/order-detail/order-detail'
+					url: '/pages/order-detail/order-detail?id='+this.item.id
 				})
 			},
-			oepnLogistics() {
-				uni.navigateTo({
-					url: '/pages/logistics-detail/logistics-detail'
-				})
-			},
-			openAfterSale(){
-				uni.navigateTo({
-					url:'/pages/after-sale/after-sale'
-				})
-			}
 		}
 	}
 </script>

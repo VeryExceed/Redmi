@@ -103,7 +103,6 @@
 				this.$H.post('/order/' + this.key, {}, {
 					token: true
 				}).then(res => {
-					console.log(JSON.stringify(res))
 					this.tabBars[index].list = res.map(item => {
 						let order_items = item.order_items.map(v=>{
 							let attrs = []

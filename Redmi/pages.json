@@ -323,6 +323,14 @@
             }
             
         }
+        ,{
+            "path" : "pages/order-refund/order-refund",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "申请退款"
+            }
+            
+        }
     ],
 	// 全局配置
 	"globalStyle": {
