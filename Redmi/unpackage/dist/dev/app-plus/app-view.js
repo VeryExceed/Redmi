@@ -3844,24 +3844,30 @@ var render = function() {
           _c(
             "v-uni-view",
             { staticClass: _vm._$g(14, "sc"), attrs: { _i: 14 } },
-            _vm._l(4, function(i, $10, $20, $30) {
+            _vm._l(_vm._$g(15, "f"), function(item, index, $20, $30) {
               return _c(
                 "v-uni-view",
                 {
-                  key: i,
+                  key: item,
                   staticClass: _vm._$g("15-" + $30, "sc"),
                   attrs: {
                     "hover-class": "bg-light-secondary",
                     _i: "15-" + $30
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.$handleViewEvent($event)
+                    }
                   }
                 },
                 [
                   _c("v-uni-view", {
                     staticClass: _vm._$g("16-" + $30, "sc"),
+                    class: _vm._$g("16-" + $30, "c"),
                     attrs: { _i: "16-" + $30 }
                   }),
                   _c("v-uni-view", { attrs: { _i: "17-" + $30 } }, [
-                    _vm._v("代付款")
+                    _vm._v(_vm._$g("17-" + $30, "t0-0"))
                   ])
                 ],
                 1
@@ -16997,7 +17003,7 @@ var render = function() {
               attrs: { slot: "right", _i: 23 },
               slot: "right"
             },
-            [_vm._v("-￥20.00")]
+            [_vm._v(_vm._$g(23, "t0-0"))]
           )
         ],
         1
@@ -17047,7 +17053,124 @@ var render = function() {
           )
         ],
         1
-      )
+      ),
+      _vm._$g(32, "i")
+        ? _c(
+            "card",
+            { attrs: { _i: 32 } },
+            [
+              _c(
+                "uni-list-item",
+                { attrs: { _i: 33 } },
+                [
+                  _c(
+                    "v-uni-view",
+                    {
+                      staticClass: _vm._$g(34, "sc"),
+                      attrs: { slot: "right", _i: 34 },
+                      slot: "right"
+                    },
+                    [_vm._v(_vm._$g(34, "t0-0"))]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._$g(35, "i")
+        ? _c("v-uni-view", {
+            staticStyle: { height: "100rpx" },
+            attrs: { _i: 35 }
+          })
+        : _vm._e(),
+      _vm._$g(36, "i")
+        ? _c(
+            "v-uni-view",
+            {
+              staticClass: _vm._$g(36, "sc"),
+              staticStyle: { height: "100rpx" },
+              attrs: { _i: 36 }
+            },
+            [
+              _vm._$g(37, "i")
+                ? [
+                    _c(
+                      "common-button",
+                      {
+                        attrs: { _i: 38 },
+                        on: {
+                          click: function($event) {
+                            return _vm.$handleViewEvent($event)
+                          }
+                        }
+                      },
+                      [_vm._v("去支付")]
+                    ),
+                    _c(
+                      "common-button",
+                      {
+                        attrs: { _i: 39 },
+                        on: {
+                          click: function($event) {
+                            return _vm.$handleViewEvent($event)
+                          }
+                        }
+                      },
+                      [_vm._v("取消订单")]
+                    )
+                  ]
+                : _vm._$g(40, "e")
+                ? [
+                    _c("common-button", { attrs: { _i: 41 } }, [
+                      _vm._v("提醒发货")
+                    ]),
+                    _c(
+                      "common-button",
+                      {
+                        attrs: { _i: 42 },
+                        on: {
+                          click: function($event) {
+                            return _vm.$handleViewEvent($event)
+                          }
+                        }
+                      },
+                      [_vm._v("申请退款")]
+                    )
+                  ]
+                : _vm._$g(43, "e")
+                ? [
+                    _c(
+                      "common-button",
+                      {
+                        attrs: { _i: 44 },
+                        on: {
+                          click: function($event) {
+                            return _vm.$handleViewEvent($event)
+                          }
+                        }
+                      },
+                      [_vm._v("查看物流")]
+                    ),
+                    _c(
+                      "common-button",
+                      {
+                        attrs: { _i: 45 },
+                        on: {
+                          click: function($event) {
+                            return _vm.$handleViewEvent($event)
+                          }
+                        }
+                      },
+                      [_vm._v("确认收货")]
+                    )
+                  ]
+                : _vm._e()
+            ],
+            2
+          )
+        : _vm._e()
     ],
     1
   )
@@ -17085,7 +17208,8 @@ __webpack_require__.r(__webpack_exports__);
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 var _orderListItem = _interopRequireDefault(__webpack_require__(/*! @/components/order/order-list-item.vue */ 323));
 var _price = _interopRequireDefault(__webpack_require__(/*! @/components/common/price.vue */ 53));
-var _card = _interopRequireDefault(__webpack_require__(/*! @/components/common/card.vue */ 84));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
+var _card = _interopRequireDefault(__webpack_require__(/*! @/components/common/card.vue */ 84));
+var _commonButton = _interopRequireDefault(__webpack_require__(/*! @/components/common/common-button.vue */ 328));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
 {
 
   data: function data() {
@@ -17096,7 +17220,8 @@ var _card = _interopRequireDefault(__webpack_require__(/*! @/components/common/c
   components: {
     'orderListItem': _orderListItem.default,
     'price': _price.default,
-    'card': _card.default } };exports.default = _default;
+    'card': _card.default,
+    'commonButton': _commonButton.default } };exports.default = _default;
 
 /***/ }),
 /* 406 */

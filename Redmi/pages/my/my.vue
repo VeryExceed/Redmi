@@ -31,9 +31,11 @@
 			</view>
 			<view class="d-flex a-center">
 				<view class="flex-1 d-flex flex-column a-center j-center py-3" hover-class="bg-light-secondary"
-					v-for="i in 4" :key="i">
-					<view class="iconfont icon-cpu font-lg line-h"></view>
-					<view>代付款</view>
+					v-for="(item,index) in orders" :key="index"
+					@click="openOrder(item)">
+					<view class="iconfont font-lg line-h"
+					:class="item.icon"></view>
+					<view>{{item.name}}</view>
 				</view>
 			</view>
 		</card>
@@ -65,7 +67,24 @@
 			card
 		},
 		data() {
-			return {}
+			return {
+				orders:[{
+					name:"待付款",
+					icon:"icon-wallet_icon",
+					index:1
+				},{
+					name:"待收货",
+					icon:"icon-daishouhuo",
+					index:2
+				},{
+					name:"待评价",
+					icon:"icon-pinglun",
+					index:3
+				},{
+					name:"待退修",
+					icon:"icon-buoumaotubiao46"
+				}]
+			}
 		},
 		computed: {
 			...mapState({
@@ -90,6 +109,13 @@
 					uni.navigateTo({
 						url: '../login/login',
 					});
+				}
+			},
+			openOrder(item){
+				if (item.index) {
+					this.navigateTo({
+						url:"/pages/order/order?tabIndex="+item.index
+					})
 				}
 			}
 		}

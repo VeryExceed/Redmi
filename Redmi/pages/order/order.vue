@@ -14,7 +14,7 @@
 			<view class="position-relative" v-show="tabI === tabIndex" style="min-height: 440rpx;">
 				<template v-if="tab.list.length > 0">
 					<block v-for="(item,index) in tab.list" :key="index">
-						<order-list :item="item" :index="index" @update="getHotList"></order-list>
+						<order-list :item="item" :index="index" @update="getOrderList"></order-list>
 					</block>
 				</template>
 				<template v-else>
@@ -113,7 +113,7 @@
 								}
 							}
 							return {
-								id:v.id,
+								id:v.goods_id,
 								cover:v.goods_item.cover,
 								title:v.goods_item.title,
 								pprice:v.price,
